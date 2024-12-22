@@ -36,7 +36,7 @@ export default function SignInPage() {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         await new Promise(resolve => setTimeout(resolve, 1000));
-
+        
         router.push("/admin/dashboard")
     }
 
@@ -64,6 +64,7 @@ export default function SignInPage() {
                                                 placeholder="请输入邮箱"
                                             />
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -79,6 +80,7 @@ export default function SignInPage() {
                                                 placeholder="请输入密码"
                                             />
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
