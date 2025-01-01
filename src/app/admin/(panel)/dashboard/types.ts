@@ -3,3 +3,10 @@ export enum Status {
     Approved = 1,
     Rejected = 2,
 }
+
+export interface Admin {
+    name: string;
+    goodAmount: number;
+    status: number;
+    createdAt: string;
+}

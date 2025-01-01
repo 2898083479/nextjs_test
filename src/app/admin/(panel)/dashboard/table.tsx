@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 import { Status } from "./types"
-import { div } from "framer-motion/client"
+import { useState } from "react"
+import ReviewDialog from "./dialog/review-dialog"
+import { Admin } from "./types"
 
 const getData = async () => {
     return [
@@ -21,13 +22,13 @@ const getData = async () => {
             createdAt: "2024-01-01",
         },
         {
-            name: "ethan",
+            name: "King",
             goodAmount: 100,
             status: 1,
             createdAt: "2024-01-01",
         },
         {
-            name: "ethan",
+            name: "King",
             goodAmount: 100,
             status: 2,
             createdAt: "2024-01-01",
@@ -36,6 +37,8 @@ const getData = async () => {
 }
 
 export const DataTable = () => {
+    const [open, onOpenChange] = useState(false)
+    const [selectedData, setSelectedData] = useState<Admin | null>(null)
     const { data, isFetching } = useQuery({
         queryKey: ["users"],
         queryFn: () => getData()
@@ -69,11 +72,22 @@ export const DataTable = () => {
                             <TableCell className="w-[200px]">
                                 {
                                     column.status !== 1 ? (
-                                        <div className="flex gap-2 justify-end">立即审核</div>
+                                        <>
+                                            <div
+                                                className="flex gap-2 justify-end"
+                                                onClick={() => {
+                                                    setSelectedData(column)
+                                                    onOpenChange(true)
+                                                }}
+                                            >
+                                                立即审核
+                                            </div>
+                                        </>
+
                                     ) : (
                                         <div className="flex gap-2 justify-end">
-                                            <Button>Edit</Button>
-                                            <Button>Detail</Button>
+                                            <Button variant="outline">Edit</Button>
+                                            <Button variant="secondary">Detail</Button>
                                         </div>
                                     )
                                 }
@@ -82,6 +96,12 @@ export const DataTable = () => {
                     ))}
                 </TableBody>
             </Table>
+
+            <ReviewDialog
+                open={open}
+                onOpenChange={onOpenChange}
+                data={selectedData as Admin}
+            />
         </div>
     )
 }
