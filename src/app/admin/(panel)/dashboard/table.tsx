@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { Status } from "./types"
+import { div } from "framer-motion/client"
 
 const getData = async () => {
     return [
@@ -23,6 +24,12 @@ const getData = async () => {
             name: "ethan",
             goodAmount: 100,
             status: 1,
+            createdAt: "2024-01-01",
+        },
+        {
+            name: "ethan",
+            goodAmount: 100,
+            status: 2,
             createdAt: "2024-01-01",
         },
     ]
@@ -60,10 +67,16 @@ export const DataTable = () => {
                             <TableCell>{column.goodAmount}</TableCell>
                             <TableCell className="text-right">{column.createdAt}</TableCell>
                             <TableCell className="w-[200px]">
-                                <div className="flex gap-2 justify-end">
-                                    <Button>Edit</Button>
-                                    <Button>Detail</Button>
-                                </div>
+                                {
+                                    column.status !== 1 ? (
+                                        <div className="flex gap-2 justify-end">立即审核</div>
+                                    ) : (
+                                        <div className="flex gap-2 justify-end">
+                                            <Button>Edit</Button>
+                                            <Button>Detail</Button>
+                                        </div>
+                                    )
+                                }
                             </TableCell>
                         </TableRow>
                     ))}
