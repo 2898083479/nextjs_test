@@ -10,9 +10,10 @@ import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
 import { Status } from "./types"
 import { useState } from "react"
-import ReviewDialog from "./dialog/review-dialog"
+import IndexDialog from "./dialog/index-dialog"
 import { Admin } from "./types"
-
+import { ReviewStep, useStore } from "./store"
+import DataTable from "@/components/core/data-table"
 const getData = async () => {
     return [
         {
@@ -28,7 +29,7 @@ const getData = async () => {
             createdAt: "2024-01-01",
         },
         {
-            name: "King",
+            name: "wang",
             goodAmount: 100,
             status: 2,
             createdAt: "2024-01-01",
@@ -36,8 +37,9 @@ const getData = async () => {
     ]
 }
 
-export const DataTable = () => {
+export const AdminDataTable = () => {
     const [open, onOpenChange] = useState(false)
+    const { setStep } = useStore()
     const [selectedData, setSelectedData] = useState<Admin | null>(null)
     const { data, isFetching } = useQuery({
         queryKey: ["users"],
@@ -97,9 +99,14 @@ export const DataTable = () => {
                 </TableBody>
             </Table>
 
-            <ReviewDialog
+            <IndexDialog
                 open={open}
-                onOpenChange={onOpenChange}
+                onOpenChange={(e) => {
+                    onOpenChange(e);
+                    if (!e) {
+                        setStep(ReviewStep.Default)
+                    }
+                }}
                 data={selectedData as Admin}
             />
         </div>

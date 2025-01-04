@@ -41,3 +41,5 @@ export const DataTable = <T,>({ columns }: Props<T>) => {
         </TableUI>
     )
 }
+
+export default DataTable
