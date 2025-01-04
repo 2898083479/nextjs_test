@@ -1,6 +1,7 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { Admin, Status } from "../types"
 import { Button } from "@/components/ui/button"
+import { ReviewStep, useStore } from "../store"
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -9,6 +10,7 @@ interface Props {
 
 
 export default function ReviewDialog({ open, onOpenChange, data }: Props) {
+    const { setStep } = useStore()
     return (
         <WrapperDialog
             open={open}
@@ -32,12 +34,18 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                         variant="outline"
                         className="bg-[#ff0000] text-white hover:text-white/80"
                         onClick={() => {
-                            onOpenChange(false)
+                            setStep(ReviewStep.RejectReason)
                         }}
                     >
                         Reject
                     </Button>
-                    <Button>Approve</Button>
+                    <Button
+                        onClick={() => {
+                            setStep(ReviewStep.Approved)
+                        }}
+                    >
+                        Approve
+                    </Button>
                 </div>
             </div>
 
