@@ -55,49 +55,46 @@ export const AdminDataTable = () => {
 
     return (
         <div>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">Name</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Good Amount</TableHead>
-                        <TableHead className="text-right">Created At</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {columns.map((column) => (
-                        <TableRow key={column.name}>
-                            <TableCell className="font-medium w-[200px]">{column.name}</TableCell>
-                            <TableCell>{Status[column.status]}</TableCell>
-                            <TableCell>{column.goodAmount}</TableCell>
-                            <TableCell className="text-right">{column.createdAt}</TableCell>
-                            <TableCell className="w-[200px]">
-                                {
-                                    column.status !== 1 ? (
-                                        <>
-                                            <div
-                                                className="flex gap-2 justify-end"
-                                                onClick={() => {
-                                                    setSelectedData(column)
-                                                    onOpenChange(true)
-                                                }}
-                                            >
-                                                立即审核
-                                            </div>
-                                        </>
-
-                                    ) : (
-                                        <div className="flex gap-2 justify-end">
-                                            <Button variant="outline">Edit</Button>
-                                            <Button variant="secondary">Detail</Button>
-                                        </div>
-                                    )
-                                }
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <DataTable
+                columns={[
+                    {
+                        header: {
+                            title: "名称"
+                        },
+                        body: {
+                            key: "name",
+                            value: columns.map(col => col.name)
+                        }
+                    },
+                    {
+                        header: {
+                            title: "商品数量"
+                        },
+                        body: {
+                            key: "goodAmount", 
+                            value: columns.map(col => col.goodAmount)
+                        }
+                    },
+                    {
+                        header: {
+                            title: "状态"
+                        },
+                        body: {
+                            key: "status",
+                            value: columns.map(col => col.status)
+                        }
+                    },
+                    {
+                        header: {
+                            title: "创建时间"
+                        },
+                        body: {
+                            key: "createdAt",
+                            value: columns.map(col => col.createdAt)
+                        }
+                    }
+                ]}
+            />
 
             <IndexDialog
                 open={open}
