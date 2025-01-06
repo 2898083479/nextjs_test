@@ -1,12 +1,12 @@
 "use client"
 import { Filter } from "./filter";
-import { DataTable } from "./table";
+import { AdminDataTable } from "./table";
 
 export default function AdminPanel() {
     return (
         <div>
             <Filter />
-            <DataTable />
+            <AdminDataTable />
         </div>
     )
 } 
