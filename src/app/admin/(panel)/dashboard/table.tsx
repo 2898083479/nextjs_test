@@ -1,11 +1,4 @@
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
+'use client'
 import { Button } from "@/components/ui/button"
 import { useQuery } from "@tanstack/react-query"
 import { Status } from "./types"
@@ -14,6 +7,8 @@ import IndexDialog from "./dialog/index-dialog"
 import { Admin } from "./types"
 import { ReviewStep, useStore } from "./store"
 import DataTable from "@/components/core/data-table"
+import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+
 const getData = async () => {
     return [
         {
@@ -41,59 +36,48 @@ export const AdminDataTable = () => {
     const [open, onOpenChange] = useState(false)
     const { setStep } = useStore()
     const [selectedData, setSelectedData] = useState<Admin | null>(null)
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 10,
+    })
+
     const { data, isFetching } = useQuery({
         queryKey: ["users"],
         queryFn: () => getData()
     })
 
-    const columns = data?.map((item) => ({
-        name: item.name,
-        goodAmount: item.goodAmount,
-        status: item.status,
-        createdAt: item.createdAt,
-    })) || []
+    const columns: ColumnDef<Admin>[] = [
+        {
+            accessorKey: "name",
+            header: "Name",
+        },
+        {
+            accessorKey: "goodAmount",
+            header: "Good Amount",
+        },
+        {
+            accessorKey: "status",
+            header: "Status",
+        },
+        {
+            accessorKey: "createdAt",
+            header: "Created At",
+        },
+    ]
+
+    const table = useReactTable({
+        data: data ?? [],
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+    })
 
     return (
         <div>
             <DataTable
-                columns={[
-                    {
-                        header: {
-                            title: "名称"
-                        },
-                        body: {
-                            key: "name",
-                            value: columns.map(col => col.name)
-                        }
-                    },
-                    {
-                        header: {
-                            title: "商品数量"
-                        },
-                        body: {
-                            key: "goodAmount", 
-                            value: columns.map(col => col.goodAmount)
-                        }
-                    },
-                    {
-                        header: {
-                            title: "状态"
-                        },
-                        body: {
-                            key: "status",
-                            value: columns.map(col => col.status)
-                        }
-                    },
-                    {
-                        header: {
-                            title: "创建时间"
-                        },
-                        body: {
-                            key: "createdAt",
-                            value: columns.map(col => col.createdAt)
-                        }
-                    }
-                ]}
+                table={table}
+                pagination={pagination}
+                setPagination={setPagination}
+                isLoading={isFetching}
             />
 
             <IndexDialog
