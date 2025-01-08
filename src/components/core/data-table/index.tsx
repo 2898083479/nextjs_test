@@ -45,7 +45,7 @@ export function DataTable<TData>({
     const maxPage = table.getRowModel().rows.length > 0 ? Math.ceil(table.getRowModel().rows.length / pagination.pageSize) : 0;
     const lastPageRows = table.getRowModel().rows.length % pagination.pageSize;
     const emptyRows = lastPageRows === 0 ? 0 : pagination.pageSize - lastPageRows;
-    
+
     return (
         <div className="w-full h-full flex flex-col rounded-[6px] border border-[#E4E7EC] shadow-sm bg-white overflow-hidden relative">
             <UITable
@@ -134,3 +134,5 @@ export function DataTable<TData>({
         </div>
     )
 }
+
+export default DataTable;
