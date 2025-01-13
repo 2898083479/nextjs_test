@@ -8,19 +8,18 @@ import { useMemo, useState } from "react";
 import { useDisclosure } from "@/components/hooks";
 import { ReviewStep, useStore } from "./store";
 import { Filter } from "./filter";
-import { useRouter } from "next/navigation";
 import { Admin } from "./types";
 import { format } from "date-fns";
 import { AdminStatus } from "./types";
 import { Edit2Icon } from "lucide-react";
 import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
-
+import { IndexDialog } from "./dialog/index-dialog";
 export const AdminDataTable = () => {
     const columns = useMemo<ColumnDef<Admin>[]>(() => [
         {
             id: "admin-info",
-            header: 'admin信息',
+            header: 'adminInformation',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -34,7 +33,7 @@ export const AdminDataTable = () => {
         },
         {
             id: "status",
-            header: '状态',
+            header: 'status',
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -46,7 +45,7 @@ export const AdminDataTable = () => {
         },
         {
             id: "createdAt",
-            header: '创建时间',
+            header: 'createdAt',
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -72,11 +71,11 @@ export const AdminDataTable = () => {
                                 onClick={onOpen}
                                 className="text-[#0C7FDA] text-[14px] cursor-pointer"
                             >
-                                审核
+                                review
                             </div>
-                            {/* {
+                            {
                                 isOpen && (
-                                    <ReviewDialog
+                                    <IndexDialog
                                         open={isOpen}
                                         onOpenChange={(e) => {
                                             onOpenChange(e);
@@ -84,10 +83,10 @@ export const AdminDataTable = () => {
                                                 setStep(ReviewStep.Default);
                                             }
                                         }}
-                                        {...row.original}
+                                        data={row.original}
                                     />
                                 )
-                            } */}
+                            }
                         </div>
                     )
                 }
