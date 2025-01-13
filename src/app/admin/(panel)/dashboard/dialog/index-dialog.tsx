@@ -12,7 +12,7 @@ interface Props {
     data: Admin
 }
 
-export default function IndexDialog({ open, onOpenChange, data }: Props) {
+export const IndexDialog = ({ open, onOpenChange, data }: Props) => {
     const { step, setStep } = useStore()
     if (step === ReviewStep.Approved) {
         // TODO: 审核通过
@@ -49,3 +49,5 @@ export default function IndexDialog({ open, onOpenChange, data }: Props) {
         />
     )
 }
+
+export default IndexDialog
