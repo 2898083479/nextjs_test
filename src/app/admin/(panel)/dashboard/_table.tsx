@@ -78,10 +78,10 @@ export const AdminDataTable = () => {
                                     <IndexDialog
                                         open={isOpen}
                                         onOpenChange={(e) => {
-                                            onOpenChange(e);
                                             if (!e) {
                                                 setStep(ReviewStep.Default);
                                             }
+                                            onOpenChange(e);
                                         }}
                                         data={row.original}
                                     />

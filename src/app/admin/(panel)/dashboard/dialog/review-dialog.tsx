@@ -8,14 +8,13 @@ interface Props {
     data: Admin
 }
 
-
 export default function ReviewDialog({ open, onOpenChange, data }: Props) {
     const { setStep } = useStore()
     return (
         <WrapperDialog
             open={open}
             onOpenChange={onOpenChange}
-            className="w-[436px]"
+            className="w-[436px] border-none"
         >
             <div className="flex flex-col gap-[12px]">
                 <div className="text-[24px] font-bold">
@@ -48,7 +47,6 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                     </Button>
                 </div>
             </div>
-
         </WrapperDialog>
     )
 }
