@@ -1,7 +1,7 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
-import { Admin, AdminStatus } from "../types"
+import { Admin, AdminStatus } from "../../types"
 import { Button } from "@/components/ui/button"
-import { ReviewStep, useStore } from "../store"
+import { ReviewStep, useStore } from "../../store"
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void

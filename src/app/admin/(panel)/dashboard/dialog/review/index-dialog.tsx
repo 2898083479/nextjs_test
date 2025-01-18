@@ -1,10 +1,10 @@
-import { useStore } from "../store";
-import { ReviewStep } from "../store";
+import { useStore } from "../../store";
+import { ReviewStep } from "../../store";
 import ReviewDialog from "./review-dialog";
 import { ApproveDialog } from "./approve-dialog";
 import { RejectDialog } from "./reject-dialog";
 import { RejectReasonDialog } from "./reject-reason-dialog";
-import { Admin } from "../types";
+import { Admin } from "../../types";
 
 interface Props {
     open: boolean

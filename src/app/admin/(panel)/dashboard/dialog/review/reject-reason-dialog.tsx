@@ -4,8 +4,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { useStore } from "../store"
-import { ReviewStep } from "../store"
+import { useStore } from "../../store"
+import { ReviewStep } from "../../store"
 import z from "zod"
 interface Props {
     open: boolean
@@ -27,7 +27,7 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
     })
     async function onSubmit(data: z.infer<typeof formSchema>) {
         await new Promise(resolve => setTimeout(resolve, 1000))
-        onOpenChange(false)
+        setStep(ReviewStep.Rejected)
     }
     return (
         <WrapperDialog
