@@ -14,7 +14,7 @@ import { AdminStatus } from "./types";
 import { Edit2Icon } from "lucide-react";
 import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
-import { IndexDialog } from "./dialog/index-dialog";
+import { IndexDialog } from "./dialog/review/index-dialog";
 export const AdminDataTable = () => {
     const columns = useMemo<ColumnDef<Admin>[]>(() => [
         {
@@ -117,7 +117,7 @@ export const AdminDataTable = () => {
                             size={"icon"}
                             variant={"ghost"}
                         >
-                            111
+                            Details
                         </Button>
                     </div>
                 )
