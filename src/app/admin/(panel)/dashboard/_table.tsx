@@ -6,7 +6,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { useDisclosure } from "@/components/hooks";
-import { ReviewStep, useStore } from "./store";
+import { ReviewStep, useEditStore, useStore } from "./store";
 import { Filter } from "./filter";
 import { Admin } from "./types";
 import { format } from "date-fns";
@@ -15,6 +15,8 @@ import { Edit2Icon } from "lucide-react";
 import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { IndexDialog } from "./dialog/review/index-dialog";
+import { IndexDialog2 } from "./dialog/edit/index";
+import { EditStep } from "./store";
 export const AdminDataTable = () => {
     const columns = useMemo<ColumnDef<Admin>[]>(() => [
         {
@@ -62,6 +64,7 @@ export const AdminDataTable = () => {
             cell: ({ row }) => {
                 const { isOpen, onOpen, onOpenChange } = useDisclosure();
                 const { setStep } = useStore();
+                const { setStep: setEditStep } = useEditStore();
                 if (row.original.status === AdminStatus.Inactive) {
                     return (
                         <div
@@ -99,20 +102,20 @@ export const AdminDataTable = () => {
                         >
                             <Edit2Icon />
                         </Button>
-                        {/* {
+                        {
                             isOpen && (
-                                <EditDialog
+                                <IndexDialog2 
                                     open={isOpen}
                                     onOpenChange={(e) => {
-                                        onOpenChange(e);
                                         if (!e) {
-                                            setEditStep(EditStep.Edit);
+                                            setEditStep(EditStep.Edit)
                                         }
+                                        onOpenChange(e);
                                     }}
-                                    {...row.original}
+                                    data={row.original}
                                 />
                             )
-                        } */}
+                        }
                         <Button
                             size={"icon"}
                             variant={"ghost"}
