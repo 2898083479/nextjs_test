@@ -21,7 +21,10 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                     账户审核
                 </div>
                 <div>name</div>
-                <div className="bg-[#f5f5f5] rounded-md p-[12px]">{data?.name}</div>
+                <div className="bg-[#f5f5f5] rounded-md p-[12px]">
+                    <div>{data?.name}</div>
+                    <div>{data?.email}</div>
+                </div>
                 <div>status</div>
                 <div className="bg-[#f5f5f5] rounded-md p-[12px]">{data?.status === AdminStatus.Pending ? "Pending" : data?.status === AdminStatus.Approved ? "Approved" : "Rejected"}</div>
                 <div>good amount</div>

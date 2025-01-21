@@ -17,6 +17,7 @@ import { useDataTable } from "@/components/core/data-table/hook";
 import { IndexDialog } from "./dialog/review/index-dialog";
 import { IndexDialog2 } from "./dialog/edit/index";
 import { EditStep } from "./store";
+import { AdminStatusChip } from "./_status";
 export const AdminDataTable = () => {
     const columns = useMemo<ColumnDef<Admin>[]>(() => [
         {
@@ -28,6 +29,7 @@ export const AdminDataTable = () => {
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-col text-[14px] leading-[20px]">
                             <span className="text-tp">{row.original.name}</span>
+                            <span className="text-ts">{row.original.email}</span>
                         </div>
                     </div>
                 )
@@ -39,9 +41,7 @@ export const AdminDataTable = () => {
             size: 200,
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-left justify-start px-[20px] py-[16px]">
-                        {row.original.status}
-                    </div>
+                    <AdminStatusChip status={row.original.status} />
                 )
             }
         },

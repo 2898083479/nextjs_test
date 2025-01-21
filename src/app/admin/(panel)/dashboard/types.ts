@@ -1,13 +1,14 @@
 export enum AdminStatus {
-    Inactive = 0,
-    Pending = 1,
-    Approved = 2,
-    Rejected = 3,
+    Inactive = '未激活',
+    Pending = '待审核',
+    Approved = '已批准',
+    Rejected = '已拒绝',
 }
 
 export interface Admin {
     name: string;
+    email: string;
     goodAmount: number;
-    status: number;
+    status: AdminStatus;
     createdAt: string;
 }
