@@ -8,7 +8,6 @@ export enum AdminStatus {
 export interface Admin {
     name: string;
     email: string;
-    goodAmount: number;
     status: AdminStatus;
     createdAt: string;
 }

@@ -5,7 +5,6 @@ const newData = (): Admin => {
     return {
         name: faker.person.fullName(),
         email: faker.internet.email(),
-        goodAmount: faker.number.int(1000),
         status: faker.helpers.enumValue(AdminStatus),
         createdAt: faker.date.past().toISOString(),
     }
