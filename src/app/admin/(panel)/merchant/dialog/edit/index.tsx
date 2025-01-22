@@ -13,13 +13,20 @@ interface Props {
 export const IndexDialog2 = ({ open, onOpenChange, data }: Props) => {
     const { step } = useEditStore()
     if (step === EditStep.Success) {
-        return <SuccessDialog />
+        return (
+            <SuccessDialog
+                open={open}
+                onOpenChange={onOpenChange}
+            />
+        )
     }
-    return <EditDialog 
-        open={open}
-        onOpenChange={onOpenChange}
-        data={data}
-    />
+    return (
+        <EditDialog
+            open={open}
+            onOpenChange={onOpenChange}
+            data={data}
+        />
+    )
 }
 
 export default IndexDialog2
