@@ -94,11 +94,11 @@ export const AdminDataTable = () => {
                     )
                 }
                 return (
-                    <div className="flex items-center justify-center gap-1">
+                    <div className="flex items-center justify-center gap-2">
                         <Button
                             size={"icon"}
-                            variant={"ghost"}
                             onClick={onOpen}
+                            variant='link'
                         >
                             <Edit2Icon />
                         </Button>
@@ -118,7 +118,7 @@ export const AdminDataTable = () => {
                         }
                         <Button
                             size={"icon"}
-                            variant={"ghost"}
+                            variant='link'
                         >
                             Details
                         </Button>

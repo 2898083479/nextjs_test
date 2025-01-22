@@ -9,6 +9,8 @@ import { AdminStatus } from "../../types"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
+import { EditStep } from "../../store"
+import { useEditStore } from "../../store"
 import {
   Select,
   SelectContent,
@@ -24,6 +26,7 @@ import {
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import dayjs from "dayjs"
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -31,29 +34,34 @@ interface Props {
 }
 
 
-export default function EditDialog({ open, onOpenChange }: Props) {
+export default function EditDialog({ open, onOpenChange, data }: Props) {
+  const { setStep } = useEditStore()
   const formSchema = z.object({
     name: z.string()
       .min(1, { message: "name must longer than 1 character" }),
     email: z.string()
       .email({ message: "email is invalid" }),
-    status: z.string(),
-    createdAt: z.string()
-      .datetime({ message: "createdAt is invalid" }),
+    status: z.nativeEnum(AdminStatus, {
+      errorMap: () => ({
+        message: "status is invalid"
+      })
+    }),
+    createdAt: z.date().optional(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      status: "",
-      createdAt: "",
+      name: data.name,
+      email: data.email,
+      status: data.status,
+      createdAt: dayjs(data.createdAt).toDate(),
     },
   })
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     await new Promise(resolve => setTimeout(resolve, 1000))
+    setStep(EditStep.Success)
   }
 
   return (
@@ -105,7 +113,7 @@ export default function EditDialog({ open, onOpenChange }: Props) {
                   <Select>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="请选择状态" />
+                        <SelectValue/>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="max-w-[450px]">
@@ -142,7 +150,7 @@ export default function EditDialog({ open, onOpenChange }: Props) {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "yyyy-MM-dd")
+                              format(field.value, "yyyy/MM/dd")
                             ) : (
                               <span>Pick a date</span>
                             )}
@@ -153,7 +161,7 @@ export default function EditDialog({ open, onOpenChange }: Props) {
                       <PopoverContent className="w-auto p-0">
                         <Calendar
                           mode="single"
-                          selected={field.value ? new Date(field.value) : undefined}
+                          selected={field.value === undefined ? undefined : new Date(field.value)}
                           onSelect={field.onChange}
                           initialFocus
                         />
@@ -164,11 +172,16 @@ export default function EditDialog({ open, onOpenChange }: Props) {
                 </FormItem>
               )}
             />
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => onOpenChange(false)}>取消</Button>
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting || !form.formState.isDirty}
+              >
+                {form.formState.isSubmitting ? "提交中..." : "提交"}
+              </Button>
+            </div>
           </form>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => onOpenChange(false)}>取消</Button>
-            <Button type="submit">保存</Button>
-          </div>
         </Form>
       </div>
     </WrapperDialog>
