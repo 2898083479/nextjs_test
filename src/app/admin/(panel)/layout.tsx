@@ -9,6 +9,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     const menu = <Menu
         items={[
             {
+                name: "Dashboard",
+                href: ["/admin/dashboard"],
+                icon: ""
+            },
+            {
                 name: "Merchant",
                 href: ["/admin/merchant"],
                 icon: ""
