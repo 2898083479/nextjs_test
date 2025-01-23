@@ -37,7 +37,7 @@ export default function SignInPage() {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if (values.email === "ethan_wangxiang@outlook.com" && values.password === "12345678") {
             await new Promise(resolve => setTimeout(resolve, 1000));
-            router.push("/admin/dashboard")
+            router.push("/admin/merchant")
         } else {
             form.setError("email", { message: "邮箱或密码错误" })
         }
