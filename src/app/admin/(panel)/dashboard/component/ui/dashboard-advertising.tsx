@@ -1,7 +1,7 @@
 "use client"
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay"
-
+import { Image } from "@/components/core/image"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
     Carousel,
@@ -16,10 +16,7 @@ export const DashboardAdvertising = () => {
     )
     return (
         <Card>
-            <CardHeader>
-                广告
-            </CardHeader>
-            <CardContent className="flex justify-center items-center">
+            <CardContent className="flex justify-center items-center pt-5">
                 <Carousel
                     plugins={[plugin.current]}
                     className="w-full max-w-[800px] h-[300px]"
@@ -27,15 +24,13 @@ export const DashboardAdvertising = () => {
                     onMouseLeave={plugin.current.reset}
                 >
                     <CarouselContent>
-                        {Array.from({ length: 5 }).map((_, index) => (
+                        {Array.from({ length: 2 }).map((_, index) => (
                             <CarouselItem key={index}>
-                                <div className="p-1">
-                                    <Card>
-                                        <CardContent className="flex h-[300px] items-center justify-center p-6">
-                                            <span className="flex text-4xl font-semibold items-center">{index + 1}</span>
-                                        </CardContent>
-                                    </Card>
-                                </div>
+                                <img
+                                    src={`/image/${index + 1}.png`}
+                                    alt={`advertisement ${index + 1}`}
+                                    className="w-full h-[300px] items-center justify-center"
+                                />
                             </CarouselItem>
                         ))}
                     </CarouselContent>
