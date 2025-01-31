@@ -1,5 +1,3 @@
-import { useQueryStates } from "nuqs";
-import { parseAsString } from "nuqs";
 import { useState } from "react";
 
 export const useTableFilter = () => {

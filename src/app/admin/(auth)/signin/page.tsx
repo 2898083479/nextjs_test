@@ -1,7 +1,7 @@
 "use client"
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormField } from "@/components/ui/form"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Form, FormItem, FormLabel, FormControl, FormMessage, FormField } from "@/components/ui/form"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
