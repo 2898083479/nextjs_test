@@ -1,11 +1,9 @@
 'use client'
 
-import { Menu, MenuItem } from "@/components/menu";
-import { usePathname } from "next/navigation";
+import { Menu} from "@/components/menu";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 
-    const pathname = usePathname()
     const menu = <Menu
         items={[
             {
@@ -15,22 +13,22 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             },
             {
                 name: "Merchant",
-                href: ["/admin/merchant"],
+                href: ["/admin/dashboard/merchant"],
                 icon: ""
             },
             {
                 name: "Store",
-                href: ["/admin/store"],
+                href: ["/admin/dashboard/store"],
                 icon: ""
             },
             {
                 name: "Good",
-                href: ["/admin/good"],
+                href: ["/admin/dashboard/good"],
                 icon: ""
             },
             {
                 name: "Policy",
-                href: ["/admin/policy"],
+                href: ["/admin/dashboard/policy"],
                 icon: ""
             },
         ]}
