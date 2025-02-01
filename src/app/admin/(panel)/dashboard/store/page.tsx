@@ -1,3 +1,5 @@
+import StorePanel from "./client";
+
 export default function Store() {
-    return <div>Store</div>
+    return <StorePanel />
 }

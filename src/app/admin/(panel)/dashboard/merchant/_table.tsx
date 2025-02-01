@@ -134,7 +134,7 @@ export const AdminDataTable = () => {
     });
 
     const { isFetching, data } = useQuery({
-        queryKey: ['ngo-account-data'],
+        queryKey: ['admin-data'],
         queryFn: () => getFakeData(),
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,

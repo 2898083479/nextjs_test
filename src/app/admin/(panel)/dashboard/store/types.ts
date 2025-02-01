@@ -6,6 +6,7 @@ export enum StoreStatus {
 
 export interface Store {
     name: string;
+    email: string;
     merchantCount: number;
     status: StoreStatus;
     createdAt: string;
