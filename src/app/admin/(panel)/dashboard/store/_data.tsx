@@ -4,6 +4,7 @@ import { Store, StoreStatus } from "./types";
 const newData = (): Store => {
     return {
         name: faker.company.name(),
+        email: faker.internet.email(),
         merchantCount: faker.number.int({ min: 1, max: 10 }),
         status: faker.helpers.enumValue(StoreStatus),
         createdAt: faker.date.past().toISOString(),
