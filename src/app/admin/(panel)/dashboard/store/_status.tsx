@@ -1,11 +1,21 @@
 import { StoreStatus } from "./types";
+import classNames from "classnames";
+
+const colors = {
+    [StoreStatus.Pending]: 'bg-[#0C7FDA]',
+    [StoreStatus.Approved]: 'bg-[#00B42A]',
+    [StoreStatus.Rejected]: 'bg-[#FF4D4F]',
+}
 
 export const StoreStatusChip = ({ status }: { status: StoreStatus }) => {
     return (
-        <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-            <div className="flex flex-col text-[14px] leading-[20px]">
-                <span className="text-tp">{status}</span>
-            </div>
+        <div
+            className={classNames(
+                'flex w-[90px] p-[6px_24px] items-center justify-center rounded-md',
+                colors[status]
+            )}
+        >
+            {status}
         </div>
     )
 }

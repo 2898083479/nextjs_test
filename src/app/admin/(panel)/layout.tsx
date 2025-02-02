@@ -45,7 +45,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </div>
             <div className="fixed top-0 left-64 w-[calc(100%-16rem)] h-16 bg-[#f5f5f5] flex items-center z-10">
-                NEXTJS01
+                Agarwood management system
             </div>
             <div className="ml-64 flex-1 p-8 pt-20 min-h-screen bg-white">
                 {children}

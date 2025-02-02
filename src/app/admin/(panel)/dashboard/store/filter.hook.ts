@@ -3,12 +3,14 @@ import { useQueryStates, parseAsString } from "nuqs";
 
 export const useTableFilter = () => {
     const [searchValue, setSearchValue] = useState("");
-    const [merchantCount, setMerchantCount] = useState<number | null>(null);
+    const [merchantCount, setMerchantCount] = useState("");
+    const [goodCount, setGoodCount] = useState("");
 
     const reset = () => {
         setSearchValue("");
-        setMerchantCount(1);
+        setMerchantCount("Merchant Count");
+        setGoodCount("Good Count");
     };
 
-    return { searchValue, setSearchValue, reset, merchantCount, setMerchantCount };
+    return { searchValue, setSearchValue, reset, merchantCount, setMerchantCount, goodCount, setGoodCount };
 }
