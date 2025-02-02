@@ -8,6 +8,7 @@ export interface Store {
     name: string;
     email: string;
     merchantCount: number;
+    goodCount: number;
     status: StoreStatus;
     createdAt: string;
 }

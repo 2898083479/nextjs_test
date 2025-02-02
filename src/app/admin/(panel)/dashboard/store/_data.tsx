@@ -6,6 +6,7 @@ const newData = (): Store => {
         name: faker.company.name(),
         email: faker.internet.email(),
         merchantCount: faker.number.int({ min: 1, max: 10 }),
+        goodCount: faker.number.int({ min: 100, max: 1000 }),
         status: faker.helpers.enumValue(StoreStatus),
         createdAt: faker.date.past().toISOString(),
     }

@@ -1,20 +1,20 @@
 import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-interface MerchantCountSelectProps {
+interface GoodCountSelectProps {
     value: string;
     onChange: (value: string) => void;
     className?: string;
 }
 
-export const MerchantCountSelect = ({ value, onChange, className }: MerchantCountSelectProps) => {
+export const GoodCountSelect = ({ value, onChange, className }: GoodCountSelectProps) => {
     return (
         <Select>
             <SelectTrigger
                 value={value ?? ""}
                 className={cn("max-w-[204px] h-[40px] bg-white", className)}
             >
-                <SelectValue className="text-tp" placeholder="Merchant Count" />
+                <SelectValue className="text-tp" placeholder="Good Count" />
             </SelectTrigger>
             <SelectContent className="text-[#94A3B8]">
                 {
@@ -34,19 +34,19 @@ export const MerchantCountSelect = ({ value, onChange, className }: MerchantCoun
 
 const amountOptions = [
     {
-        amount: 1,
-        label: ">=1"
+        amount: 100,
+        label: ">=100"
     },
     {
-        amount: 5,
-        label: ">=5"
+        amount: 500,
+        label: ">=500"
     },
     {
-        amount: 10,
-        label: ">=10"
+        amount: 700,
+        label: ">=700"
     },
     {
-        amount: 20,
-        label: ">=20"
+        amount: 1000,
+        label: ">=1000"
     }
 ]
