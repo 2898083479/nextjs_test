@@ -11,6 +11,11 @@ import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { StoreStatusChip } from "./_status";
 import { StoreStatus } from "./types";
+import ReviewDialog from "./dialog/review/review-dialog";
+import { useReviewStore } from "./store";
+import { ReviewStep } from "./store";
+import { useDisclosure } from "@/components/hooks";
+import { useEditStore } from "./store";
 export const StoreDataTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
@@ -44,7 +49,11 @@ export const StoreDataTable = () => {
             size: 200,
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts">{row.original.merchantCount}</div>
+                    <div
+                        className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
+                    >
+                        {row.original.merchantCount}
+                    </div>
                 )
             }
         },
@@ -54,7 +63,11 @@ export const StoreDataTable = () => {
             size: 200,
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts">{row.original.goodCount}</div>
+                    <div
+                        className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
+                    >
+                        {row.original.goodCount}
+                    </div>
                 )
             }
         },
@@ -64,7 +77,11 @@ export const StoreDataTable = () => {
             size: 200,
             cell: ({ row }) => {
                 return (
-                    <div className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts">{format(row.original.createdAt, "yyyy/MM/dd")}</div>
+                    <div
+                        className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
+                    >
+                        {format(row.original.createdAt, "yyyy/MM/dd")}
+                    </div>
                 )
             }
         },
@@ -73,13 +90,31 @@ export const StoreDataTable = () => {
             enablePinning: true,
             size: 100,
             cell: ({ row }) => {
+                const { isOpen, onOpen, onOpenChange } = useDisclosure();
+                const { setStep } = useReviewStore();
+                const { setStep: setEditStep } = useEditStore();
                 if (row.original.status === StoreStatus.Pending) {
                     return (
                         <div
-                            className="flex items-center justify-center px-[20px] py-[16px] 
+                            className="text-[#0C7FDA] flex items-center justify-center px-[20px] py-[16px] 
                             text-[14px] leading-[20px] text-primary cursor-pointer"
+                            onClick={onOpen}
                         >
                             review
+                            {
+                                isOpen && (
+                                    <ReviewDialog
+                                        open={isOpen}
+                                        openChange={(e) => {
+                                            if (!e) {
+                                                setStep(ReviewStep.Default)
+                                            }
+                                            onOpenChange(e);
+                                        }}
+                                        data={row.original}
+                                    />
+                                )
+                            }
                         </div>
                     )
                 }
