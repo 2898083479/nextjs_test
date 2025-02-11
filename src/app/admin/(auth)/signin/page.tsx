@@ -95,7 +95,10 @@ export default function SignInPage() {
                                     {form.formState.isSubmitting ? "登录中..." : "登录"}
                                 </Button>
                             </div>
-                            <div onClick={() => router.push("/admin/signin/reset")}>重置密码</div>
+                            <div className="flex flex-row justify-end gap-[12px]">
+                                <Button variant="link" className="text-blue-500 hover:underline" onClick={() => router.push("/admin/signin/reset")}>重置密码</Button>
+                                <Button variant="link" className="text-blue-500 hover:underline" onClick={() => router.push("/admin/signup")}>注册</Button>
+                            </div>
                         </form>
                     </Form>
                 </CardContent>
