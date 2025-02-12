@@ -1,17 +1,17 @@
 import { IResponse, postReq } from "../../index";
 
-export interface ISignInBody {
+export interface IResetPasswordBody {
     email: string;
     password: string;
 }
 
-export const signInAPI = async (body: ISignInBody): Promise<IResponse> => {
+export const resetPasswordAPI = async (body: IResetPasswordBody): Promise<IResponse> => {
     const formData = new FormData();
     formData.append('email', body.email);
     formData.append('password', body.password);
 
     const response = await postReq({
-        path: 'http://localhost:8080/admins/login',
+        path: 'http://localhost:8080/admins/reset-password',
         data: formData,
     })
 
