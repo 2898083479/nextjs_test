@@ -22,6 +22,7 @@ export const postReq = async ({ path, data = {}, params = {}, headers = {} }: IP
     return await axios.post(path, data, {
         params,
         headers: {
+            'Content-Type': 'application/json',
             ...headers
         }
     });
@@ -50,6 +51,7 @@ export const putReq = async ({ path, data = {}, params = {}, headers = {} }: IPo
     return await axios.put(path, data, {
         params,
         headers: {
+            'Content-Type': 'application/json',
             ...headers
         }
     });

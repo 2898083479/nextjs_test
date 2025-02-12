@@ -8,17 +8,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { useQuery } from "@tanstack/react-query"
 import { signUpAPI } from "@/api/auth/siginup"
 import { ResponseStatusCode } from "@/api/types"
 import { useCountdown, useMounted } from "@/components/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+
 export const SignupPage = () => {
 
     const router = useRouter()
     const isMounted = useMounted();
     const { countdown, active, start } = useCountdown(60);
-
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const formSchema = z.object({
         email: z.string().email(),
         password: z.string().min(2),
@@ -86,7 +88,18 @@ export const SignupPage = () => {
                                     <FormItem>
                                         <FormLabel>密码</FormLabel>
                                         <FormControl>
-                                            <Input {...field} />
+                                            <Input 
+                                            {...field} 
+                                            type={passwordVisible ? "text" : "password"}
+                                            endContent={
+                                                <div
+                                                    className="w-full h-full flex items-center justify-center cursor-pointer"
+                                                    onClick={() => setPasswordVisible(!passwordVisible)}
+                                                >
+                                                    {passwordVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                                                </div>
+                                            }
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -99,7 +112,18 @@ export const SignupPage = () => {
                                     <FormItem>
                                         <FormLabel>请再次输入密码</FormLabel>
                                         <FormControl>
-                                            <Input {...field} />
+                                            <Input 
+                                            {...field} 
+                                            type={confirmPasswordVisible ? "text" : "password"}
+                                            endContent={
+                                                <div
+                                                    className="w-full h-full flex items-center justify-center cursor-pointer"
+                                                    onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                                                >
+                                                    {confirmPasswordVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                                                </div>
+                                            }
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
