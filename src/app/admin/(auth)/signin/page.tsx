@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { useMounted, useCountdown } from "@/components/hooks";
 import { signInAPI } from "@/api/auth/signin";
 import { ResponseStatusCode } from "@/api/types";
 import { useEffect, useState } from "react";
@@ -26,7 +25,7 @@ export default function SignInPage() {
             }),
         password: z
             .string()
-            .min(8, {
+            .min(1, {
                 message: "密码至少8位"
             }),
     })

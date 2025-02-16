@@ -1,4 +1,4 @@
-import { IResponse, postReq } from "../../index";
+import { IResponse, formPostReq } from "../../index";
 
 export interface ISignInBody {
     email: string;
@@ -10,7 +10,7 @@ export const signInAPI = async (body: ISignInBody): Promise<IResponse> => {
     formData.append('email', body.email);
     formData.append('password', body.password);
 
-    const response = await postReq({
+    const response = await formPostReq({
         path: 'http://localhost:8080/admins/login',
         data: formData,
     })

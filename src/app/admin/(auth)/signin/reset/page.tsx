@@ -10,36 +10,58 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import FinishDialog from "./finish-dialog"
+import { resetPasswordAPI } from "@/api/auth/resetPassword"
+import { ResponseStatusCode } from "@/api/types"
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 export default function ResetPage() {
     const router = useRouter()
     const [open, setOpen] = useState(false)
+    const [passwordVisible, setPasswordVisible] = useState(false)
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
 
     const formSchema = z.object({
-        old_pwd: z
+        email: z
             .string()
-            .min(8, {
-                message: "旧密码至少8位"
+            .min(1, {
+                message: "请输入邮箱"
             }),
-        new_pwd: z
+        password: z
             .string()
-            .min(8, {
-                message: "新密码至少8位"
+            .min(1, {
+                message: "密码至少8位"
             }),
-    })
+        confirmPassword: z
+            .string()
+            .min(1, {
+                message: "密码至少8位"
+            }),
+    }).refine((data) => data.password === data.confirmPassword, {
+        message: "两次密码必须相同",
+        path: ["confirmPassword"]
+    });
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            old_pwd: "",
-            new_pwd: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
         },
     })
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        setOpen(true)
+        const { code, message } = await resetPasswordAPI({
+            email: values.email,
+            password: values.password,
+        })
+        if (code === ResponseStatusCode.SUCCESS) {
+            setOpen(true)
+        }
+        if (code === ResponseStatusCode.FAILED) {
+            form.setError("email", { message: message })
+        }
     }
 
     return (
@@ -56,14 +78,14 @@ export default function ResetPage() {
                         >
                             <FormField
                                 control={form.control}
-                                name="old_pwd"
+                                name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>旧密码</FormLabel>
+                                        <FormLabel>邮箱</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="请输入旧密码"
+                                                placeholder="请输入邮箱"
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -72,21 +94,56 @@ export default function ResetPage() {
                             />
                             <FormField
                                 control={form.control}
-                                name="new_pwd"
+                                name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>新密码</FormLabel>
+                                        <FormLabel>密码</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="请输入新密码"
+                                                placeholder="请输入密码"
+                                                type={passwordVisible ? "text" : "password"}
+                                                endContent={
+                                                    <div
+                                                        className="w-full h-full flex items-center justify-center cursor-pointer"
+                                                        onClick={() => setPasswordVisible(!passwordVisible)}
+                                                    >
+                                                        {passwordVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                                                    </div>
+                                                }
                                             />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex justify-end">
+                            <FormField
+                                control={form.control}
+                                name="confirmPassword"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>确认密码</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                type={confirmPasswordVisible ? "text" : "password"}
+                                                placeholder="请输入密码"
+                                                endContent={
+                                                    <div
+                                                        className="w-full h-full flex items-center justify-center cursor-pointer"
+                                                        onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                                                    >
+                                                        {confirmPasswordVisible ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                                                    </div>
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <div className="flex justify-end gap-2">
+                                <Button variant="outline" onClick={() => router.push("/admin/signin")}>返回</Button>
                                 <Button
                                     type="submit"
                                     disabled={!form.formState.isDirty}
