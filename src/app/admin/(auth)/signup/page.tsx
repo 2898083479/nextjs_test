@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
 export const SignupPage = () => {
-
+    
     const router = useRouter()
     const isMounted = useMounted();
     const { countdown, active, start } = useCountdown(60);

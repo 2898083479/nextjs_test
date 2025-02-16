@@ -1,4 +1,4 @@
-import { IResponse, postReq } from "../../index";
+import { IResponse, putReq } from "../../index";
 
 export interface IResetPasswordBody {
     email: string;
@@ -10,8 +10,8 @@ export const resetPasswordAPI = async (body: IResetPasswordBody): Promise<IRespo
     formData.append('email', body.email);
     formData.append('password', body.password);
 
-    const response = await postReq({
-        path: 'http://localhost:8080/admins/reset-password',
+    const response = await putReq({
+        path: 'http://localhost:8080/admins/reset',
         data: formData,
     })
 
