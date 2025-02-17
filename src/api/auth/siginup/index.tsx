@@ -11,7 +11,7 @@ export const signUpAPI = async (body: ISignUpBody): Promise<IResponse> => {
     formData.append('password', body.password);
 
     const response = await formPostReq({
-        path: 'http://localhost:8080/admins/register',
+        path: '/admins/register',
         data: formData,
     })
 

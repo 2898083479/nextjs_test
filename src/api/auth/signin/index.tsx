@@ -11,7 +11,7 @@ export const signInAPI = async (body: ISignInBody): Promise<IResponse> => {
     formData.append('password', body.password);
 
     const response = await formPostReq({
-        path: 'http://localhost:8080/admins/login',
+        path: '/admins/login',
         data: formData,
     })
 

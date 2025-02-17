@@ -18,6 +18,8 @@ export interface IPostReqest extends IRequest {
     data?: any;
 }
 
+axios.defaults.baseURL = 'http://localhost:8080';
+
 export const postReq = async ({ path, data = {}, params = {}, headers = {} }: IPostReqest) => {
     return await axios.post(path, data, {
         params,

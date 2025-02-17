@@ -15,7 +15,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
         <WrapperDialog
             open={open}
             onOpenChange={onOpenChange}
-            className="w-[436px] border-none"
+            className="w-[400px] border-none"
         >
             <div className="flex flex-col gap-[12px]">
                 <div className="text-[24px] font-bold">
@@ -23,11 +23,11 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                 </div>
                 <Label>name</Label>
                 <div className="bg-[#f5f5f5] rounded-md p-[12px]">
-                    <div>{data?.name}</div>
-                    <div>{data?.email}</div>
+                    <div className="text-[16px] text-[#101828]">{data?.name}</div>
+                    <div className="text-[14px] text-[#8E95A9]">{data?.email}</div>
                 </div>
                 <Label>status</Label>
-                <div className="bg-[#f5f5f5] rounded-md p-[12px]">
+                <div className="bg-[#f5f5f5] rounded-md p-[12px] text-[16px] text-[#101828]">
                     {data?.status === AdminStatus.Pending ?
                         "Pending" : data?.status === AdminStatus.Approved ?
                             "Approved" : "Rejected"}
@@ -37,7 +37,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                 <div className="flex justify-end gap-[12px]">
                     <Button
                         variant="outline"
-                        className="bg-[#ff0000] text-white hover:text-white/80"
+                        className="bg-[#F31260] hover:bg-[#F31260]/80 text-white"
                         onClick={() => {
                             setStep(ReviewStep.RejectReason)
                         }}
@@ -45,6 +45,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                         Reject
                     </Button>
                     <Button
+                        className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
                         onClick={() => {
                             setStep(ReviewStep.Approved)
                         }}

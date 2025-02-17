@@ -148,7 +148,12 @@ export const AdminDataTable = () => {
     });
     return (
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
-            <Filter />
+            <div className="flex items-center justify-between">
+                <Filter />
+                <Button>
+                    search
+                </Button>
+            </div>
             <DataTable
                 isLoading={isFetching}
                 table={table}

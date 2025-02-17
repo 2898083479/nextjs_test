@@ -11,11 +11,11 @@ import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { StoreStatusChip } from "./_status";
 import { StoreStatus } from "./types";
-import ReviewDialog from "./dialog/review/review-dialog";
 import { useReviewStore } from "./store";
 import { ReviewStep } from "./store";
 import { useDisclosure } from "@/components/hooks";
 import { useEditStore } from "./store";
+import { IndexDialog } from "./dialog/review";
 export const StoreDataTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
@@ -103,11 +103,11 @@ export const StoreDataTable = () => {
                             review
                             {
                                 isOpen && (
-                                    <ReviewDialog
+                                    <IndexDialog
                                         open={isOpen}
-                                        openChange={(e) => {
+                                        onOpenChange={(e) => {
                                             if (!e) {
-                                                setStep(ReviewStep.Default)
+                                                setStep(ReviewStep.Default);
                                             }
                                             onOpenChange(e);
                                         }}
