@@ -33,9 +33,9 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
         <WrapperDialog
             open={open}
             onOpenChange={onOpenChange}
-            className="w-[436px]"
+            className="w-[400px]"
         >
-            <div>拒绝原因填写</div>
+            <div className="text-[18px] text-[#5D7285]">拒绝原因填写</div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
@@ -43,10 +43,11 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
                         name="reason"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>拒绝原因</FormLabel>
+                                <FormLabel className="text-[14px] text-[#0F172A]">拒绝原因</FormLabel>
                                 <FormControl>
                                     <Input {...field}
                                         placeholder="请输入拒绝原因"
+                                        className="text-[16px] text-[#94A3B8]"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -56,12 +57,13 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
                     <div className="flex justify-end mt-4 ml-auto gap-2">
                         <Button
                             type="button"
-                            variant="outline"
+                            variant="link"
                             onClick={() => setStep(ReviewStep.Default)}
                         >
                             返回
                         </Button>
                         <Button
+                            className="bg-[#F31260] hover:bg-[#F31260]/80 text-white"
                             type="submit"
                             disabled={form.formState.isSubmitting}
                         >

@@ -12,7 +12,13 @@ export const Filter = () => {
                 placeholder="Search"
                 className="max-w-[200px]"
             />
-            <Button className="flex ml-auto" onClick={reset}>Reset</Button>
+            <Button
+                variant="link"
+                className="flex ml-auto"
+                onClick={reset}
+            >
+                Reset
+            </Button>
         </div>
     )
 }

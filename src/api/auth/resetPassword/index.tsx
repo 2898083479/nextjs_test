@@ -11,7 +11,7 @@ export const resetPasswordAPI = async (body: IResetPasswordBody): Promise<IRespo
     formData.append('password', body.password);
 
     const response = await putReq({
-        path: 'http://localhost:8080/admins/reset',
+        path: '/admins/reset',
         data: formData,
     })
 

@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { DialogOverlay } from "@radix-ui/react-dialog"
 import ReactDOM from "react-dom"
+
 interface Props {
     title?: string
     description?: string
@@ -15,7 +16,10 @@ const WrapperDialog = ({ title, description, children, className, open, onOpenCh
     // 这样可以避免对话框被父元素的 CSS 属性影响（如 overflow、z-index 等）
     // 同时确保对话框始终显示在最上层
     return ReactDOM.createPortal(
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog
+            open={open}
+            onOpenChange={onOpenChange}
+        >
             <DialogOverlay />
             <DialogContent className={className}>
                 <DialogHeader>

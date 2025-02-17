@@ -24,7 +24,13 @@ export const Filter = () => {
                 onChange={(value) => setGoodCount(value)}
                 className="max-w-[200px] h-[37px] text-[#94A3B8]"
             />
-            <Button className="flex ml-auto" onClick={reset}>Reset</Button>
+            <Button
+                variant="link"
+                className="flex ml-auto"
+                onClick={reset}
+            >
+                Reset
+            </Button>
         </div>
     )
 }

@@ -15,7 +15,7 @@ export const RejectDialog = ({ open, onOpenChange }: Props) => {
         >
             <div className="flex flex-col gap-4">
                 <div className="text-2xl font-bold">拒绝</div>
-                <div className="text-sm text-gray-500">您已拒绝该商户申请</div>
+                <div className="text-sm text-gray-500">您已拒绝该商品申请</div>
                 <div className="flex justify-end">
                     <Button
                         onClick={() => {
