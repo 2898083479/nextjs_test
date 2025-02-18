@@ -1,4 +1,7 @@
 export const enum ResponseStatusCode {
-	SUCCESS = "0000",
-    FAILED = "0001",
+	success = "0000",
+    error = "0001",
+    timeout = "0002",
+    unauthorized = "0003",
+    systemError = "0004",
 }
