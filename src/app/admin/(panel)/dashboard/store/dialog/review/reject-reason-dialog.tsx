@@ -20,7 +20,7 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             reason: "",
-        }
+        } 
     })
 
 
@@ -35,7 +35,7 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
             className="w-[400px] border-none"
         >
             <div className="flex flex-col gap-4">
-                <div className="text-[18px]">审核拒绝</div>
+                <div className="text-[18px] text-[#5D7285]">请输入拒绝原因</div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
@@ -43,7 +43,6 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
                             name="reason"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>请输入拒绝理由</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>

@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const IndexDialog = ({ open, onOpenChange, data }: Props) => {
-    const { step, setStep } = useStore()
+    const { step } = useStore()
     if (step === ReviewStep.Approved) {
         // TODO: 审核通过
         return (
@@ -43,8 +43,8 @@ export const IndexDialog = ({ open, onOpenChange, data }: Props) => {
     }
     return (
         <ReviewDialog
-            open={step === ReviewStep.Default}
-            onOpenChange={() => setStep(ReviewStep.Default)}
+            open={open}
+            onOpenChange={onOpenChange}
             data={data}
         />
     )

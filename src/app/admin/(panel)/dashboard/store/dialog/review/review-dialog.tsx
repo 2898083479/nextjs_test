@@ -15,7 +15,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props){
         <WrapperDialog
             open={open}
             onOpenChange={onOpenChange}
-            className="w-[400px] border-none"
+            className="w-[400px]"
         >
             <div className="flex flex-col gap-[12px]">
                 <div className="text-[#5D7285] text-[18px] font-bold">
@@ -46,7 +46,6 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props){
                         className="bg-[#F31260] hover:bg-[#F31260]/80 text-white"
                         onClick={() => {
                             setStep(ReviewStep.RejectReason)
-                            console.log(data)
                         }}
                     >
                         Reject
@@ -55,7 +54,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props){
                         type="button"
                         className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
                         onClick={() => {
-                            // setStep(ReviewStep.Approved)
+                            setStep(ReviewStep.Approved)
                         }}
                     >
                         Approve

@@ -5,7 +5,15 @@ export interface ISignInBody {
     password: string;
 }
 
-export const signInAPI = async (body: ISignInBody): Promise<IResponse> => {
+export interface ISignInResponse extends IResponse {
+    data: {
+        accessToken: string;
+        refreshToken: string;
+    }
+}
+
+export const signInAPI = async (body: ISignInBody): Promise<ISignInResponse> => {
+    await new Promise(resolve => setTimeout(resolve, 3000))
     const formData = new FormData();
     formData.append('email', body.email);
     formData.append('password', body.password);

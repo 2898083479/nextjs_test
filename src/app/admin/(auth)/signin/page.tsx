@@ -40,12 +40,14 @@ export default function SignInPage() {
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        const { code, message } = await signInAPI({
+        const { code, message, data } = await signInAPI({
             email: values.email,
             password: values.password,
         })
 
-        if (code === ResponseStatusCode.SUCCESS) {
+        if (code === ResponseStatusCode.success) {
+            localStorage.setItem("accessToken", data.accessToken)
+            localStorage.setItem("refreshToken", data.refreshToken)
             router.push("/admin/dashboard")
         } else {
             form.setError("email", { message: message })
@@ -125,6 +127,7 @@ export default function SignInPage() {
                                 <Button
                                     type="submit"
                                     disabled={!form.formState.isDirty}
+                                    className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                                 >
                                     {form.formState.isSubmitting ? "登录中..." : "登录"}
                                 </Button>

@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react";
 import { DataTable } from "@/components/core/data-table";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -6,6 +7,7 @@ import { useMemo, useState } from "react";
 import { Filter } from "./filter";
 import { Store } from "./types";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList } from "lucide-react";
 import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
@@ -16,6 +18,7 @@ import { ReviewStep } from "./store";
 import { useDisclosure } from "@/components/hooks";
 import { useEditStore } from "./store";
 import { IndexDialog } from "./dialog/review";
+import EditIndexDialog from "./dialog/edit";
 export const StoreDataTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
@@ -98,9 +101,13 @@ export const StoreDataTable = () => {
                         <div
                             className="text-[#0C7FDA] flex items-center justify-center px-[20px] py-[16px] 
                             text-[14px] leading-[20px] text-primary cursor-pointer"
-                            onClick={onOpen}
                         >
-                            review
+                            <div
+                                onClick={onOpen}
+                                className="text-[#0C7FDA] text-[14px] cursor-pointer"
+                            >
+                                review
+                            </div>
                             {
                                 isOpen && (
                                     <IndexDialog
@@ -124,12 +131,27 @@ export const StoreDataTable = () => {
                             flex items-center justify-center px-[20px] py-[16px] gap-[12px]
                             text-[14px] leading-[20px] text-primary cursor-pointer
                     ">
-                        <span>
-                            <Edit2Icon className="w-[18px] h-[18px]" />
-                        </span>
-                        <span>
-                            <ClipboardList className="w-[18px] h-[18px]" />
-                        </span>
+                        <Button
+                            size={"icon"}
+                            variant="link"
+                            onClick={onOpen}
+                        >
+                            <Edit2Icon />
+                        </Button>
+                        {
+                            isOpen && (
+                                <EditIndexDialog
+                                    open={isOpen}
+                                    onOpenChange={onOpenChange}
+                                />
+                            )
+                        }
+                        <Button
+                            size={"icon"}
+                            variant="link"
+                        >
+                            <ClipboardList />
+                        </Button>
                     </div>
                 )
             }
