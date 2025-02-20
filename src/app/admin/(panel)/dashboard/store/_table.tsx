@@ -9,7 +9,6 @@ import { Store } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList } from "lucide-react";
-import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { StoreStatusChip } from "./_status";
 import { StoreStatus } from "./types";
@@ -19,6 +18,8 @@ import { useDisclosure } from "@/components/hooks";
 import { useEditStore } from "./store";
 import { IndexDialog } from "./dialog/review";
 import EditIndexDialog from "./dialog/edit";
+import { getStoreInfoList } from "@/api/store";
+import { EditStep } from "./store";
 export const StoreDataTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
@@ -142,7 +143,13 @@ export const StoreDataTable = () => {
                             isOpen && (
                                 <EditIndexDialog
                                     open={isOpen}
-                                    onOpenChange={onOpenChange}
+                                    onOpenChange={(e) => {
+                                        if (!e) {
+                                            setEditStep(EditStep.Edit);
+                                        }
+                                        onOpenChange(e);
+                                    }}
+                                    data={row.original}
                                 />
                             )
                         }
@@ -160,19 +167,31 @@ export const StoreDataTable = () => {
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 8,
     });
 
-    const { isFetching, data } = useQuery({
+    const { isLoading, data } = useQuery({
         queryKey: ['store-data'],
-        queryFn: () => getFakeData(),
+        queryFn: () => getStoreList(),
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     });
 
+    const getStoreList = async () => {
+        const response = await getStoreInfoList({
+            id: "",
+            filter: {
+                search: "",
+                merchantCount: 0,
+                goodCount: 0,
+            }
+        })
+        return response.data;
+    }
+
     const { table } = useDataTable({
         columns,
-        data,
+        data: data as Store[],
         pagination,
         setPagination,
     });
@@ -181,7 +200,7 @@ export const StoreDataTable = () => {
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
             <Filter />
             <DataTable
-                isLoading={isFetching}
+                isLoading={isLoading}
                 table={table}
                 pagination={pagination}
                 setPagination={setPagination}

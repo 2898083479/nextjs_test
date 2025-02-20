@@ -1,12 +1,12 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
-import { Admin, AdminStatus } from "../../types"
+import { Merchant, MerchantStatus } from "../../types"
 import { Button } from "@/components/ui/button"
 import { ReviewStep, useStore } from "../../store"
 import { Label } from "@/components/ui/label"
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
-    data: Admin
+    data: Merchant
 }
 
 export default function ReviewDialog({ open, onOpenChange, data }: Props) {
@@ -28,8 +28,8 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                 </div>
                 <Label>status</Label>
                 <div className="bg-[#f5f5f5] rounded-md p-[12px] text-[16px] text-[#101828]">
-                    {data?.status === AdminStatus.Pending ?
-                        "Pending" : data?.status === AdminStatus.Approved ?
+                    {data?.status === MerchantStatus.Pending ?
+                        "Pending" : data?.status === MerchantStatus.Approved ?
                             "Approved" : "Rejected"}
                 </div>
                 <Label>created at</Label>

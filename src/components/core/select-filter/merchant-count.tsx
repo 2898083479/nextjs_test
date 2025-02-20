@@ -22,6 +22,7 @@ export const MerchantCountSelect = ({ value, onChange, className }: MerchantCoun
                         <SelectItem
                             key={option.amount}
                             value={option.amount.toString()}
+                            onClick={() => onChange(option.amount.toString())}
                         >
                             {option.label}
                         </SelectItem>

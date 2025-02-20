@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useQueryStates, parseAsString } from "nuqs";
 
 export const useTableFilter = () => {
     const [searchValue, setSearchValue] = useState("");
-    const [merchantCount, setMerchantCount] = useState("");
-    const [goodCount, setGoodCount] = useState("");
+    const [merchantCount, setMerchantCount] = useState("Merchant Count");
+    const [goodCount, setGoodCount] = useState("Good Count");
 
     const reset = () => {
         setSearchValue("");
