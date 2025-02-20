@@ -7,6 +7,13 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { StoreStatus, type Store } from "../../types";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+
 interface EditDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -90,6 +97,22 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>狀態</FormLabel>
+                                <Select>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {
+                                            Object.values(StoreStatus).map(status => (
+                                                <SelectItem key={status} value={status as string}>
+                                                    {status}
+                                                </SelectItem>
+                                            ))
+                                        }
+                                    </SelectContent>
+                                </Select>
                             </FormItem>
                         )}
                     />
@@ -99,6 +122,36 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>創建時間</FormLabel>
+                                <div>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-[390px] pl-3 text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value ? (
+                                                        format(field.value, "yyyy/MM/dd")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value === undefined ? undefined : new Date(field.value)}
+                                                onSelect={field.onChange}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                </div>
                             </FormItem>
                         )}
                     />
