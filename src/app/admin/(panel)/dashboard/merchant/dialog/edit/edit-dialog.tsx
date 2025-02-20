@@ -1,16 +1,18 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
-import { Admin } from "../../types"
+import { Merchant } from "../../types"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { AdminStatus } from "../../types"
+import { MerchantStatus } from "../../types"
 import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { format } from "date-fns"
 import { EditStep } from "../../store"
 import { useEditStore } from "../../store"
+import { editMerchant } from "@/api/merchant"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   Select,
   SelectContent,
@@ -27,21 +29,23 @@ import {
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import dayjs from "dayjs"
+import { ResponseStatusCode } from "@/api/types"
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  data: Admin
+  data: Merchant
 }
 
 
 export default function EditDialog({ open, onOpenChange, data }: Props) {
+  const queryClient = useQueryClient()
   const { setStep } = useEditStore()
   const formSchema = z.object({
     name: z.string()
       .min(1, { message: "name must longer than 1 character" }),
     email: z.string()
       .email({ message: "email is invalid" }),
-    status: z.nativeEnum(AdminStatus, {
+    status: z.nativeEnum(MerchantStatus, {
       errorMap: () => ({
         message: "status is invalid"
       })
@@ -58,6 +62,24 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
       createdAt: dayjs(data.createdAt).toDate(),
     },
   })
+
+  const editMerchantInfo = async () => {
+    const { code } = await editMerchant({
+      id: data.id,
+      name: form.getValues("name"),
+      email: form.getValues("email"),
+      status: form.getValues("status"),
+      createdAt: form.getValues("createdAt")?.toISOString() ?? "",
+    })
+    if (code === ResponseStatusCode.success) {
+      onOpenChange(false)
+    }
+  }
+
+  useMutation({
+    mutationKey: ["editMerchant"],
+    mutationFn: editMerchantInfo,
+  }, queryClient)
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     await new Promise(resolve => setTimeout(resolve, 1000))
@@ -113,13 +135,13 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
                   <Select>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue/>
+                        <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="max-w-[450px]">
                       <SelectGroup>
                         {
-                          Object.values(AdminStatus).map(status => (
+                          Object.values(MerchantStatus).map(status => (
                             <SelectItem key={status} value={status as string}>
                               {status}
                             </SelectItem>

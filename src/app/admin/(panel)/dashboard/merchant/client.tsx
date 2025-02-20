@@ -1,10 +1,10 @@
 "use client"
-import { AdminDataTable } from "./_table";
+import { MerchantDataTable } from "./_table";
 
-export default function AdminPanel() {
+export default function MerchantPanel() {
     return (
         <div>
-            <AdminDataTable />
+            <MerchantDataTable />
         </div>
     )
 } 

@@ -8,18 +8,21 @@ import { useMemo, useState } from "react";
 import { useDisclosure } from "@/components/hooks";
 import { ReviewStep, useEditStore, useStore } from "./store";
 import { Filter } from "./filter";
-import { Admin } from "./types";
+import { Merchant } from "./types";
 import { format } from "date-fns";
-import { AdminStatus } from "./types";
+import { MerchantStatus } from "./types";
 import { Edit2Icon } from "lucide-react";
-import { getFakeData } from "./_data";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { IndexDialog } from "./dialog/review/index-dialog";
 import { IndexDialog2 } from "./dialog/edit/index";
 import { EditStep } from "./store";
-import { AdminStatusChip } from "./_status";
-export const AdminDataTable = () => {
-    const columns = useMemo<ColumnDef<Admin>[]>(() => [
+import { MerchantStatusChip } from "./_status";
+import { AddMerchantDialog } from "./dialog/add-dialog";
+import { getMerchantInfo } from "@/api/merchant";
+
+export const MerchantDataTable = () => {
+    const [open, setOpen] = useState(false);
+    const columns = useMemo<ColumnDef<Merchant>[]>(() => [
         {
             id: "admin-info",
             header: 'adminInformation',
@@ -41,7 +44,7 @@ export const AdminDataTable = () => {
             size: 200,
             cell: ({ row }) => {
                 return (
-                    <AdminStatusChip status={row.original.status} />
+                    <MerchantStatusChip status={row.original.status} />
                 )
             }
         },
@@ -65,7 +68,7 @@ export const AdminDataTable = () => {
                 const { isOpen, onOpen, onOpenChange } = useDisclosure();
                 const { setStep } = useStore();
                 const { setStep: setEditStep } = useEditStore();
-                if (row.original.status === AdminStatus.Inactive) {
+                if (row.original.status === MerchantStatus.Inactive) {
                     return (
                         <div
                             className="flex items-center justify-center px-[20px] py-[16px] text-[14px] leading-[20px] text-primary cursor-pointer"
@@ -104,7 +107,7 @@ export const AdminDataTable = () => {
                         </Button>
                         {
                             isOpen && (
-                                <IndexDialog2 
+                                <IndexDialog2
                                     open={isOpen}
                                     onOpenChange={(e) => {
                                         if (!e) {
@@ -133,16 +136,26 @@ export const AdminDataTable = () => {
         pageSize: 8,
     });
 
-    const { isFetching, data } = useQuery({
-        queryKey: ['admin-data'],
-        queryFn: () => getFakeData(),
+    const { isLoading, data } = useQuery({
+        queryKey: ['merchant-data'],
+        queryFn: () => getMerchantInfoList(),
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     });
 
+    const getMerchantInfoList = async () => {
+        const response = await getMerchantInfo({
+            id: "1",
+            filter: {
+                search: "",
+            }
+        });
+        return response.data;
+    }
+
     const { table } = useDataTable({
         columns,
-        data,
+        data: data as Merchant[],
         pagination,
         setPagination,
     });
@@ -150,12 +163,27 @@ export const AdminDataTable = () => {
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
             <div className="flex items-center justify-between">
                 <Filter />
-                <Button>
-                    search
+                <Button
+                    type="button"
+                    className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
+                    onClick={() => {
+                        setOpen(true);
+                        console.log(open);
+                    }}
+                >
+                    Add merchant
                 </Button>
+                {
+                    open && (
+                        <AddMerchantDialog
+                            open={open}
+                            onOpenChange={setOpen}
+                        />
+                    )
+                }
             </div>
             <DataTable
-                isLoading={isFetching}
+                isLoading={isLoading}
                 table={table}
                 pagination={pagination}
                 setPagination={setPagination}

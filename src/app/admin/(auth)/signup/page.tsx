@@ -10,15 +10,12 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { signUpAPI } from "@/api/auth/siginup"
 import { ResponseStatusCode } from "@/api/types"
-import { useCountdown, useMounted } from "@/components/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
 export const SignupPage = () => {
     
     const router = useRouter()
-    const isMounted = useMounted();
-    const { countdown, active, start } = useCountdown(60);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const formSchema = z.object({
@@ -41,20 +38,15 @@ export const SignupPage = () => {
             email: formData.email,
             password: formData.password,
         })
-        if (code === ResponseStatusCode.SUCCESS) {
+        if (code === ResponseStatusCode.success) {
             setTimeout(() => {
                 router.push("/admin/signin")
             }, 3000)
         }
-        if (code === ResponseStatusCode.FAILED) {
+        if (code === ResponseStatusCode.error) {
             form.setError("email", { message: message })
         }
     }
-
-    useEffect(() => {
-        if (!isMounted) return;
-        start();
-    }, [isMounted]);
 
     return (
         <div className="h-screen flex items-center justify-center">
