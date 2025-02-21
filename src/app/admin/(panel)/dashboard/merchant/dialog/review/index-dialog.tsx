@@ -4,12 +4,12 @@ import ReviewDialog from "./review-dialog";
 import { ApproveDialog } from "./approve-dialog";
 import { RejectDialog } from "./reject-dialog";
 import { RejectReasonDialog } from "./reject-reason-dialog";
-import { Admin } from "../../types";
+import { Merchant } from "../../types";
 
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
-    data: Admin
+    data: Merchant
 }
 
 export const IndexDialog = ({ open, onOpenChange, data }: Props) => {

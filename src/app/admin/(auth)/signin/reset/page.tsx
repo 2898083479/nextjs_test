@@ -56,10 +56,10 @@ export default function ResetPage() {
             email: values.email,
             password: values.password,
         })
-        if (code === ResponseStatusCode.SUCCESS) {
+        if (code === ResponseStatusCode.success) {
             setOpen(true)
         }
-        if (code === ResponseStatusCode.FAILED) {
+        if (code === ResponseStatusCode.error) {
             form.setError("email", { message: message })
         }
     }
