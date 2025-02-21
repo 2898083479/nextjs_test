@@ -1,19 +1,17 @@
 "use client"
 import { DashboardOverview } from "./component/ui/dashboard-overview"
-import { DashboardAdvertising } from "./component/ui/dashboard-advertising"
 import { DashboardCard } from "./component/ui/dashboard-card"
-import { Admin } from "./merchant/types"
+import { Merchant } from "./merchant/types"
 
 interface Props {
-    admin: Admin
+    merchant: Merchant
 }
 
-export const DashboardPage = ({ admin }: Props) => {
+export const DashboardPage = ({ merchant }: Props) => {
     return (
         <div className="flex flex-col gap-4">
-            <DashboardCard admin={admin}/>
-            <DashboardAdvertising />
             <DashboardOverview />
+            <DashboardCard merchant={merchant}/>
         </div>
     )
 }

@@ -1,14 +1,11 @@
 "use client"
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay"
-import { Image } from "@/components/core/image"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
 } from "@/components/ui/carousel"
 export const DashboardAdvertising = () => {
     const plugin = React.useRef(

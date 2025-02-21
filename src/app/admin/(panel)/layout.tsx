@@ -1,7 +1,7 @@
 'use client'
 
 import { Menu} from "@/components/menu";
-
+import { Button } from "@/components/ui/button";
 const Layout = ({ children }: { children: React.ReactNode }) => {
 
     const menu = <Menu
@@ -41,7 +41,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </div>
                 {menu}
                 <div className="flex absolute bottom-4 text-black">
-                    logout
+                    <Button
+                        size={"icon"}
+                        variant='ghost'
+                    >
+                        logout
+                    </Button>
                 </div>
             </div>
             <div className="fixed top-0 left-64 w-[calc(100%-16rem)] h-16 bg-[#f5f5f5] flex items-center z-10">
