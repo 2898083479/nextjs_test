@@ -4,6 +4,7 @@ export interface Good {
     source: string;
     category: string;
     price: number;
+    count: number;
     policy: string[];
     createdAt: string;
     updatedAt: string;

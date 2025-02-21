@@ -10,5 +10,6 @@ export interface GoodResponse {
     source: string;
     category: string;
     price: number;
+    count: number;
     createdAt: string;
 }

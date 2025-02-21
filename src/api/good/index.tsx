@@ -16,6 +16,7 @@ export const queryGoodList = async (body: searchBody): Promise<IResponse & {data
                 source: faker.location.city(),
                 category: faker.helpers.enumValue(GoodCategory),
                 price: faker.number.int({min: 100, max: 1000}),
+                count: faker.number.int({min: 10, max: 100}),
                 createdAt: faker.date.anytime().toLocaleString(),
             }
         })
