@@ -139,7 +139,7 @@ export const MerchantDataTable = () => {
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
-        pageSize: 8,
+        pageSize: 9,
     });
 
     const { isLoading, data } = useQuery({

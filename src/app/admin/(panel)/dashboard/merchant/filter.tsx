@@ -13,18 +13,22 @@ export const Filter = () => {
                 placeholder="Search"
                 className="max-w-[200px]"
                 endContent={
-                    <SearchIcon
-                        className="w-[16px] h-[16px]"
-                    />
+                    <Button
+                        variant="ghost"
+                        size={"icon"}
+                    >
+                        <SearchIcon
+                            className="w-[16px] h-[16px]"
+                        />
+                    </Button>
                 }
             />
-            <Button
-                variant="link"
-                className="flex ml-auto"
+            <div
+                className="flex items-center text-[#94A3B8] cursor-pointer"
                 onClick={reset}
             >
-                Reset
-            </Button>
+                reset
+            </div>
         </div>
     )
 }

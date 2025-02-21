@@ -10,6 +10,7 @@ import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
+import { GoodStatusChip } from "./_status";
 export const GoodDataTable = () => {
 
     const columns = useMemo<ColumnDef<Good>[]>(() => [
@@ -35,7 +36,7 @@ export const GoodDataTable = () => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-col text-[14px] leading-[20px]">
-                            <span className="text-tp">{row.original.category}</span>
+                            <GoodStatusChip category={row.original.category as GoodCategory} />
                         </div>
                     </div>
                 )
@@ -64,6 +65,20 @@ export const GoodDataTable = () => {
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-col text-[14px] leading-[20px]">
                             <span className="text-tp">¥ {row.original.price}</span>
+                        </div>
+                    </div>
+                )
+            }
+        },
+        {
+            id: "count",
+            header: "count",
+            size: 200,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
+                        <div className="flex flex-col text-[14px] leading-[20px]">
+                            <span className="text-tp">{row.original.count}</span>
                         </div>
                     </div>
                 )
@@ -116,7 +131,7 @@ export const GoodDataTable = () => {
 
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
-        pageSize: 8,
+        pageSize: 9,
     });
 
     const getGoodList = async () => {
