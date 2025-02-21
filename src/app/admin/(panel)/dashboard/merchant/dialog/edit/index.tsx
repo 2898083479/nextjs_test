@@ -1,13 +1,13 @@
 import { useEditStore } from "../../store"
 import { EditStep } from "../../store"
-import { Admin } from "../../types"
+import { Merchant } from "../../types"
 import EditDialog from "./edit-dialog"
 import SuccessDialog from "./success-dialog"
 
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
-    data: Admin
+    data: Merchant
 }
 
 export const IndexDialog2 = ({ open, onOpenChange, data }: Props) => {

@@ -11,8 +11,10 @@ import { DataTable } from "@/components/core/data-table";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
 import { GoodStatusChip } from "./_status";
+import { useDelStore, DelStore } from "./store";
+import { useDisclosure } from "@/components/hooks/use-disclosure";
+import DeleteIndexDialog from "./dialog/delete";
 export const GoodDataTable = () => {
-
     const columns = useMemo<ColumnDef<Good>[]>(() => [
         {
             id: "name",
@@ -103,6 +105,8 @@ export const GoodDataTable = () => {
             header: "action",
             size: 200,
             cell: ({ row }) => {
+                const { isOpen, onOpen, onOpenChange } = useDisclosure();
+                const { setStep } = useDelStore()
                 return (
                     <div className="flex items-center gap-1">
                         <Button
@@ -120,9 +124,24 @@ export const GoodDataTable = () => {
                         <Button
                             variant="ghost"
                             size={"icon"}
+                            onClick={onOpen}
                         >
                             <TrashIcon />
                         </Button>
+                        {
+                            isOpen && (
+                                <DeleteIndexDialog
+                                    open={isOpen}
+                                    onOpenChange={(e) => {
+                                        if (!e) {
+                                            setStep(DelStore.preDelete)
+                                        }
+                                        onOpenChange(e)
+                                    }}
+                                    data={row.original}
+                                />
+                            )
+                        }
                     </div>
                 )
             }
@@ -153,7 +172,7 @@ export const GoodDataTable = () => {
 
     const { table } = useDataTable({
         columns,
-        data: data as Good[],
+        data: data as unknown as Good[],
         pagination,
         setPagination,
     })

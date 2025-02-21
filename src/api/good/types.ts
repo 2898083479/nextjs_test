@@ -11,5 +11,7 @@ export interface GoodResponse {
     category: string;
     price: number;
     count: number;
+    policy: string[];
     createdAt: string;
+    updatedAt: string;
 }

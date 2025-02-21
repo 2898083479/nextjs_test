@@ -18,6 +18,8 @@ export const queryGoodList = async (body: searchBody): Promise<IResponse & {data
                 price: faker.number.int({min: 100, max: 1000}),
                 count: faker.number.int({min: 10, max: 100}),
                 createdAt: faker.date.anytime().toLocaleString(),
+                updatedAt: faker.date.anytime().toLocaleString(),
+                policy: Array.from({length: faker.number.int({min: 1, max: 3})}, () => faker.lorem.word())
             }
         })
     }
