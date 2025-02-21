@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Admin } from "../../merchant/types"
+import { Merchant } from "../../merchant/types"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -11,16 +11,14 @@ import {
 import { Eye } from "lucide-react"
 import { cn } from "@/lib/utils"
 interface Props {
-    admin: Admin
+    merchant: Merchant
     className?: string
 }
 
-export const DashboardCardStore = ({ admin, className }: Props) => {
+export const DashboardCardStore = ({ merchant, className }: Props) => {
     return (
         <Card className={cn(className)}>
             <CardHeader>
-                {/* <div>{admin.name}</div>
-                <div>{admin.email}</div> */}
                 <div className="flex items-center justify-between">
                     <span>
                         <div>百年沉香店铺</div>
@@ -28,9 +26,9 @@ export const DashboardCardStore = ({ admin, className }: Props) => {
                             chenxiang@example.com
                         </div>
                     </span>
-                    <span>
+                    <Button variant="ghost">
                         <Eye />
-                    </span>
+                    </Button>
                 </div>
             </CardHeader>
         </Card>

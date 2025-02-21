@@ -8,7 +8,7 @@ import { Filter } from "./filter";
 import { Store } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Edit2Icon, ClipboardList } from "lucide-react";
+import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { StoreStatusChip } from "./_status";
 import { StoreStatus } from "./types";
@@ -129,7 +129,7 @@ export const StoreDataTable = () => {
                 return (
                     <div
                         className="
-                            flex items-center justify-center px-[20px] py-[16px] gap-[12px]
+                            flex items-center justify-center px-[20px] py-[16px] gap-1
                             text-[14px] leading-[20px] text-primary cursor-pointer
                     ">
                         <Button
@@ -158,6 +158,12 @@ export const StoreDataTable = () => {
                             variant="link"
                         >
                             <ClipboardList />
+                        </Button>
+                        <Button
+                            size={"icon"}
+                            variant='link'
+                        >
+                            <TrashIcon />
                         </Button>
                     </div>
                 )

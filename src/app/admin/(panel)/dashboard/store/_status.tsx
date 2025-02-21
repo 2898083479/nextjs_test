@@ -11,7 +11,7 @@ export const StoreStatusChip = ({ status }: { status: StoreStatus }) => {
     return (
         <div
             className={classNames(
-                'flex w-[90px] p-[6px_24px] items-center justify-center rounded-md',
+                'flex w-[90px] p-[6px_24px] items-center justify-center rounded-md text-white opacity-90',
                 colors[status]
             )}
         >

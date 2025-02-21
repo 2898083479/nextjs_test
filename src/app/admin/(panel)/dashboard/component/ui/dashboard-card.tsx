@@ -10,13 +10,14 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { ChevronRight } from "lucide-react"
-import { Admin } from "../../merchant/types"
+import { Merchant } from "../../merchant/types"
 import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
 interface Props {
-    admin: Admin
+    merchant: Merchant
 }
 
-export const DashboardCard = ({ admin }: Props) => {
+export const DashboardCard = ({ merchant }: Props) => {
     const router = useRouter()
     return (
         <>
@@ -30,15 +31,20 @@ export const DashboardCard = ({ admin }: Props) => {
                                 router.push("/admin/dashboard/store")
                             }}
                         >
-                            查看更多
-                            <ChevronRight className="w-5 h-5" />
+                            <Button
+                                variant="link"
+                                size={"icon"}
+                            >
+                                查看更多
+                                <ChevronRight className="w-5 h-5" />
+                            </Button>
                         </span>
                     </CardTitle>
                     <CardDescription>审核符合条件的店铺注册申请</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-row gap-4 items-center justify-center">
                     {Array.from({ length: 3 }).map((_, index) => (
-                        <DashboardCardStore key={index} admin={admin} className="w-1/3" />
+                        <DashboardCardStore key={index} merchant={merchant} className="w-1/3" />
                     ))}
                 </CardContent>
             </Card>
@@ -53,8 +59,13 @@ export const DashboardCard = ({ admin }: Props) => {
                                 router.push("/admin/dashboard/good")
                             }}
                         >
-                            查看更多
-                            <ChevronRight className="w-5 h-5" />
+                            <Button
+                                variant="link"
+                                size={"icon"}
+                            >
+                                查看更多
+                                <ChevronRight className="w-5 h-5" />
+                            </Button>
                         </span>
                     </CardTitle>
                     <CardDescription>审核符合条件的商品</CardDescription>

@@ -4,6 +4,7 @@ import {
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { Eye } from "lucide-react"
+import { Button } from "@/components/ui/button"
 interface Props {
     className?: string
 }
@@ -19,9 +20,9 @@ export const DashboardCardGood = ({ className }: Props) => {
                             使用优质沉香原料，精雕细琢，打造高品质沉香产品
                         </div>
                     </span>
-                    <span>
+                    <Button variant="ghost">
                         <Eye />
-                    </span>
+                    </Button>
                 </div>
             </CardHeader>
         </Card>

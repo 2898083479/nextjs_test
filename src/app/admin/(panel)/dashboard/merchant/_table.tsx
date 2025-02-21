@@ -11,7 +11,7 @@ import { Filter } from "./filter";
 import { Merchant } from "./types";
 import { format } from "date-fns";
 import { MerchantStatus } from "./types";
-import { Edit2Icon } from "lucide-react";
+import { Edit2Icon, TrashIcon, ClipboardList } from "lucide-react";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { IndexDialog } from "./dialog/review/index-dialog";
 import { IndexDialog2 } from "./dialog/edit/index";
@@ -97,7 +97,7 @@ export const MerchantDataTable = () => {
                     )
                 }
                 return (
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="flex items-center justify-center gap-1">
                         <Button
                             size={"icon"}
                             onClick={onOpen}
@@ -121,9 +121,15 @@ export const MerchantDataTable = () => {
                         }
                         <Button
                             size={"icon"}
+                            variant="link"
+                        >
+                            <ClipboardList />
+                        </Button>
+                        <Button
+                            size={"icon"}
                             variant='link'
                         >
-                            Details
+                            <TrashIcon />
                         </Button>
                     </div>
                 )
