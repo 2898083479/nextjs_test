@@ -11,8 +11,6 @@ import { DataTable } from "@/components/core/data-table";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
 import { GoodStatusChip } from "./_status";
-import { useDelStore, DelStore } from "./store";
-import { useDisclosure } from "@/components/hooks/use-disclosure";
 import CheckDialog from "./dialog/check";
 import { EditDialog } from "./dialog/edit/edit-dialog";
 import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";

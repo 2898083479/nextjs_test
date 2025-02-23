@@ -6,12 +6,13 @@ export interface searchBody {
 }
 
 export interface GoodResponse {
+    id: string;
     name: string;
     source: string;
     category: string;
     price: number;
     count: number;
-    policy: string[];
+    policys: string[];
     createdAt: string;
     updatedAt: string;
 }

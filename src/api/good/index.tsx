@@ -12,6 +12,7 @@ export const queryGoodList = async (body: searchBody): Promise<IResponse & {data
         message: "success",
         data: Array.from({length: faker.number.int({min: 10, max: 20})}, () => {
             return {
+                id: faker.string.uuid(),
                 name: faker.commerce.productName(),
                 source: faker.location.city(),
                 category: faker.helpers.enumValue(GoodCategory),
@@ -19,7 +20,7 @@ export const queryGoodList = async (body: searchBody): Promise<IResponse & {data
                 count: faker.number.int({min: 10, max: 100}),
                 createdAt: faker.date.anytime().toLocaleString(),
                 updatedAt: faker.date.anytime().toLocaleString(),
-                policy: Array.from({length: faker.number.int({min: 1, max: 3})}, () => faker.lorem.word())
+                policys: Array.from({length: faker.number.int({min: 1, max: 3})}, () => faker.lorem.word())
             }
         })
     }
