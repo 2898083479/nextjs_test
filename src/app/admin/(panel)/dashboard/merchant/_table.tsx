@@ -19,7 +19,7 @@ import { EditStep } from "./store";
 import { MerchantStatusChip } from "./_status";
 import { AddMerchantDialog } from "./dialog/add-dialog";
 import { getMerchantInfo } from "@/api/merchant";
-
+import { CheckDialog } from "./dialog/check/check-dialog";
 export const MerchantDataTable = () => {
     const [open, setOpen] = useState(false);
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
@@ -122,9 +122,19 @@ export const MerchantDataTable = () => {
                         <Button
                             size={"icon"}
                             variant="link"
+                            onClick={onOpen}
                         >
                             <ClipboardList />
                         </Button>
+                        {/* {
+                            isOpen && (
+                                <CheckDialog
+                                    open={isOpen}
+                                    onOpenChange={onOpenChange}
+                                    data={row.original}
+                                />
+                            )
+                        } */}
                         <Button
                             size={"icon"}
                             variant='link'

@@ -2,6 +2,7 @@ export interface MerchantInfo {
     id: string;
     email: string;
     name: string;
+    store: string;
     status: string;
     createdAt: string;
 }

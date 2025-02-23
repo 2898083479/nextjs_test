@@ -1,11 +1,12 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { Good, GoodCategory } from "@/app/admin/(panel)/dashboard/good/types";
 import { z } from "zod";
-import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { useForm } from "react-hook-form";
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -38,15 +39,20 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         console.log(data)
+        onOpenChange(false)
     }
 
     return (
         <WrapperDialog
             open={open}
             onOpenChange={onOpenChange}
+            className='w-[400px]'
         >
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col gap-2"
+                >
                     <FormField
                         control={form.control}
                         name="name"
@@ -66,7 +72,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                     <FormField
                         control={form.control}
                         name="source"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormLabel>source</FormLabel>
                                 <FormControl>
@@ -82,7 +88,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                     <FormField
                         control={form.control}
                         name="category"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormLabel>category</FormLabel>
                                 <FormControl>
@@ -106,7 +112,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                     <FormField
                         control={form.control}
                         name="price"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormLabel>price</FormLabel>
                                 <FormControl>
@@ -122,7 +128,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                     <FormField
                         control={form.control}
                         name="count"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormLabel>count</FormLabel>
                                 <FormControl>
@@ -138,15 +144,33 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                     <FormField
                         control={form.control}
                         name="policys"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
-                                <FormLabel>policys</FormLabel>
                                 <FormControl>
-                                    
+                                    <Button
+                                        className="w-full bg-[#07CFDA] text-white hover:bg-[#07CFDA]/80"
+                                    >
+                                        Check Policy
+                                    </Button>
                                 </FormControl>
                             </FormItem>
                         )}
                     />
+                    <div className="flex items-center justify-end gap-2">
+                        <Button
+                            onClick={() => onOpenChange(false)}
+                            className="bg-destructive text-white hover:bg-destructive/80"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="submit"
+                            disabled={!form.formState.isDirty}
+                            className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
+                        >
+                            {form.formState.isSubmitting ? "Saving..." : "Save"}
+                        </Button>
+                    </div>
                 </form>
             </Form>
         </WrapperDialog>

@@ -2,7 +2,6 @@ import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader } from "lucide-react";
-import { useDelStore, DelStore } from "../../store";
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -11,12 +10,11 @@ interface Props {
 
 export const PreDeleteDialog = ({ open, onOpenChange, id }: Props) => {
     const [isPending, setIsPending] = useState(false)
-    const { setStep } = useDelStore()
     const delGood = async (id: string) => {
         setIsPending(true)
         await new Promise((resolve) => setTimeout(resolve, 2000))
         setIsPending(false)
-        setStep(DelStore.success)
+        onOpenChange(false)
     }
 
     return (
