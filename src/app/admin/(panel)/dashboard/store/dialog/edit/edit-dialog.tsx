@@ -58,7 +58,10 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
             className="w-[400px]"
         >
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                    className="flex flex-col gap-2"
+                    onSubmit={form.handleSubmit(onSubmit)}
+                >
                     <FormField
                         control={form.control}
                         name="name"
@@ -69,6 +72,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                     <Input
                                         {...field}
                                         placeholder="請輸入名稱"
+                                        className="w-[350px]"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -85,6 +89,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                     <Input
                                         {...field}
                                         placeholder="請輸入郵箱"
+                                        className="w-[350px]"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -99,7 +104,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                 <FormLabel>狀態</FormLabel>
                                 <Select>
                                     <FormControl>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="w-[350px]">
                                             <SelectValue />
                                         </SelectTrigger>
                                     </FormControl>
@@ -129,7 +134,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                                 <Button
                                                     variant={"outline"}
                                                     className={cn(
-                                                        "w-[390px] pl-3 text-left font-normal",
+                                                        "w-[350px] pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
                                                     )}
                                                 >
@@ -148,6 +153,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                                 selected={field.value === undefined ? undefined : new Date(field.value)}
                                                 onSelect={field.onChange}
                                                 initialFocus
+                                                className="w-[350px]"
                                             />
                                         </PopoverContent>
                                     </Popover>
@@ -166,7 +172,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                         <Button
                             type="submit"
                             disabled={form.formState.isDirty}
-                            className="bg-[#07CFD9] hover:bg-[#07CFD9]/80 text-white"
+                            className="bg-[#0C7FD9] hover:bg-[#0C7FD9]/80 text-white"
                         >
                             {form.formState.isSubmitting ? "提交中..." : "提交"}
                         </Button>

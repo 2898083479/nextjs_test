@@ -13,7 +13,9 @@ import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
 import { GoodStatusChip } from "./_status";
 import { useDelStore, DelStore } from "./store";
 import { useDisclosure } from "@/components/hooks/use-disclosure";
-import DeleteIndexDialog from "./dialog/delete";
+import CheckDialog from "./dialog/check";
+import { EditDialog } from "./dialog/edit/edit-dialog";
+import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";
 export const GoodDataTable = () => {
     const columns = useMemo<ColumnDef<Good>[]>(() => [
         {
@@ -105,40 +107,56 @@ export const GoodDataTable = () => {
             header: "action",
             size: 200,
             cell: ({ row }) => {
-                const { isOpen, onOpen, onOpenChange } = useDisclosure();
-                const { setStep } = useDelStore()
+                const [isEditDialogOpen, setEditDialogOpen] = useState(false);
+                const [isCheckDialogOpen, setCheckDialogOpen] = useState(false);
+                const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
                 return (
                     <div className="flex items-center gap-1">
                         <Button
                             variant="ghost"
                             size={"icon"}
+                            onClick={() => setEditDialogOpen(true)}
                         >
                             <Edit2Icon />
                         </Button>
+                        {
+                            isEditDialogOpen && (
+                                <EditDialog
+                                    open={isEditDialogOpen}
+                                    onOpenChange={setEditDialogOpen}
+                                    good={row.original}
+                                />
+                            )
+                        }
                         <Button
                             variant="ghost"
                             size={"icon"}
+                            onClick={() => setCheckDialogOpen(true)}
                         >
                             <ClipboardList />
                         </Button>
+                        {
+                            isCheckDialogOpen && (
+                                <CheckDialog
+                                    open={isCheckDialogOpen}
+                                    onOpenChange={setCheckDialogOpen}
+                                    data={row.original}
+                                />
+                            )
+                        }
                         <Button
                             variant="ghost"
                             size={"icon"}
-                            onClick={onOpen}
+                            onClick={() => setDeleteDialogOpen(true)}
                         >
                             <TrashIcon />
                         </Button>
                         {
-                            isOpen && (
-                                <DeleteIndexDialog
-                                    open={isOpen}
-                                    onOpenChange={(e) => {
-                                        if (!e) {
-                                            setStep(DelStore.preDelete)
-                                        }
-                                        onOpenChange(e)
-                                    }}
-                                    data={row.original}
+                            isDeleteDialogOpen && (
+                                <PreDeleteDialog
+                                    open={isDeleteDialogOpen}
+                                    onOpenChange={setDeleteDialogOpen}
+                                    id={row.original.id}
                                 />
                             )
                         }

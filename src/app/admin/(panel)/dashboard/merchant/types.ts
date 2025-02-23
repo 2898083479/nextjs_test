@@ -9,6 +9,7 @@ export interface Merchant {
     id: string;
     name: string;
     email: string;
+    store: string;
     status: MerchantStatus;
     createdAt: string;
 }

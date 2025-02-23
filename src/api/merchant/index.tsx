@@ -21,6 +21,7 @@ export const getMerchantInfo = async (body: SearchBody): Promise<IResponse & {da
                 id: faker.string.uuid(),
                 email: faker.internet.email(),
                 name: faker.person.fullName(),
+                store: faker.company.name(),
                 status: faker.helpers.enumValue(MerchantStatus),
                 createdAt: faker.date.recent().toISOString(),
             }
