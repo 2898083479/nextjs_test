@@ -20,6 +20,7 @@ import { MerchantStatusChip } from "./_status";
 import { AddMerchantDialog } from "./dialog/add-dialog";
 import { getMerchantInfo } from "@/api/merchant";
 import { CheckDialog } from "./dialog/check/check-dialog";
+import { MerchantDeleteDialog } from "./dialog/delete-dialog";
 export const MerchantDataTable = () => {
     const [open, setOpen] = useState(false);
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
@@ -68,6 +69,8 @@ export const MerchantDataTable = () => {
                 const { isOpen, onOpen, onOpenChange } = useDisclosure();
                 const { setStep } = useStore();
                 const { setStep: setEditStep } = useEditStore();
+                const [idDelete, setIdDelete] = useState(false)
+                const [idCheck, setIdCheck] = useState(false)
                 if (row.original.status === MerchantStatus.Inactive) {
                     return (
                         <div
@@ -122,25 +125,35 @@ export const MerchantDataTable = () => {
                         <Button
                             size={"icon"}
                             variant="link"
-                            onClick={onOpen}
+                            onClick={() => setIdCheck(true)}
                         >
                             <ClipboardList />
                         </Button>
-                        {/* {
-                            isOpen && (
+                        {
+                            idCheck && (
                                 <CheckDialog
-                                    open={isOpen}
-                                    onOpenChange={onOpenChange}
+                                    open={idCheck}
+                                    onOpenChange={setIdCheck}
                                     data={row.original}
                                 />
                             )
-                        } */}
+                        }
                         <Button
                             size={"icon"}
                             variant='link'
+                            onClick={() => setIdDelete(true)}
                         >
                             <TrashIcon />
                         </Button>
+                        {
+                            idDelete && (
+                                <MerchantDeleteDialog
+                                    open={idDelete}
+                                    onOpenChange={setIdDelete}
+                                    id={row.original.id}
+                                />
+                            )
+                        }
                     </div>
                 )
             }

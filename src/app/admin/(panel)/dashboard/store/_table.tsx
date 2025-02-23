@@ -19,6 +19,7 @@ import { useEditStore } from "./store";
 import { IndexDialog } from "./dialog/review";
 import EditIndexDialog from "./dialog/edit";
 import { getStoreInfoList } from "@/api/store";
+import { StoreDeleteDialog } from "./dialog/delete-dialog";
 import { EditStep } from "./store";
 export const StoreDataTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
@@ -95,6 +96,7 @@ export const StoreDataTable = () => {
             size: 100,
             cell: ({ row }) => {
                 const { isOpen, onOpen, onOpenChange } = useDisclosure();
+                const [idDelete, setIdDelete] = useState(false)
                 const { setStep } = useReviewStore();
                 const { setStep: setEditStep } = useEditStore();
                 if (row.original.status === StoreStatus.Pending) {
@@ -162,9 +164,19 @@ export const StoreDataTable = () => {
                         <Button
                             size={"icon"}
                             variant='link'
+                            onClick={() => setIdDelete(true)}
                         >
                             <TrashIcon />
                         </Button>
+                        {
+                            idDelete && (
+                                <StoreDeleteDialog
+                                    open={idDelete}
+                                    onOpenChange={setIdDelete}
+                                    id={row.original.id}
+                                />
+                            )
+                        }
                     </div>
                 )
             }
