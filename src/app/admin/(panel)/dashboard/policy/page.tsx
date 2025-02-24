@@ -1,6 +1,10 @@
+import Client from "./client";
+
 export const PolicyPage = () => {
     return (
-        <div>PolicyPage</div>
+        <div>
+            <Client />
+        </div>
     )
 }
 

@@ -24,7 +24,7 @@ export const Filter = () => {
                 }
             />
             <div
-                className="flex items-center text-[#94A3B8] cursor-pointer"
+                className="flex items-center text-[#94A3B8] cursor-pointer mr-2"
                 onClick={reset}
             >
                 reset

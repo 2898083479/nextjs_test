@@ -2,7 +2,14 @@
 
 import { Menu} from "@/components/menu";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 const Layout = ({ children }: { children: React.ReactNode }) => {
+    const router = useRouter();
+
+    const signOut = () => {
+        router.push("/admin/signin");
+        localStorage.removeItem("token");
+    }
 
     const menu = <Menu
         items={[
@@ -31,6 +38,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 href: ["/admin/dashboard/policy"],
                 icon: ""
             },
+            {
+                name: "Setting",
+                href: ["/admin/dashboard/setting"],
+                icon: ""
+            },
         ]}
     />
     return (
@@ -44,6 +56,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Button
                         size={"icon"}
                         variant='ghost'
+                        onClick={() => {
+                            signOut();
+                        }}
                     >
                         logout
                     </Button>

@@ -6,6 +6,7 @@ export enum StoreStatus {
 
 export interface Store {
     id: string;
+    ownerId: string;
     name: string;
     email: string;
     merchantCount: number;

@@ -1,10 +1,14 @@
 import { Input } from "@/components/ui/input";
 import { useGoodFilter } from "./filter.hook";
-import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { 
+    Form, 
+    FormControl, 
+    FormField, 
+    FormItem 
+} from "@/components/ui/form";
 import { GoodCategory } from "./types";
 import {
     Select,
@@ -48,36 +52,7 @@ export const Filter = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <div className="flex flex-row gap-4">
-                    <FormField
-                        control={form.control}
-                        name="searchValue"
-                        render={({ field }) => (
-                            <FormItem className="w-[300px]">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        value={searchValue}
-                                        placeholder="Search"
-                                        onChange={(e) => {
-                                            setSearchValue(e.target.value);
-                                        }}
-                                        endContent={
-                                            <Button
-                                                variant="ghost"
-                                                type="submit"
-                                                size="icon"
-                                            >
-                                                <SearchIcon
-                                                    className="text-[#94A3B8] size-4"
-                                                />
-                                            </Button>
-                                        }
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
+                <FormField
                         control={form.control}
                         name="category"
                         render={({ field }) => (
@@ -100,6 +75,35 @@ export const Filter = () => {
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="searchValue"
+                        render={({ field }) => (
+                            <FormItem className="w-[300px]">
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        value={searchValue}
+                                        placeholder="Search"
+                                        onChange={(e) => {
+                                            setSearchValue(e.target.value);
+                                        }}
+                                        endContent={
+                                            <div className="flex items-center justify-center cursor-pointer">
+                                                <SearchIcon
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        form.handleSubmit(onSubmit)();
+                                                    }}
+                                                    className="text-[#94A3B8] size-4"
+                                                />
+                                            </div>
+                                        }
+                                    />
                                 </FormControl>
                             </FormItem>
                         )}
