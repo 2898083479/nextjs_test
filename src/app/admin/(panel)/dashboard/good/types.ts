@@ -6,6 +6,7 @@ export interface Good {
     price: number;
     count: number;
     policys: string[];
+    storeId: string;
     createdAt: string;
     updatedAt: string;
 }
