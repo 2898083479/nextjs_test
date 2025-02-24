@@ -2,7 +2,7 @@ import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ReviewStep, useReviewStore } from "../../store"
@@ -14,7 +14,7 @@ interface Props {
 export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
     const { setStep } = useReviewStore()
     const formSchema = z.object({
-        reason: z.string().min(1, { message: "请输入拒绝理由" }),
+        reason: z.string().optional(),
     })
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

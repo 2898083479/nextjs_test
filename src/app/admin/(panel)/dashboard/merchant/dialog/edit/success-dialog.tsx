@@ -21,6 +21,7 @@ export default function SuccessDialog({ open, onOpenChange }: Props) {
             onClick={() => {
               onOpenChange(false)
             }}
+            className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
           >
             确定
           </Button>

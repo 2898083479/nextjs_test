@@ -3,7 +3,14 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { 
+    Form, 
+    FormField, 
+    FormItem, 
+    FormLabel, 
+    FormControl, 
+    FormMessage 
+} from "@/components/ui/form";
 import { StoreStatus, type Store } from "../../types";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
@@ -11,8 +18,14 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { CalendarIcon, Loader } from "lucide-react";
+import { 
+    Select, 
+    SelectTrigger, 
+    SelectValue, 
+    SelectContent, 
+    SelectItem 
+} from "@/components/ui/select";
 
 interface EditDialogProps {
     open: boolean;
@@ -132,7 +145,6 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                         <PopoverTrigger asChild>
                                             <FormControl>
                                                 <Button
-                                                    variant={"outline"}
                                                     className={cn(
                                                         "w-[350px] pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
@@ -174,7 +186,8 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                             disabled={form.formState.isDirty}
                             className="bg-[#0C7FD9] hover:bg-[#0C7FD9]/80 text-white"
                         >
-                            {form.formState.isSubmitting ? "提交中..." : "提交"}
+                            {form.formState.isSubmitting ? <span className="flex items-center gap-2">
+                                <Loader className="animate-spin" /> 提交中...</span> : "提交"}
                         </Button>
                     </div>
                 </form>

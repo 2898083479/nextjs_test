@@ -1,6 +1,13 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { 
+    Form, 
+    FormControl, 
+    FormField, 
+    FormItem, 
+    FormLabel, 
+    FormMessage 
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -16,8 +23,7 @@ interface Props {
 export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
     const { setStep } = useStore()
     const formSchema = z.object({
-        reason: z.string()
-            .min(1, { message: "请输入拒绝原因" })
+        reason: z.string().optional()
     })
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -57,13 +63,13 @@ export const RejectReasonDialog = ({ open, onOpenChange }: Props) => {
                     <div className="flex justify-end mt-4 ml-auto gap-2">
                         <Button
                             type="button"
-                            variant="link"
                             onClick={() => setStep(ReviewStep.Default)}
+                            className="bg-destructive text-white hover:bg-destructive/80"
                         >
                             返回
                         </Button>
                         <Button
-                            className="bg-[#F31260] hover:bg-[#F31260]/80 text-white"
+                            className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
                             type="submit"
                             disabled={form.formState.isSubmitting}
                         >

@@ -4,7 +4,15 @@ import { MerchantCountSelect } from "@/components/core/select-filter/merchant-co
 import { GoodCountSelect } from "@/components/core/select-filter/good-count"
 
 export const Filter = () => {
-    const { searchValue, setSearchValue, reset, merchantCount, setMerchantCount, goodCount, setGoodCount } = useTableFilter();
+    const {
+        searchValue,
+        setSearchValue,
+        reset,
+        merchantCount,
+        setMerchantCount,
+        goodCount,
+        setGoodCount
+    } = useTableFilter();
     return (
         <div className="flex flex-row gap-2">
             <Input

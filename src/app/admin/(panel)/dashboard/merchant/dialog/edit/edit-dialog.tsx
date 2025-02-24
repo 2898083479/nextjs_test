@@ -3,7 +3,14 @@ import { Merchant } from "../../types"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { MerchantStatus } from "../../types"
 import { CalendarIcon } from "lucide-react"
@@ -83,6 +90,7 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     await new Promise(resolve => setTimeout(resolve, 1000))
+    console.log(data)
     setStep(EditStep.Success)
   }
 
@@ -195,10 +203,16 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
               )}
             />
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => onOpenChange(false)}>取消</Button>
+              <Button
+                onClick={() => onOpenChange(false)}
+                className="bg-destructive text-white hover:bg-destructive/80"
+              >
+                取消
+              </Button>
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting || !form.formState.isDirty}
+                className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
               >
                 {form.formState.isSubmitting ? "提交中..." : "提交"}
               </Button>
