@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
+import { Loader } from "lucide-react";
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -148,6 +149,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                             <FormItem>
                                 <FormControl>
                                     <Button
+                                        type="button"
                                         className="w-full bg-[#07CFDA] text-white hover:bg-[#07CFDA]/80"
                                     >
                                         Check Policy
@@ -165,10 +167,11 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                         </Button>
                         <Button
                             type="submit"
-                            disabled={!form.formState.isDirty}
+                            disabled={!form.formState.isDirty || form.formState.isSubmitting}
                             className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         >
-                            {form.formState.isSubmitting ? "Saving..." : "Save"}
+                            {form.formState.isSubmitting ? <span className="flex items-center gap-2">
+                                <Loader className="animate-spin" /> Saving...</span> : "Save"}
                         </Button>
                     </div>
                 </form>

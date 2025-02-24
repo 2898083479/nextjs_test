@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input"
 import { useTableFilter } from "./filter.hook"
-import { Button } from "@/components/ui/button"
 import { MerchantCountSelect } from "@/components/core/select-filter/merchant-count"
 import { GoodCountSelect } from "@/components/core/select-filter/good-count"
 
@@ -16,21 +15,25 @@ export const Filter = () => {
             />
             <MerchantCountSelect
                 value={merchantCount}
-                onChange={(value) => setMerchantCount(value)}
+                onChange={(value) => {
+                    setMerchantCount(value)
+                }}
                 className="max-w-[200px] h-[37px] text-[#94A3B8]"
             />
             <GoodCountSelect
                 value={goodCount}
-                onChange={(value) => setGoodCount(value)}
+                onChange={(value) => {
+                    setGoodCount(value)
+                }}
                 className="max-w-[200px] h-[37px] text-[#94A3B8]"
+                placeholder="Good Count"
             />
-            <Button
-                variant="link"
-                className="flex ml-auto"
+            <div
                 onClick={reset}
+                className="flex items-center justify-center text-[#94A3B8] cursor-pointer"
             >
-                Reset
-            </Button>
+                reset
+            </div>
         </div>
     )
 }

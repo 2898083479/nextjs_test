@@ -11,6 +11,7 @@ interface Props {
 export const PreDeleteDialog = ({ open, onOpenChange, id }: Props) => {
     const [isPending, setIsPending] = useState(false)
     const delGood = async (id: string) => {
+        console.log(id)
         setIsPending(true)
         await new Promise((resolve) => setTimeout(resolve, 2000))
         setIsPending(false)

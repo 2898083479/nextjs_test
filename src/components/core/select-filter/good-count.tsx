@@ -5,16 +5,22 @@ interface GoodCountSelectProps {
     value: string;
     onChange: (value: string) => void;
     className?: string;
+    placeholder: string;
 }
 
-export const GoodCountSelect = ({ value, onChange, className }: GoodCountSelectProps) => {
+export const GoodCountSelect = ({ value, onChange, className, placeholder }: GoodCountSelectProps) => {
     return (
-        <Select>
+        <Select
+            value={value}
+            onValueChange={(value) => onChange(value)}
+        >
             <SelectTrigger
-                value={value ?? ""}
                 className={cn("max-w-[204px] h-[40px] bg-white", className)}
             >
-                <SelectValue className="text-tp" placeholder="Good Count" />
+                <SelectValue
+                    className="text-tp"
+                    placeholder={placeholder}
+                />
             </SelectTrigger>
             <SelectContent className="text-[#94A3B8]">
                 {

@@ -8,7 +8,7 @@ import { Filter } from "./filter";
 import { Store } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
+import { Edit2Icon, TrashIcon } from "lucide-react";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { StoreStatusChip } from "./_status";
 import { StoreStatus } from "./types";
@@ -155,12 +155,6 @@ export const StoreDataTable = () => {
                                 />
                             )
                         }
-                        <Button
-                            size={"icon"}
-                            variant="link"
-                        >
-                            <ClipboardList />
-                        </Button>
                         <Button
                             size={"icon"}
                             variant='link'
