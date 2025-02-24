@@ -1,6 +1,5 @@
 import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-
 interface MerchantCountSelectProps {
     value: string;
     onChange: (value: string) => void;
@@ -9,12 +8,14 @@ interface MerchantCountSelectProps {
 
 export const MerchantCountSelect = ({ value, onChange, className }: MerchantCountSelectProps) => {
     return (
-        <Select>
+        <Select
+            value={value}
+            onValueChange={(value) => onChange(value)}
+        >
             <SelectTrigger
-                value={value ?? ""}
                 className={cn("max-w-[204px] h-[40px] bg-white", className)}
             >
-                <SelectValue className="text-tp" placeholder="Merchant Count" />
+                <SelectValue className="text-tp" placeholder={"Merchant Count"} />
             </SelectTrigger>
             <SelectContent className="text-[#94A3B8]">
                 {

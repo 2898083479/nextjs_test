@@ -9,12 +9,11 @@ import { GoodCategory } from "./types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { SearchIcon } from "lucide-react";
 export const Filter = () => {
-    const { searchValue, setSearchValue, category, setCategory, source, setSource, reset } = useGoodFilter();
+    const { searchValue, setSearchValue, category, setCategory, reset } = useGoodFilter();
 
     const formSchema = z.object({
         searchValue: z.string().optional(),
         category: z.nativeEnum(GoodCategory).optional(),
-        source: z.string().optional(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -22,11 +21,12 @@ export const Filter = () => {
         defaultValues: {
             searchValue: searchValue,
             category: category as GoodCategory,
-            source: source,
         },
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        values.searchValue = searchValue;
+        values.category = category as GoodCategory;
         console.log(values);
     }
 
@@ -35,20 +35,31 @@ export const Filter = () => {
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
             >
-                <div className="flex flex-row gap-3">
+                <div className="flex flex-row gap-4">
                     <FormField
                         control={form.control}
-                        name="source"
+                        name="searchValue"
                         render={({ field }) => (
-                            <FormItem className="w-[250px]">
+                            <FormItem className="w-[300px]">
                                 <FormControl>
                                     <Input
                                         {...field}
+                                        value={searchValue}
                                         placeholder="Search"
                                         onChange={(e) => {
                                             setSearchValue(e.target.value);
-                                            field.onChange(e);
                                         }}
+                                        endContent={
+                                            <Button
+                                                variant="ghost"
+                                                type="submit"
+                                                size="icon"
+                                            >
+                                                <SearchIcon
+                                                    className="text-[#94A3B8] size-4"
+                                                />
+                                            </Button>
+                                        }
                                     />
                                 </FormControl>
                             </FormItem>
@@ -61,9 +72,8 @@ export const Filter = () => {
                             <FormItem className="w-[250px]">
                                 <FormControl>
                                     <Select
-                                        value={field.value}
+                                        value={category}
                                         onValueChange={(value) => {
-                                            console.log(value);
                                             setCategory(value as GoodCategory);
                                         }}
                                     >
@@ -88,33 +98,6 @@ export const Filter = () => {
                     >
                         reset
                     </div>
-                    <FormField
-                        control={form.control}
-                        name="searchValue"
-                        render={({ field }) => (
-                            <FormItem className="w-[300px] ml-auto">
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        placeholder="Search"
-                                        endContent={
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                            >
-                                                <SearchIcon
-                                                    className="text-[#94A3B8] size-4"
-                                                    onClick={() => {
-                                                        onSubmit(form.getValues());
-                                                    }}
-                                                />
-                                            </Button>
-                                        }
-                                    />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
                 </div>
 
             </form>
