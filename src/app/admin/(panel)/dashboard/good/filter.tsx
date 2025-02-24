@@ -6,10 +6,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { GoodCategory } from "./types";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 import { SearchIcon } from "lucide-react";
 export const Filter = () => {
-    const { searchValue, setSearchValue, category, setCategory, reset } = useGoodFilter();
+    const {
+        searchValue,
+        setSearchValue,
+        category,
+        setCategory,
+        reset
+    } = useGoodFilter();
 
     const formSchema = z.object({
         searchValue: z.string().optional(),

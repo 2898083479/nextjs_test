@@ -18,7 +18,8 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                 <div>
                     <div className="text-[14px] text-[#8E95A9]">名称</div>
                     <div
-                        className="bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2">
+                        className="bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2"
+                    >
                         {data.name}
                     </div>
                 </div>
@@ -48,7 +49,9 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                 </div>
                 <div className="flex flex-col gap-1">
                     <div className="text-[14px] text-[#8E95A9]">政策</div>
-                    <div className="flex flex-row gap-1 bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2">
+                    <div
+                        className="flex flex-row gap-1 bg-[#F8FAFC] h-[46px] items-center rounded-[4px] p-2"
+                    >
                         {
                             data.policys?.map((item) => (
                                 <span

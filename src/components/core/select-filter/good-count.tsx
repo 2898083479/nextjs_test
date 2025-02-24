@@ -1,4 +1,10 @@
-import { Select, SelectValue, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+    Select,
+    SelectValue,
+    SelectTrigger,
+    SelectContent,
+    SelectItem
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 interface GoodCountSelectProps {

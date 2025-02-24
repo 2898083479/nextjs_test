@@ -11,5 +11,13 @@ export const useTableFilter = () => {
         setGoodCount("Good Count");
     };
 
-    return { searchValue, setSearchValue, reset, merchantCount, setMerchantCount, goodCount, setGoodCount };
+    return {
+        searchValue,
+        setSearchValue,
+        reset,
+        merchantCount,
+        setMerchantCount,
+        goodCount,
+        setGoodCount
+    };
 }

@@ -9,6 +9,7 @@ const newData = (): Store => {
         goodCount: faker.number.int({ min: 100, max: 1000 }),
         status: faker.helpers.enumValue(StoreStatus),
         createdAt: faker.date.past().toISOString(),
+        id: faker.string.uuid(),
     }
 }
 
