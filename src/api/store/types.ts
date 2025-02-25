@@ -1,5 +1,6 @@
 export interface StoreInfo {
     id: string;
+    ownerId: string;
     name: string;
     email: string;
     status: string;

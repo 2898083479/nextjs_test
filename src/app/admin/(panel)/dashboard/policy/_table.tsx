@@ -78,7 +78,7 @@ export const PolicyTable = () => {
             id: "action",
             header: "action",
             size: 300,
-            cell: ({ row }) => {
+            cell: () => {
                 return (
                     <div>
                         <Button
