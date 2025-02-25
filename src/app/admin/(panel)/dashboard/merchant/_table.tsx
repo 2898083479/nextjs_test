@@ -189,7 +189,7 @@ export const MerchantDataTable = () => {
         setPagination,
     });
     return (
-        <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
+        <div className="h-full flex flex-col gap-[12px] w-full mx-auto overscroll-none">
             <div className="flex items-center justify-between">
                 <Filter />
                 <Button

@@ -1,8 +1,8 @@
 'use client'
 
 import { usePolicyStore } from "../store"
-import { queryPolicyInfo } from "@/api/policy"
-import { useQuery } from "@tanstack/react-query"
+import { updatePolicyInfo } from "@/api/policy"
+import { Policy } from "@/app/admin/(panel)/dashboard/policy/types"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -15,6 +15,7 @@ import {
     FormMessage,
     FormLabel
 } from "@/components/ui/form"
+import { Loader } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { format } from "date-fns"
@@ -29,19 +30,10 @@ import {
 import { Button } from "@/components/ui/button"
 
 export const InfoPage = () => {
-    const { id } = usePolicyStore()
-
-    const getPolicyInfo = async () => {
-        const response = await queryPolicyInfo(id)
-        return response.data
-    }
-
-    const { data } = useQuery({
-        queryKey: ["policyInfo", id],
-        queryFn: getPolicyInfo,
-    })
+    const { policyInfo, setPolicyInfo } = usePolicyStore()
 
     const formSchema = z.object({
+        id: z.string().optional(),
         name: z.string().optional(),
         description: z.string().optional(),
         date: z.object({
@@ -53,17 +45,19 @@ export const InfoPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: data?.name,
-            description: data?.description,
+            id: policyInfo.id,
+            name: policyInfo.name,
+            description: policyInfo.description,
             date: {
-                from: dayjs(data?.startAt).toDate(),
-                to: dayjs(data?.endAt).toDate()
+                from: dayjs(policyInfo.startAt).toDate(),
+                to: dayjs(policyInfo.endAt).toDate()
             }
         }
     })
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data)
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const response = await updatePolicyInfo(data as unknown as Policy)
+        console.log(response)
     }
 
     return (
@@ -82,7 +76,15 @@ export const InfoPage = () => {
                             >
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        value={policyInfo.name}
+                                        placeholder="Enter policy name"
+                                        onChange={(e) => {
+                                            field.onChange(e)
+                                            setPolicyInfo({ ...policyInfo, name: e.target.value })
+                                        }}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -101,6 +103,11 @@ export const InfoPage = () => {
                                         placeholder="Tell us a little bit about yourself"
                                         className="resize-none"
                                         {...field}
+                                        value={policyInfo.description}
+                                        onChange={(e) => {
+                                            field.onChange(e.target.value)
+                                            setPolicyInfo({ ...policyInfo, description: e.target.value })
+                                        }}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -124,8 +131,8 @@ export const InfoPage = () => {
                                                         !field.value && "text-muted-foreground"
                                                     )}
                                                 >
-                                                    {field.value ? (
-                                                        format(field.value.from, "yyyy/MM/dd") + " - " + format(field.value.to, "yyyy/MM/dd")
+                                                    {policyInfo.startAt && policyInfo.endAt ? (
+                                                        format(policyInfo.startAt as string, "yyyy/MM/dd") + " - " + format(policyInfo.endAt as string, "yyyy/MM/dd")
                                                     ) : (
                                                         <span>Pick a date</span>
                                                     )}
@@ -145,6 +152,11 @@ export const InfoPage = () => {
                                                             to: date?.to
                                                         })
                                                     }
+                                                    setPolicyInfo({
+                                                        ...policyInfo,
+                                                        startAt: date?.from?.toISOString() || "",
+                                                        endAt: date?.to?.toISOString() || ""
+                                                    })
                                                 }}
                                                 initialFocus
                                             />
@@ -154,6 +166,22 @@ export const InfoPage = () => {
                             </FormItem>
                         )}
                     />
+                    <div className="flex justify-end">
+                        <Button
+                            type="submit"
+                            disabled={!form.formState.isDirty || form.formState.isSubmitting}
+                            className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
+                        >
+                            {form.formState.isSubmitting ? (
+                                <span className="flex items-center gap-2">
+                                    <Loader className="animate-spin" />
+                                    Saving...
+                                </span>
+                            ) : (
+                                "Save"
+                            )}
+                        </Button>
+                    </div>
                 </form>
             </Form>
         </div>
