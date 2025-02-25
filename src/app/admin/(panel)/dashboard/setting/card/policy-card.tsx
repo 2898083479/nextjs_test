@@ -14,15 +14,15 @@ import {
 } from "@/components/ui/card"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-
+import { usePolicyStore } from "../store"
 interface Props {
     policy: Policy
 }
 
 export const PolicyCard = ({ policy }: Props) => {
     const [enable, setEnable] = useState(true)
+    const { id, setId } = usePolicyStore()
     const router = useRouter()
-
     const changeStatus = async () => {
         const response = await updateStatus();
         if (response.code !== ResponseStatusCode.success) {
@@ -41,7 +41,10 @@ export const PolicyCard = ({ policy }: Props) => {
                         <div className="ml-auto">
                             <Button
                                 variant="ghost"
-                                onClick={() => router.push("info")}
+                                onClick={() => {
+                                    setId(policy.id)
+                                    router.push("/app/admin/dashboard/setting/info")
+                                }}
                             >
                                 Detail
                             </Button>

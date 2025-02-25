@@ -31,3 +31,21 @@ export const updateStatus = async (): Promise<IResponse> => {
         message: "success",
     }
 }
+
+export const queryPolicyInfo = async (id: string): Promise<IResponse & { data: PolicyResponse }> => {
+    return {
+        category: "00",
+        code: ResponseStatusCode.success,
+        message: "success",
+        data: {
+            id: faker.string.uuid(),
+            name: faker.lorem.word(),
+            status: faker.helpers.arrayElement(Object.values(PolicyStatus)),
+            description: faker.lorem.sentence(),
+            startAt: faker.date.past().toISOString(),
+            endAt: faker.date.future().toISOString(),
+            createdAt: faker.date.past().toISOString(),
+            updatedAt: faker.date.future().toISOString(),
+        }
+    }
+}

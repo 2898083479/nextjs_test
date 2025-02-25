@@ -14,13 +14,8 @@ const SettingLayout = ({ children }: { children: React.ReactNode }) => {
                 icon: ""
             },
             {
-                name: "info",
+                name: "Info",
                 href: ["/admin/dashboard/setting/info"],
-                icon: ""
-            },
-            {
-                name: "description",
-                href: ["/admin/dashboard/setting/description"],
                 icon: ""
             }
         ]}
