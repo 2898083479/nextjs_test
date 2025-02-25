@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Merchant } from "../../merchant/types"
+import { Store } from "../../store/types"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -8,11 +8,11 @@ import {
 import { Eye } from "lucide-react"
 import { cn } from "@/lib/utils"
 interface Props {
-    merchant: Merchant
+    store: Store
     className?: string
 }
 
-export const DashboardCardStore = ({ merchant, className }: Props) => {
+export const DashboardCardStore = ({ store, className }: Props) => {
     return (
         <Card className={cn(className)}>
             <CardHeader>
@@ -23,7 +23,13 @@ export const DashboardCardStore = ({ merchant, className }: Props) => {
                             chenxiang@example.com
                         </div>
                     </span>
-                    <Button variant="ghost">
+                    <Button
+                        variant="ghost"
+                        onClick={() => {
+                            console.log("store")
+                            console.log(store)
+                        }}
+                    >
                         <Eye />
                     </Button>
                 </div>

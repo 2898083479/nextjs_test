@@ -1,6 +1,6 @@
 export enum PolicyStatus {
-    ACTIVE = "ACTIVE",
-    DISABLED = "DISABLED",
+    ACTIVE = "啟用",
+    DISABLED = "未啟用",
 }
 
 export interface Policy {
