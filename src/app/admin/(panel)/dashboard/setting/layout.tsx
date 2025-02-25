@@ -32,7 +32,7 @@ const SettingLayout = ({ children }: { children: React.ReactNode }) => {
             <div>
                 {menu}
             </div>
-            <div className="flex-1 p-8 pt-20 min-h-screen bg-white w-full">
+            <div className="flex-1 bg-white w-full">
                 {children}
             </div>
         </div>

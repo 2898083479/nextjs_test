@@ -17,12 +17,7 @@ import { Button } from "@/components/ui/button"
 import { getStoreInfoList } from "@/api/store"
 import { queryGoodList } from "@/api/good"
 
-interface Props {
-    store: Store
-    good: Good
-}
-
-export const DashboardCard = ({ store, good }: Props) => {
+export const DashboardCard = () => {
     const queryStoreList = async () => {
         const response = await getStoreInfoList({
             id: "1",
@@ -37,7 +32,7 @@ export const DashboardCard = ({ store, good }: Props) => {
 
     const { data: storeList, isLoading: storeLoading } = useQuery({
         queryKey: ["store-list"],
-        queryFn: queryStoreList,
+        queryFn: () => queryStoreList(),
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     })

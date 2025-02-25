@@ -1,7 +1,9 @@
+import { CardPage } from "./card/page"
+
 export const SettingPage = () => {
     return (
         <div>
-            <h1>Setting</h1>
+            <CardPage />
         </div>
     )
 }
