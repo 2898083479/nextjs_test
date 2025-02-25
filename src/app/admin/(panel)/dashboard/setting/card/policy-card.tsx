@@ -21,7 +21,7 @@ interface Props {
 
 export const PolicyCard = ({ policy }: Props) => {
     const [enable, setEnable] = useState(true)
-    const { id, setId } = usePolicyStore()
+    const { policyInfo, setPolicyInfo } = usePolicyStore()
     const router = useRouter()
     const changeStatus = async () => {
         const response = await updateStatus();
@@ -42,8 +42,8 @@ export const PolicyCard = ({ policy }: Props) => {
                             <Button
                                 variant="ghost"
                                 onClick={() => {
-                                    setId(policy.id)
-                                    router.push("/app/admin/dashboard/setting/info")
+                                    setPolicyInfo(policy)
+                                    router.push("setting/info")
                                 }}
                             >
                                 Detail

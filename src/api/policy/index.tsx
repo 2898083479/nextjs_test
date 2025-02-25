@@ -3,7 +3,7 @@ import { PolicyResponse } from "./types";
 import { ResponseStatusCode } from "../types";
 import { PolicyStatus } from "@/app/admin/(panel)/dashboard/policy/types"
 import { faker } from "@faker-js/faker";
-
+import { Policy } from "@/app/admin/(panel)/dashboard/policy/types";
 export const queryPolicyList = async (): Promise<IResponse & { data: PolicyResponse[] }> => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -47,5 +47,14 @@ export const queryPolicyInfo = async (id: string): Promise<IResponse & { data: P
             createdAt: faker.date.past().toISOString(),
             updatedAt: faker.date.future().toISOString(),
         }
+    }
+}
+
+export const updatePolicyInfo = async (data: Policy): Promise<IResponse> => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    return {
+        category: "00",
+        code: ResponseStatusCode.success,
+        message: "success",
     }
 }
