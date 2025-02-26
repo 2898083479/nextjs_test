@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ResponseStatusCode } from "./types";
+import { refreshToken } from "./auth/refreshToken";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 export interface IRequest {
     path: string;
@@ -44,16 +45,37 @@ export const setupAxiosInterceptors = (router: AppRouterInstance) => {
             if (response.data.code === ResponseStatusCode.unauthorized) {
                 if (!isRefreshing) {
                     isRefreshing = true;
+                    const { code, data } = await refreshToken();
                     /**
                      * 獲取最新的access token
                      * 判斷響應結果是否正確：
                      * 1、不正確：返回登錄界面
                      * 2、正確：將最新的access token存儲到localStorage中, 並將queue中的任務取出繼續執行
                      */
+                    if (code !== ResponseStatusCode.success) {
+                        router.push('/admin/signin')
+                        return response;
+                    }
+                    queue.forEach((task) => {
+                        const config = task.config;
+                        config.headers!.Authorization = `Bearer ${data.accessToken}`;
+                        axios(config);
+                    })
+                    queue = []
+                    isRefreshing = false;
                     // 將最新的access token放到Authorization中
+                    localStorage.setItem('accessToken', data.accessToken);
+                    response.config.headers.Authorization = `Bearer ${data.accessToken}`;
                     // 再次發送請求
+                    return axios(response.config);
                 }
                 // 將任務添加到queue中
+                return new Promise((resolve) => {
+                    queue.push({
+                        config: response.config,
+                        resolve: resolve
+                    })
+                })
             }
             return response;
         }, (error) => {
