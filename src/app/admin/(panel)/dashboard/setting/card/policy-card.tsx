@@ -53,14 +53,15 @@ export const PolicyCard = ({ policy }: Props) => {
                 </CardTitle>
             </CardHeader>
             <CardContent
-                className="bg-slate-100"
+                className="bg-slate-100 h-[167.5px] opacity-60 transition-opacity duration-300 hover:opacity-100"
             >
                 {policy.description}
             </CardContent>
-            <CardFooter className="flex justify-end">
+            <CardFooter className="flex justify-end pr-0">
                 <Switch
                     checked={!enable}
                     onCheckedChange={changeStatus}
+                    className="data-[state=checked]:bg-green-500 mt-2"
                 />
             </CardFooter>
         </Card>
