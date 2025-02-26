@@ -11,7 +11,7 @@ export const DashboardPage = ({ merchant }: Props) => {
     return (
         <div className="flex flex-col gap-4">
             <DashboardOverview />
-            <DashboardCard merchant={merchant}/>
+            <DashboardCard />
         </div>
     )
 }

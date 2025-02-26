@@ -21,7 +21,7 @@ interface Props {
 
 export const PolicyCard = ({ policy }: Props) => {
     const [enable, setEnable] = useState(true)
-    const { policyInfo, setPolicyInfo } = usePolicyStore()
+    const { setPolicyInfo } = usePolicyStore()
     const router = useRouter()
     const changeStatus = async () => {
         const response = await updateStatus();
