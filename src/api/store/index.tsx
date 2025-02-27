@@ -24,9 +24,11 @@ export const getStoreInfoList = async (body: Body): Promise<IResponse & { data: 
                 name: faker.company.name(),
                 email: faker.internet.email(),
                 status: faker.helpers.enumValue(StoreStatus),
+                ownerId: faker.string.uuid(),
                 createdAt: faker.date.recent().toISOString(),
                 merchantCount: faker.number.int({min: 0, max: 100}),
                 goodCount: faker.number.int({min: 100, max: 1000}),
+                description: faker.lorem.paragraph(),
             }
         })
     }

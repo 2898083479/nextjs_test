@@ -3,6 +3,7 @@ import { searchBody, GoodResponse } from "./types";
 import { faker } from "@faker-js/faker";
 import { GoodCategory } from "@/app/admin/(panel)/dashboard/good/types";
 import { ResponseStatusCode } from "../types";
+
 export const queryGoodList = async (body: searchBody): Promise<IResponse & {data: GoodResponse[]}> => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 

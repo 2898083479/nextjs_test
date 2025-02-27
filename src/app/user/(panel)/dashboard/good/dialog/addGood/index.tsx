@@ -5,9 +5,10 @@ import { useAddStore, AddStep } from "../store";
 interface Props {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    goodId: string;
 }
 
-const AddGoodDialog = ({ open, onOpenChange }: Props) => {
+const AddGoodDialog = ({ open, onOpenChange, goodId }: Props) => {
     const { step } = useAddStore();
 
     if (step === AddStep.Success) {
@@ -23,6 +24,7 @@ const AddGoodDialog = ({ open, onOpenChange }: Props) => {
         <PreAddDialog
             open={open}
             onOpenChange={onOpenChange}
+            goodId={goodId}
         />
     )
 }

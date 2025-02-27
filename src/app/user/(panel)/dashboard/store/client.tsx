@@ -1,8 +1,10 @@
 'use client'
+import StoreTable from "./_table";
+
 const StoreBuyClient = () => {
     return (
         <div>
-            <h1>Store Buy</h1>
+            <StoreTable />
         </div>
     )
 }
