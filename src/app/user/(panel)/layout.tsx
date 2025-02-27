@@ -28,6 +28,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 name: 'ShoppingCar',
                 href: ['/user/dashboard/shopping-car'],
                 icon: ''
+            },
+            {
+                name: 'Order',
+                href: ['/user/dashboard/order'],
+                icon: ''
+            },
+            {
+                name: 'Setting',
+                href: ['/user/dashboard/setting'],
+                icon: ''
             }
         ]}
     />

@@ -1,9 +1,10 @@
 'use client'
+import GoodTable from "./_table";
 
 export const GoodBuyClient = () => {
     return (
         <div>
-            <h1>GoodBuy</h1>
+            <GoodTable />
         </div>
     )
 }
