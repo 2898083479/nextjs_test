@@ -12,5 +12,6 @@ export interface Store {
     merchantCount: number;
     goodCount: number;
     status: StoreStatus;
+    description: string;
     createdAt: string;
 }

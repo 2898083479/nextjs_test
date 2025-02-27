@@ -63,7 +63,7 @@ const GoodTable = () => {
             id: "action",
             header: "Action",
             size: 300,
-            cell: () => {
+            cell: ({ row }) => {
                 const [addGood, setAddGood] = useState(false);
                 const [buyGood, setBuyGood] = useState(false);
                 return (
@@ -82,6 +82,7 @@ const GoodTable = () => {
                                     <AddGoodDialog
                                         open={addGood}
                                         onOpenChange={setAddGood}
+                                        goodId={row.original.id}
                                     />
                                 )
                             }
