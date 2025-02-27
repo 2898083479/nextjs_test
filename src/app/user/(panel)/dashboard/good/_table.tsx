@@ -10,7 +10,10 @@ import GoodFilter from "./_filter";
 import { ArrowDownUp } from "lucide-react";
 import AddGoodDialog from "@/app/user/(panel)/dashboard/good/dialog/addGood"
 import BuyGoodDialog from "@/app/user/(panel)/dashboard/good/dialog/buyGood"
-
+import { useDisclosure } from "@/components/hooks";
+import { AddStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
+import { useAddStore } from "@/app/user/(panel)/dashboard/good/dialog/store";
+import { useBuyStore, BuyStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
 const GoodTable = () => {
     const [sort, setSort] = useState(false);
     const columns = useMemo<ColumnDef<Good>[]>(() => [
@@ -64,24 +67,32 @@ const GoodTable = () => {
             header: "Action",
             size: 300,
             cell: ({ row }) => {
-                const [addGood, setAddGood] = useState(false);
-                const [buyGood, setBuyGood] = useState(false);
+                const { isOpen: isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure();
+                const { isOpen: isBuyOpen, onOpen: onBuyOpen, onOpenChange: onBuyOpenChange } = useDisclosure();
+                const { setStep } = useAddStore();
+                const { setStep: setBuyStep } = useBuyStore();
                 return (
                     <div className="flex flex-row items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-row items-center gap-[12px]">
                             <div
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    setAddGood(true);
+                                    setStep(AddStep.PreAdd);
+                                    onAddOpen();
                                 }}
                             >
                                 添加
                             </div>
                             {
-                                addGood && (
+                                isAddOpen && (
                                     <AddGoodDialog
-                                        open={addGood}
-                                        onOpenChange={setAddGood}
+                                        open={isAddOpen}
+                                        onOpenChange={(e) => {
+                                            if (!e) {
+                                                setStep(AddStep.PreAdd);
+                                            }
+                                            onAddOpenChange(e);
+                                        }}
                                         goodId={row.original.id}
                                     />
                                 )
@@ -89,16 +100,22 @@ const GoodTable = () => {
                             <div
                                 className="cursor-pointer"
                                 onClick={() => {
-                                    setBuyGood(true);
+                                    setBuyStep(BuyStep.PreBuy);
+                                    onBuyOpen();
                                 }}
                             >
                                 購買
                             </div>
                             {
-                                buyGood && (
+                                isBuyOpen && (
                                     <BuyGoodDialog
-                                        open={buyGood}
-                                        onOpenChange={setBuyGood}
+                                        open={isBuyOpen}
+                                        onOpenChange={(e) => {
+                                            if (!e) {
+                                                setBuyStep(BuyStep.PreBuy);
+                                            }
+                                            onBuyOpenChange(e);
+                                        }}
                                     />
                                 )
                             }
