@@ -1,9 +1,11 @@
 'use client'
 
+import ShoppingCarTable from "./_table";
+
 const ShoppingCarClient = () => {
     return (
         <div>
-            <h1>ShoppingCar</h1>
+            <ShoppingCarTable />
         </div>
     )
 }

@@ -5,6 +5,16 @@ export interface searchBody {
     }
 }
 
+export interface buyBody {
+    goodId: string;
+    quantity: number;
+}
+
+export interface addGoodToShoppingCarBody {
+    goodId: string;
+    quantity: number;
+}
+
 export interface GoodResponse {
     id: string;
     name: string;

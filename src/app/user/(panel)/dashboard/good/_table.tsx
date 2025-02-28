@@ -116,6 +116,7 @@ const GoodTable = () => {
                                             }
                                             onBuyOpenChange(e);
                                         }}
+                                        good={row.original}
                                     />
                                 )
                             }

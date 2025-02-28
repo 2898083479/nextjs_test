@@ -8,12 +8,14 @@ import {
 } from "@/components/ui/card";
 import { Store } from "@/app/admin/(panel)/dashboard/store/types"
 import { useRouter } from "next/navigation";
+import { useStore } from "./store";
 interface Props {
     store: Store;
 }
 
 const StoreInfoCard = ({ store }: Props) => {
     const router = useRouter();
+    const { setStoreId } = useStore();
     return (
         <Card>
             <CardHeader className="h-[127px]">
@@ -32,7 +34,7 @@ const StoreInfoCard = ({ store }: Props) => {
                         {store.description}
                     </div>
                     <div className="break-words">
-                        {store.goodCount}
+                        商品數量：{store.goodCount}
                     </div>
                 </div>
             </CardContent>
@@ -40,6 +42,7 @@ const StoreInfoCard = ({ store }: Props) => {
                 <div
                     className="cursor-pointer"
                     onClick={() => {
+                        setStoreId(store.id);
                         router.push('/user/dashboard/good')
                     }}
                 >
