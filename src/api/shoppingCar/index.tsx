@@ -22,3 +22,12 @@ export const getShoppingCarList = async (): Promise<IResponse & { data: Shopping
         })
     }
 }
+
+export const clearShoppingCarAPI = async (id: string): Promise<IResponse> => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return {
+        category: "00",
+        code: ResponseStatusCode.success,
+        message: "success",
+    }
+}

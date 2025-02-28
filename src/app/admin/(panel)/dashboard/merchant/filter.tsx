@@ -18,7 +18,7 @@ export const Filter = () => {
                         size={"icon"}
                     >
                         <SearchIcon
-                            className="w-[16px] h-[16px]"
+                            className="size-[15px]"
                         />
                     </Button>
                 }

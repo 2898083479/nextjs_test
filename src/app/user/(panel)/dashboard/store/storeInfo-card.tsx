@@ -9,6 +9,7 @@ import {
 import { Store } from "@/app/admin/(panel)/dashboard/store/types"
 import { useRouter } from "next/navigation";
 import { useStore } from "./store";
+
 interface Props {
     store: Store;
 }
@@ -17,7 +18,7 @@ const StoreInfoCard = ({ store }: Props) => {
     const router = useRouter();
     const { setStoreId } = useStore();
     return (
-        <Card>
+        <Card className="bg-[#d9f99d]">
             <CardHeader className="h-[127px]">
                 <div className="flex flex-col gap-2">
                     <div className="break-words">
@@ -30,7 +31,7 @@ const StoreInfoCard = ({ store }: Props) => {
             </CardHeader>
             <CardContent className="h-[250px]">
                 <div className="flex flex-col gap-2">
-                    <div className="break-words">
+                    <div className="break-words h-[167px]">
                         {store.description}
                     </div>
                     <div className="break-words">
@@ -46,7 +47,7 @@ const StoreInfoCard = ({ store }: Props) => {
                         router.push('/user/dashboard/good')
                     }}
                 >
-                    details
+                    Details
                 </div>
             </CardFooter>
         </Card>
