@@ -1,7 +1,19 @@
 "use client"
 
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Form, FormItem, FormLabel, FormControl, FormMessage, FormField } from "@/components/ui/form"
+import { 
+    Card, 
+    CardHeader, 
+    CardTitle, 
+    CardContent 
+} from "@/components/ui/card"
+import { 
+    Form, 
+    FormItem, 
+    FormLabel, 
+    FormControl, 
+    FormMessage, 
+    FormField 
+} from "@/components/ui/form"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,8 +22,11 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { signInAPI } from "@/api/auth/signin";
 import { ResponseStatusCode } from "@/api/types";
-import { useEffect, useState } from "react";
-import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import { useState } from "react";
+import { 
+    EyeOpenIcon,
+    EyeClosedIcon 
+} from "@radix-ui/react-icons";
 
 export default function SignInPage() {
     const router = useRouter()
@@ -126,7 +141,7 @@ export default function SignInPage() {
                                 </Button>
                                 <Button
                                     type="submit"
-                                    disabled={!form.formState.isDirty}
+                                    disabled={!form.formState.isDirty || form.formState.isSubmitting}
                                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                                 >
                                     {form.formState.isSubmitting ? "登录中..." : "登录"}

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ShoppingCar } from "./types";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
+import DelSuccessDialog from "./delSuccess-dialog";
 
 const ShoppingCarTable = () => {
     const columns = useMemo<ColumnDef<ShoppingCar>[]>(() => [
@@ -40,7 +41,7 @@ const ShoppingCarTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.price}
+                        ¥ {row.original.price}
                     </div>
                 )
             }
@@ -52,7 +53,19 @@ const ShoppingCarTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.price * row.original.quantity}
+                        ¥ {row.original.price * row.original.quantity}
+                    </div>
+                )
+            }
+        },
+        {
+            id: 'addTime',
+            header: 'Add Time',
+            size: 300,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
+                        {row.original.addTime}
                     </div>
                 )
             }
@@ -62,12 +75,24 @@ const ShoppingCarTable = () => {
             header: 'Action',
             size: 300,
             cell: ({ row }) => {
+                const [isOpen, setIsOpen] = useState(false);
                 return (
-                    <div
-                        className="flex items-center px-[20px] py-[16px] gap-[12px] cursor-pointer"
-                    >
-                        移除
-                    </div>
+                    <>
+                        <div
+                            className="flex items-center px-[20px] py-[16px] gap-[12px] cursor-pointer"
+                            onClick={() => setIsOpen(true)}
+                        >
+                            移除
+                        </div>
+                        {
+                            isOpen && (
+                                <DelSuccessDialog
+                                    isOpen={isOpen}
+                                    setIsOpen={setIsOpen}
+                                />
+                            )
+                        }
+                    </>
                 )
             }
         }

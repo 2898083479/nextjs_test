@@ -4,4 +4,5 @@ export interface ShoppingCarResponse {
     name: string;
     price: number;
     quantity: number;
+    addTime: string;
 }
