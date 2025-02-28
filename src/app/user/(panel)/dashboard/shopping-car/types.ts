@@ -4,6 +4,7 @@ interface ShoppingCar {
     name: string;
     price: number;
     quantity: number;
+    addTime: string;
 }
 
 export type { ShoppingCar };

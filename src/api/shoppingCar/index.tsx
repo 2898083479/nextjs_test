@@ -17,6 +17,7 @@ export const getShoppingCarList = async (): Promise<IResponse & { data: Shopping
                 price: parseFloat(faker.commerce.price()),
                 quantity: faker.number.int({min: 1, max: 10}),
                 ownerId: faker.string.uuid(),
+                addTime: faker.date.recent().toISOString().split('T')[0],
             }
         })
     }

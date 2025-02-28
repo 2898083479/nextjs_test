@@ -1,8 +1,8 @@
+import OrderClient from "./client";
+
 const OrderPage = () => {
     return (
-        <div>
-            Order
-        </div>
+        <OrderClient />
     )
 }
 

@@ -1,7 +1,11 @@
+'use client'
+
+import StoreTable from "./store-table";
+
 const SettingMyStorePage = () => {
     return (
         <div>
-            my store
+            <StoreTable />
         </div>
     )
 }
