@@ -12,7 +12,7 @@ const GoodFilter = () => {
                 endContent={
                     <SearchIcon 
                         className="cursor-pointer"
-                        size={16}
+                        size={15}
                     />
                 }
             />

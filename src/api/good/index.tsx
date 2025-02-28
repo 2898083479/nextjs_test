@@ -1,5 +1,5 @@
 import { IResponse, getReq } from "../index";
-import { searchBody, GoodResponse, buyBody } from "./types";
+import { searchBody, GoodResponse, buyBody, addGoodToShoppingCarBody } from "./types";
 import { faker } from "@faker-js/faker";
 import { GoodCategory } from "@/app/admin/(panel)/dashboard/good/types";
 import { ResponseStatusCode } from "../types";
@@ -42,6 +42,12 @@ export const buyGoodAPI = async (body: buyBody): Promise<IResponse> => {
     }
 }
 
-export const addGoodToShoppingCarAPI = async (): Promise<IResponse> => {
-    return await new Promise((resolve) => setTimeout(resolve, 1000));
+export const addGoodToShoppingCarAPI = async (body: addGoodToShoppingCarBody): Promise<IResponse> => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    return {
+        category: "00",
+        code: ResponseStatusCode.success,
+        message: "success",
+    }
 }

@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/app/user/store";
 import { useRouter } from "next/navigation";
+import { Loader } from "lucide-react";
 
 const SigninPage = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -32,10 +33,10 @@ const SigninPage = () => {
     const router = useRouter();
     const formSchema = z.object({
         email: z.string()
-            .min(1, { message: "Please Enter email" })
-            .email(),
+            .nonempty({ message: "Please Enter email" })
+            .email({ message: "Please enter a valid email" }),
         password: z.string()
-            .min(1, { message: "Please Enter password" })
+            .nonempty({ message: "Please Enter password" })
             // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
             //     { message: "Please enter a valid password" }
             // )
@@ -126,6 +127,7 @@ const SigninPage = () => {
                                 <Button
                                     type="button"
                                     className="bg-[#6366f1] text-white hover:bg-[#6366f1]/80"
+                                    onClick={() => router.push('/user/signup')}
                                 >
                                     signup
                                 </Button>
@@ -134,7 +136,13 @@ const SigninPage = () => {
                                     disabled={!form.formState.isDirty || form.formState.isSubmitting}
                                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                                 >
-                                    signin
+                                    {form.formState.isSubmitting ? (
+                                        <span className="flex items-center gap-2">
+                                            <Loader className="w-4 h-4 animate-spin" /> Signing in...
+                                        </span>
+                                    ) : (
+                                        "signin"
+                                    )}
                                 </Button>
                             </div>
                         </form>

@@ -10,14 +10,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { buyGoodAPI } from "@/api/good";
 import { ResponseStatusCode } from "@/api/types";
-import { 
-    Form, 
-    FormField, 
-    FormItem, 
-    FormLabel, 
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormLabel,
     FormControl,
     FormMessage
 } from "@/components/ui/form";
+import { Loader } from "lucide-react";
 
 interface Props {
     open: boolean;
@@ -28,21 +29,26 @@ interface Props {
 const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
 
     const formSchema = z.object({
-        quantity: z.number().min(1, { message: "數量不能小於1" }),
+        quantity: z.string()
+            .transform(value => Number(value)),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            quantity: 1,
+            quantity: Number(1),
         },
     })
 
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        if (data.quantity <= 0) {
+            form.setError("quantity", { message: "The quantity must be greater than 0" });
+            return;
+        }
         const response = await buyGoodAPI({
             goodId: good.id,
-            quantity: data.quantity,
+            quantity: Number(data.quantity),
         })
 
         if (response.code !== ResponseStatusCode.success) {
@@ -69,7 +75,7 @@ const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
                 </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
-                        <FormField 
+                        <FormField
                             control={form.control}
                             name="quantity"
                             render={({ field }) => (
@@ -86,12 +92,28 @@ const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
 
                 </Form>
             </div>
-            <div className="flex flex-row justify-end">
+            <div className="flex flex-row justify-end gap-2">
+                <Button
+                    type="button"
+                    className="bg-destructive text-white hover:bg-destructive/80"
+                    onClick={() => {
+                        onOpenChange(false);
+                    }}
+                >
+                    取消
+                </Button>
                 <Button
                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                     onClick={form.handleSubmit(onSubmit)}
+                    disabled={!form.formState.isDirty || form.formState.isSubmitting}
                 >
-                    確定
+                    {form.formState.isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                            <Loader className="w-4 h-4 animate-spin" /> 購買中...
+                        </span>
+                    ) : (
+                        "購買"
+                    )}
                 </Button>
             </div>
         </WrapperDialog>

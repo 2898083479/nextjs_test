@@ -3,6 +3,8 @@ import { Merchant, MerchantStatus } from "../../types"
 import { Button } from "@/components/ui/button"
 import { ReviewStep, useStore } from "../../store"
 import { Label } from "@/components/ui/label"
+import { Loader } from "lucide-react"
+
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -11,6 +13,12 @@ interface Props {
 
 export default function ReviewDialog({ open, onOpenChange, data }: Props) {
     const { setStep } = useStore()
+
+    const review = async () => {
+        setStep(ReviewStep.Approved)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
     return (
         <WrapperDialog
             open={open}
@@ -36,8 +44,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                 <div className="bg-[#f5f5f5] rounded-md p-[12px]">{data?.createdAt}</div>
                 <div className="flex justify-end gap-[12px]">
                     <Button
-                        variant="outline"
-                        className="bg-[#F31260] hover:bg-[#F31260]/80 text-white"
+                        className="bg-destructive hover:bg-destructive/80 text-white"
                         onClick={() => {
                             setStep(ReviewStep.RejectReason)
                         }}
@@ -46,11 +53,9 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                     </Button>
                     <Button
                         className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
-                        onClick={() => {
-                            setStep(ReviewStep.Approved)
-                        }}
+                        onClick={review}
                     >
-                        Approve
+                        approve
                     </Button>
                 </div>
             </div>

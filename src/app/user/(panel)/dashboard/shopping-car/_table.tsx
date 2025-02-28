@@ -6,7 +6,11 @@ import { useState } from "react";
 import { ShoppingCar } from "./types";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
-import DelSuccessDialog from "./delSuccess-dialog";
+import DelSuccessDialog from "./del-dialog";
+import ShoppingCarFilter from "./_filter";
+import { Button } from "@/components/ui/button";
+import { clearShoppingCarAPI } from "@/api/shoppingCar";
+import { useUserStore } from "@/app/user/store";
 
 const ShoppingCarTable = () => {
     const columns = useMemo<ColumnDef<ShoppingCar>[]>(() => [
@@ -120,8 +124,28 @@ const ShoppingCarTable = () => {
         setPagination
     })
 
+    const { userId } = useUserStore();
+
+    const clearShoppingCar = async () => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await clearShoppingCarAPI(userId);
+    }
+
     return (
-        <div>
+        <div className="flex flex-col gap-[12px]">
+            <div className="flex flex-row justify-between">
+                <div>
+                    <ShoppingCarFilter />
+                </div>
+                <div>
+                    <Button
+                        className="bg-destructive text-white hover:bg-destructive/80"
+                        onClick={clearShoppingCar}
+                    >
+                        清空購物車
+                    </Button>
+                </div>
+            </div>
             <DataTable
                 table={table}
                 isLoading={isLoading}

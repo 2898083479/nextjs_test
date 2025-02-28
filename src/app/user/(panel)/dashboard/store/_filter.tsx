@@ -11,7 +11,7 @@ const StoreFilter = () => {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search"
                 endContent={
-                    <Search className="w-4 h-4 cursor-pointer" />
+                    <Search className="size-[15px] cursor-pointer" />
                 }
             />
             <div
