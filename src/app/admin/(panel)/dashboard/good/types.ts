@@ -5,7 +5,7 @@ export interface Good {
     category: string;
     price: number;
     count: number;
-    policys: string[];
+    policys: string;
     storeId: string;
     createdAt: string;
     updatedAt: string;

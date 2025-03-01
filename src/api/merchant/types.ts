@@ -1,8 +1,8 @@
-export interface MerchantInfo {
+export interface MerchantResponse {
     id: string;
+    storeId: string;
     email: string;
     name: string;
-    store: string;
     status: string;
     createdAt: string;
 }
