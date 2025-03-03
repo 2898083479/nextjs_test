@@ -8,3 +8,10 @@ export interface PolicyResponse {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface policyBody {
+    goodId?: string;
+    filter?: {
+        name: string;
+    }
+}

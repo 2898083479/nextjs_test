@@ -18,11 +18,11 @@ export const Filter = () => {
             <Input
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search"
+                placeholder="搜索"
                 className="max-w-[200px] text-[#94A3B8]"
             />
             <div className="flex items-center justify-center text-[#94A3B8]">
-                merchantCount:
+                店員數量:
             </div>
             <MerchantCountSelect
                 value={merchantCount}
@@ -32,7 +32,7 @@ export const Filter = () => {
                 className="max-w-[200px] h-[37px] text-[#94A3B8]"
             />
             <div className="flex items-center justify-center text-[#94A3B8]">
-                goodCount:
+                商品數量:
             </div>
             <GoodCountSelect
                 value={goodCount}
@@ -40,13 +40,13 @@ export const Filter = () => {
                     setGoodCount(value)
                 }}
                 className="max-w-[200px] h-[37px] text-[#94A3B8]"
-                placeholder="Good Count"
+                placeholder="商品數量"
             />
             <div
                 onClick={reset}
                 className="flex items-center justify-center text-[#94A3B8] cursor-pointer"
             >
-                reset
+                重置
             </div>
         </div>
     )

@@ -25,7 +25,7 @@ export const StoreDataTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
             id: "store-info",
-            header: "storeInformation",
+            header: "店鋪信息",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -40,7 +40,7 @@ export const StoreDataTable = () => {
         },
         {
             id: "status",
-            header: "status",
+            header: "狀態",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -50,7 +50,7 @@ export const StoreDataTable = () => {
         },
         {
             id: "merchantCount",
-            header: "merchantCount",
+            header: "店員數量",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -64,7 +64,7 @@ export const StoreDataTable = () => {
         },
         {
             id: "goodCount",
-            header: "goodCount",
+            header: "商品數量",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -78,7 +78,7 @@ export const StoreDataTable = () => {
         },
         {
             id: "createdAt",
-            header: "createdAt",
+            header: "創建時間",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -203,7 +203,7 @@ export const StoreDataTable = () => {
 
     const { table } = useDataTable({
         columns,
-        data: data as Store[],
+        data: data as unknown as Store[],
         pagination,
         setPagination,
     });

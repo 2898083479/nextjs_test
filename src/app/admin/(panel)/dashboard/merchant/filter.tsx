@@ -10,7 +10,7 @@ export const Filter = () => {
             <Input
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Search"
+                placeholder="搜索"
                 className="max-w-[200px]"
                 endContent={
                     <Button
@@ -27,7 +27,7 @@ export const Filter = () => {
                 className="flex items-center text-[#94A3B8] cursor-pointer mr-2"
                 onClick={reset}
             >
-                reset
+                重置
             </div>
         </div>
     )
