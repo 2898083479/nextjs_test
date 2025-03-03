@@ -1,10 +1,11 @@
 import { IResponse, getReq } from "../index";
-import { PolicyResponse } from "./types";
+import { PolicyResponse, policyBody } from "./types";
 import { ResponseStatusCode } from "../types";
 import { PolicyStatus } from "@/app/admin/(panel)/dashboard/policy/types"
 import { faker } from "@faker-js/faker";
 import { Policy } from "@/app/admin/(panel)/dashboard/policy/types";
-export const queryPolicyList = async (): Promise<IResponse & { data: PolicyResponse[] }> => {
+
+export const queryPolicyList = async (body: policyBody): Promise<IResponse & { data: PolicyResponse[] }> => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return {

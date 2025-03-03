@@ -2,18 +2,20 @@ import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { 
-    Form, 
-    FormField, 
-    FormItem, 
-    FormControl, 
-    FormMessage 
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormControl,
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { addMerchant } from "@/api/merchant";
 import { ResponseStatusCode } from "@/api/types";
+import { Loader } from "lucide-react";
+
 interface Props {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -38,7 +40,7 @@ export const AddMerchantDialog = ({ open, onOpenChange }: Props) => {
     })
 
     async function onSubmit(formData: z.infer<typeof formSchema>) {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         const response = await addMerchant(
             {
                 name: formData.name,
@@ -68,11 +70,11 @@ export const AddMerchantDialog = ({ open, onOpenChange }: Props) => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <Label>Merchant name</Label>
+                                    <Label>店員名稱</Label>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter merchant name"
+                                            placeholder="請輸入店員名稱"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -84,11 +86,11 @@ export const AddMerchantDialog = ({ open, onOpenChange }: Props) => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <Label>Enter merchant email</Label>
+                                    <Label>請輸入店員郵箱</Label>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter merchant email"
+                                            placeholder="請輸入店員郵箱"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -103,14 +105,19 @@ export const AddMerchantDialog = ({ open, onOpenChange }: Props) => {
                             variant="outline"
                             onClick={() => onOpenChange(false)}
                         >
-                            Cancel
+                            取消
                         </Button>
                         <Button
                             type="submit"
-                            disabled={form.formState.isDirty}
+                            disabled={!form.formState.isDirty || form.formState.isSubmitting}
                             className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
                         >
-                            {form.formState.isSubmitting ? "Adding..." : "Add merchant"}
+                            {form.formState.isSubmitting ? <span
+                                className="flex items-center gap-[4px]"
+                            >
+                                <Loader className="w-4 h-4 animate-spin" />
+                                添加中...
+                            </span> : "添加店員"}
                         </Button>
                     </div>
                 </form>

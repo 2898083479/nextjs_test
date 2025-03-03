@@ -6,7 +6,6 @@ interface PolicyStore {
     setPolicyInfo: (policyInfo: Policy) => void
 }
 
-
 export const usePolicyStore = create<PolicyStore>((set) => ({
     policyInfo: {} as Policy,
     setPolicyInfo: (policyInfo: Policy) => set({ policyInfo }),

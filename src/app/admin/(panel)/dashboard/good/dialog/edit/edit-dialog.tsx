@@ -40,7 +40,6 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
         category: z.nativeEnum(GoodCategory).optional(),
         price: z.number().optional(),
         count: z.number().optional(),
-        policys: z.array(z.string()).optional(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -52,7 +51,6 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
             category: good.category as GoodCategory,
             price: good.price,
             count: good.count,
-            policys: good.policys,
         }
     })
 
@@ -160,22 +158,6 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                                         />
                                     </FormControl>
                                     <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="policys"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Button
-                                            type="button"
-                                            className="w-full bg-[#07CFDA] text-white hover:bg-[#07CFDA]/80"
-                                        >
-                                            Check Policy
-                                        </Button>
-                                    </FormControl>
                                 </FormItem>
                             )}
                         />

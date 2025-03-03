@@ -20,6 +20,11 @@ interface EditState{
     setStep: (step: EditStore) => void
 }
 
+interface GoodState {
+    goodId: string
+    setGoodId: (goodId: string) => void
+}
+
 export const useDelStore = create<DelState>((set) => ({
     step: DelStore.preDelete,
     setStep: (step) => set({ step }),
@@ -30,3 +35,7 @@ export const useEditStore = create<EditState>((set) => ({
     setStep: (step) => set({ step }),
 }))
 
+export const useGoodStore = create<GoodState>((set) => ({
+    goodId: "",
+    setGoodId: (goodId) => set({ goodId }),
+}))

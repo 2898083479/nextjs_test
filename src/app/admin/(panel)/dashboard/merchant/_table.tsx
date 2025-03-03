@@ -21,12 +21,13 @@ import { AddMerchantDialog } from "./dialog/add-dialog";
 import { getMerchantInfo } from "@/api/merchant";
 import { CheckDialog } from "./dialog/check/check-dialog";
 import { MerchantDeleteDialog } from "./dialog/delete-dialog";
+
 export const MerchantDataTable = () => {
     const [open, setOpen] = useState(false);
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
         {
             id: "admin-info",
-            header: 'adminInformation',
+            header: '管理員信息',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -41,7 +42,7 @@ export const MerchantDataTable = () => {
         },
         {
             id: "status",
-            header: 'status',
+            header: '狀態',
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -51,7 +52,7 @@ export const MerchantDataTable = () => {
         },
         {
             id: "createdAt",
-            header: 'createdAt',
+            header: '創建時間',
             size: 200,
             cell: ({ row }) => {
                 return (

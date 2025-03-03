@@ -3,13 +3,13 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { 
-    Form, 
-    FormField, 
-    FormItem, 
-    FormLabel, 
-    FormControl, 
-    FormMessage 
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormControl,
+    FormMessage
 } from "@/components/ui/form";
 import { StoreStatus, type Store } from "../../types";
 import dayjs from "dayjs";
@@ -19,13 +19,14 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Loader } from "lucide-react";
-import { 
-    Select, 
-    SelectTrigger, 
-    SelectValue, 
-    SelectContent, 
-    SelectItem 
+import {
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem
 } from "@/components/ui/select";
+import { useEditStore, EditStep } from "../../store";
 
 interface EditDialogProps {
     open: boolean;
@@ -34,7 +35,7 @@ interface EditDialogProps {
 }
 
 export default function EditDialog({ open, onOpenChange, data }: EditDialogProps) {
-
+    const { setStep } = useEditStore();
     const formSchema = z.object({
         name: z
             .string().min(1, { message: "請輸入名稱" }),
@@ -60,6 +61,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await new Promise(resolve => setTimeout(resolve, 1000));
+        setStep(EditStep.Success);
         console.log(values);
     }
 
@@ -145,6 +147,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                                         <PopoverTrigger asChild>
                                             <FormControl>
                                                 <Button
+                                                    variant="outline"
                                                     className={cn(
                                                         "w-[350px] pl-3 text-left font-normal",
                                                         !field.value && "text-muted-foreground"
@@ -176,14 +179,14 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                     <div className="flex justify-end gap-2">
                         <Button
                             type="button"
-                            variant="outline"
+                            className="bg-destructive text-white hover:bg-destructive/80"
                             onClick={() => onOpenChange(false)}
                         >
                             取消
                         </Button>
                         <Button
                             type="submit"
-                            disabled={form.formState.isDirty}
+                            disabled={!form.formState.isDirty || form.formState.isSubmitting}
                             className="bg-[#0C7FD9] hover:bg-[#0C7FD9]/80 text-white"
                         >
                             {form.formState.isSubmitting ? <span className="flex items-center gap-2">

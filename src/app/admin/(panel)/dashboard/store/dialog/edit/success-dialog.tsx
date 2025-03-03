@@ -10,6 +10,7 @@ export default function SuccessDialog({ open, onOpenChange }: Props) {
         <WrapperDialog
             open={open}
             onOpenChange={onOpenChange}
+            className="max-w-[400px]"
         >
             <div className="flex flex-col gap-4">
                 <div className="text-[16px] font-[600] text-[#101828]">編輯成功</div>
@@ -17,7 +18,6 @@ export default function SuccessDialog({ open, onOpenChange }: Props) {
                 <div className="flex justify-end">
                     <Button
                         type="button"
-                        variant="outline"
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         onClick={() => onOpenChange(false)}
                     >

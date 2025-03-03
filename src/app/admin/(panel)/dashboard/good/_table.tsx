@@ -1,3 +1,5 @@
+'use client'
+
 import { Filter } from "./filter";
 import { Good, GoodCategory } from "./types";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,7 +16,17 @@ import { GoodStatusChip } from "./_status";
 import CheckDialog from "./dialog/check";
 import { EditDialog } from "./dialog/edit/edit-dialog";
 import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";
+import { useRouter } from "next/navigation";
+import { useGoodStore } from "./store";
+
 export const GoodDataTable = () => {
+    const router = useRouter();
+    const { setGoodId } = useGoodStore();
+    const policySetting = (goodId: string) => {
+        setGoodId(goodId);
+        router.push(`/admin/dashboard/setting/policy`);
+    }
+
     const columns = useMemo<ColumnDef<Good>[]>(() => [
         {
             id: "name",
@@ -102,7 +114,6 @@ export const GoodDataTable = () => {
         },
         {
             id: "action",
-            header: "action",
             size: 200,
             cell: ({ row }) => {
                 const [isEditDialogOpen, setEditDialogOpen] = useState(false);
@@ -158,6 +169,12 @@ export const GoodDataTable = () => {
                                 />
                             )
                         }
+                        <Button
+                            variant="ghost"
+                            onClick={() => policySetting(row.original.id)}
+                        >
+                            政策設置
+                        </Button>
                     </div>
                 )
             }
