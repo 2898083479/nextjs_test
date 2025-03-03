@@ -16,7 +16,7 @@ const ShoppingCarTable = () => {
     const columns = useMemo<ColumnDef<ShoppingCar>[]>(() => [
         {
             id: 'name',
-            header: 'Name',
+            header: '商品名稱',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -28,7 +28,7 @@ const ShoppingCarTable = () => {
         },
         {
             id: 'quantity',
-            header: 'Quantity',
+            header: '數量',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -40,7 +40,7 @@ const ShoppingCarTable = () => {
         },
         {
             id: 'price',
-            header: 'Price',
+            header: '價格',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -52,7 +52,7 @@ const ShoppingCarTable = () => {
         },
         {
             id: 'totalPrice',
-            header: 'Total Price',
+            header: '總價格',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -64,7 +64,7 @@ const ShoppingCarTable = () => {
         },
         {
             id: 'addTime',
-            header: 'Add Time',
+            header: '添加時間',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -76,7 +76,7 @@ const ShoppingCarTable = () => {
         },
         {
             id: 'action',
-            header: 'Action',
+            header: '操作',
             size: 300,
             cell: ({ row }) => {
                 const [isOpen, setIsOpen] = useState(false);

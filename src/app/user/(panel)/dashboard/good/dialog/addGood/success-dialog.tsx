@@ -13,7 +13,7 @@ const SuccessDialog = ({ open, onOpenChange }: Props) => {
             className="w-[400px]"
         >
             <div className="flex flex-col items-center justify-center h-full">
-                Good added successfully
+                商品添加成功
             </div>
             <div className="flex justify-end">
                 <Button
@@ -22,7 +22,7 @@ const SuccessDialog = ({ open, onOpenChange }: Props) => {
                         onOpenChange(false);
                     }}
                 >
-                    确定
+                    確定
                 </Button>
             </div>
         </WrapperDialog>

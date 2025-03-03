@@ -18,7 +18,7 @@ const StoreInfoCard = ({ store }: Props) => {
     const router = useRouter();
     const { setStoreId } = useStore();
     return (
-        <Card className="bg-[#d9f99d]">
+        <Card className="bg-[#e0e7ff]">
             <CardHeader className="h-[127px]">
                 <div className="flex flex-col gap-2">
                     <div className="break-words">

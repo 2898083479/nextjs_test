@@ -19,7 +19,7 @@ const GoodTable = () => {
     const columns = useMemo<ColumnDef<Good>[]>(() => [
         {
             id: "name",
-            header: "Name",
+            header: "商品名稱",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -33,7 +33,7 @@ const GoodTable = () => {
             id: "price",
             header: () => (
                 <span className="flex flex-row items-center gap-[12px]">
-                    Price
+                    價格
                     <ArrowDownUp
                         className="cursor-pointer"
                         size={12}
@@ -52,7 +52,7 @@ const GoodTable = () => {
         },
         {
             id: "source",
-            header: "Source",
+            header: "產地",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -64,7 +64,7 @@ const GoodTable = () => {
         },
         {
             id: "action",
-            header: "Action",
+            header: "操作",
             size: 300,
             cell: ({ row }) => {
                 const { isOpen: isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure();

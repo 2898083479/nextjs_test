@@ -21,6 +21,9 @@ export const Filter = () => {
                 placeholder="Search"
                 className="max-w-[200px] text-[#94A3B8]"
             />
+            <div className="flex items-center justify-center text-[#94A3B8]">
+                merchantCount:
+            </div>
             <MerchantCountSelect
                 value={merchantCount}
                 onChange={(value) => {
@@ -28,6 +31,9 @@ export const Filter = () => {
                 }}
                 className="max-w-[200px] h-[37px] text-[#94A3B8]"
             />
+            <div className="flex items-center justify-center text-[#94A3B8]">
+                goodCount:
+            </div>
             <GoodCountSelect
                 value={goodCount}
                 onChange={(value) => {

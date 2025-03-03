@@ -11,7 +11,7 @@ const OrderTable = () => {
     const columns: ColumnDef<Order>[] = useMemo(() => [
         {
             id: 'id',
-            header: 'orderID',
+            header: '訂單ID',
             size: 450,
             cell: ({ row }) => {
                 return (
@@ -23,7 +23,7 @@ const OrderTable = () => {
         },
         {
             id: 'goodName',
-            header: 'goodName',
+            header: '商品名稱',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -35,7 +35,7 @@ const OrderTable = () => {
         },
         {
             id: 'totalPrice',
-            header: 'totalPrice',
+            header: '總價格',
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -47,7 +47,7 @@ const OrderTable = () => {
         },
         {
             id: 'orderCreateTime',
-            header: 'orderCreateTime',
+            header: '支付時間',
             size: 300,
             cell: ({ row }) => {
                 return (

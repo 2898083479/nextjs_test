@@ -2,7 +2,7 @@
 
 import { Policy } from "@/app/admin/(panel)/dashboard/policy/types"
 import { Switch } from "@/components/ui/switch"
-import { updateStatus } from "@/api/policy"
+import { updateStatusAPI } from "@/api/policy"
 import { ResponseStatusCode } from "@/api/types"
 import { useRouter } from "next/navigation"
 import {
@@ -24,7 +24,7 @@ export const PolicyCard = ({ policy }: Props) => {
     const { setPolicyInfo } = usePolicyStore()
     const router = useRouter()
     const changeStatus = async () => {
-        const response = await updateStatus();
+        const response = await updateStatusAPI();
         if (response.code !== ResponseStatusCode.success) {
             setEnable(enable)
         }
@@ -61,7 +61,7 @@ export const PolicyCard = ({ policy }: Props) => {
                 <Switch
                     checked={!enable}
                     onCheckedChange={changeStatus}
-                    className="data-[state=checked]:bg-green-500 mt-2"
+                    className="data-[state=checked]:bg-green-500 mt-2 mr-2"
                 />
             </CardFooter>
         </Card>

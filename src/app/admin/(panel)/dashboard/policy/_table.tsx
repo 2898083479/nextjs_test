@@ -11,8 +11,13 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import Filter from "./filter";
 import { useRouter } from "next/navigation";
+import { PolicyStatusChip } from "./_status";
+import AddPolicyDialog from "./addPolicy-dialog";
+import dayjs from "dayjs";
+
 export const PolicyTable = () => {
     const router = useRouter();
+    const [addPolicy, setAddPolicy] = useState(false);
     const columns = useMemo<ColumnDef<Policy>[]>(() => [
         {
             id: "policy-name",
@@ -33,7 +38,7 @@ export const PolicyTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.status}
+                        <PolicyStatusChip status={row.original.status} />
                     </div>
                 )
             }
@@ -45,7 +50,7 @@ export const PolicyTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.startAt}
+                        {dayjs(row.original.startAt).format("YYYY-MM-DD")}
                     </div>
                 )
             }
@@ -57,7 +62,7 @@ export const PolicyTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.endAt}
+                        {dayjs(row.original.endAt).format("YYYY-MM-DD")}
                     </div>
                 )
             }
@@ -127,9 +132,18 @@ export const PolicyTable = () => {
                 <Button
                     type="button"
                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80 w-[200px]"
+                    onClick={() => setAddPolicy(true)}
                 >
                     Add Policy
                 </Button>
+                {
+                    addPolicy && (
+                        <AddPolicyDialog
+                            isOpen={addPolicy}
+                            onOpenChange={setAddPolicy}
+                        />
+                    )
+                }
             </div>
             <DataTable
                 table={table}

@@ -24,7 +24,7 @@ export const queryPolicyList = async (): Promise<IResponse & { data: PolicyRespo
     }
 }
 
-export const updateStatus = async (): Promise<IResponse> => {
+export const updateStatusAPI = async (): Promise<IResponse> => {
     return {
         category: "00",
         code: ResponseStatusCode.success,

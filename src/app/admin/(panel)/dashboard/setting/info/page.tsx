@@ -28,9 +28,13 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import SuccessDialog from "./success-dialog"
+import { ResponseStatusCode } from "@/api/types"
 
 export const InfoPage = () => {
     const { policyInfo, setPolicyInfo } = usePolicyStore()
+    const [open, setOpen] = useState(false)
 
     const formSchema = z.object({
         id: z.string().optional(),
@@ -57,7 +61,9 @@ export const InfoPage = () => {
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         const response = await updatePolicyInfo(data as unknown as Policy)
-        console.log(response)
+        if (response.code === ResponseStatusCode.success) {
+            setOpen(true)
+        }
     }
 
     return (
@@ -181,6 +187,14 @@ export const InfoPage = () => {
                                 "Save"
                             )}
                         </Button>
+                        {
+                            open && (
+                                <SuccessDialog
+                                    open={open}
+                                    onOpenChange={setOpen}
+                                />
+                            )
+                        }
                     </div>
                 </form>
             </Form>

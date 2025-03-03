@@ -9,16 +9,16 @@ const StoreFilter = () => {
             <Input 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search"
+                placeholder="搜索"
                 endContent={
                     <Search className="size-[15px] cursor-pointer" />
                 }
             />
             <div
-                className="cursor-pointer"
+                className="cursor-pointer text-[#afafaf]"
                 onClick={reset}
             >
-                reset
+                重置
             </div>
         </div>
     )
