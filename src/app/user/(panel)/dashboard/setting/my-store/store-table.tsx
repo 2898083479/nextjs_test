@@ -72,7 +72,7 @@ export const StoreTable = () => {
     })
 
     const { table } = useDataTable({
-        data: data as Store[],
+        data: data as unknown as Store[],
         columns,
         pagination,
         setPagination,
