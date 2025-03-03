@@ -38,7 +38,7 @@ const StoreTable = () => {
                         <div className="grid grid-cols-3 gap-4">
                             {
                                 storeList?.map((store) => (
-                                    <StoreInfoCard key={store.id} store={store as Store} />
+                                    <StoreInfoCard key={store.id} store={store as unknown as Store} />
                                 ))
                             }
                         </div>

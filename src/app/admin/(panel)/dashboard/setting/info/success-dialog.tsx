@@ -2,8 +2,8 @@ import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { Button } from "@/components/ui/button";
 
 interface Props {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
+    open: boolean,
+    onOpenChange: (open: boolean) => void
 }
 
 const SuccessDialog = ({ open, onOpenChange }: Props) => {
@@ -13,18 +13,16 @@ const SuccessDialog = ({ open, onOpenChange }: Props) => {
             onOpenChange={onOpenChange}
             className="w-[400px]"
         >
-            <div>
+            <div className="flex flex-col gap-4">
                 <div>
-                    購買成功，您已成功購買該商品。
+                    operation success
                 </div>
                 <div className="flex justify-end">
-                    <Button 
-                        className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
-                        onClick={() => {
-                            onOpenChange(false);
-                        }}
+                    <Button
+                        onClick={() => onOpenChange(false)}
+                        className="bg-destructive text-white hover:bg-destructive/80"
                     >
-                        確定
+                        Close
                     </Button>
                 </div>
             </div>

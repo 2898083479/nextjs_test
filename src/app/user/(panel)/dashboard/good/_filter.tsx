@@ -1,6 +1,7 @@
 import { useGoodFilter } from "./filter.hook";
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
+
 const GoodFilter = () => {
     const { search, setSearch, reset } = useGoodFilter();
     return (
@@ -8,7 +9,7 @@ const GoodFilter = () => {
             <Input 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search"
+                placeholder="搜索"
                 endContent={
                     <SearchIcon 
                         className="cursor-pointer"
@@ -17,10 +18,10 @@ const GoodFilter = () => {
                 }
             />
             <div
-                className="flex flex-row items-center cursor-pointer"
+                className="flex flex-row items-center cursor-pointer text-[#afafaf]"
                 onClick={reset}
             >
-                reset
+                重置
             </div>
         </div>
     )

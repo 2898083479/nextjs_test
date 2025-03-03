@@ -9,7 +9,7 @@ const ShoppingCarFilter = () => {
             <Input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search"
+                placeholder="搜索"
                 endContent={
                     <SearchIcon
                         className="cursor-pointer"
@@ -18,10 +18,10 @@ const ShoppingCarFilter = () => {
                 }
             />
             <div
-                className="flex items-center cursor-pointer"
+                className="flex items-center cursor-pointer text-[#afafaf]"
                 onClick={reset}
             >
-                reset
+                重置
             </div>
         </div>
     )

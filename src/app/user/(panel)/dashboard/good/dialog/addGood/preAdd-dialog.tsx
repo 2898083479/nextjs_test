@@ -34,7 +34,7 @@ const PreAddDialog = ({ open, onOpenChange, goodId }: Props) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            quantity: 0,
+            quantity: Number(0),
         },
     })
 
@@ -66,10 +66,10 @@ const PreAddDialog = ({ open, onOpenChange, goodId }: Props) => {
         >
             <div className="flex flex-col gap-4">
                 <div>
-                    Add Good
+                    添加商品
                 </div>
                 <div>
-                    Do you confirm to add this good to your shopping car?
+                    確認要添加此商品到購物車嗎？
                 </div>
                 <div>
                     <Form {...form}>
@@ -82,7 +82,7 @@ const PreAddDialog = ({ open, onOpenChange, goodId }: Props) => {
                                 name="quantity"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Quantity</FormLabel>
+                                        <FormLabel>數量</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="number"
@@ -101,19 +101,19 @@ const PreAddDialog = ({ open, onOpenChange, goodId }: Props) => {
                                         onOpenChange(false);
                                     }}
                                 >
-                                    Cancel
+                                    取消
                                 </Button>
                                 <Button
                                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                                     type="submit"
-                                    disabled={!form.formState.isDirty || form.formState.isSubmitting}
+                                    disabled={form.formState.isSubmitting}
                                 >
                                     {form.formState.isSubmitting ? (
                                         <span className="flex items-center gap-2">
-                                            <Loader className="w-4 h-4 animate-spin" /> Adding...
+                                            <Loader className="w-4 h-4 animate-spin" /> 添加中...
                                         </span>
                                     ) : (
-                                        "Add"
+                                        "添加"
                                     )}
                                 </Button>
                             </div>

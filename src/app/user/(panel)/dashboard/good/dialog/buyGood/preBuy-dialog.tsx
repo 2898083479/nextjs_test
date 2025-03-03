@@ -67,7 +67,7 @@ const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
             className="w-[400px]"
         >
             <div>
-                PreBuy
+                購買商品
             </div>
             <div>
                 <div>
@@ -105,7 +105,7 @@ const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
                 <Button
                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                     onClick={form.handleSubmit(onSubmit)}
-                    disabled={!form.formState.isDirty || form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting}
                 >
                     {form.formState.isSubmitting ? (
                         <span className="flex items-center gap-2">

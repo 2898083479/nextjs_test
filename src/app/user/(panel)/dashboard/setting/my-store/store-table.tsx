@@ -7,11 +7,13 @@ import { useDataTable } from "@/components/core/data-table/hook";
 import { useState } from "react";
 import { PaginationState } from "@tanstack/react-table";
 import { DataTable } from "@/components/core/data-table";
+import { Edit } from "lucide-react";
+
 export const StoreTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
             id: "name",
-            header: "Name",
+            header: "店鋪",
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
@@ -22,7 +24,7 @@ export const StoreTable = () => {
         },
         {
             id: "createdAt",
-            header: "Created At",
+            header: "創建時間",
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
@@ -33,14 +35,16 @@ export const StoreTable = () => {
         },
         {
             id: "action",
-            header: "Action",
+            header: "操作",
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div
                             className="cursor-pointer"
                         >
-                            Edit
+                            <Edit
+                                className="size-[15px]"
+                            />
                         </div>
                     </div>
                 )
@@ -68,7 +72,7 @@ export const StoreTable = () => {
     })
 
     const { table } = useDataTable({
-        data: data as Store[],
+        data: data as unknown as Store[],
         columns,
         pagination,
         setPagination,
