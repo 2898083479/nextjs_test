@@ -24,7 +24,7 @@ export const GoodDataTable = () => {
     const { setGoodId } = useGoodStore();
     const policySetting = (goodId: string) => {
         setGoodId(goodId);
-        router.push(`/admin/dashboard/setting/policy`);
+        router.push(`/admin/dashboard/setting`);
     }
 
     const columns = useMemo<ColumnDef<Good>[]>(() => [
