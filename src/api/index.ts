@@ -30,15 +30,15 @@ let isRefreshing = false;
 let queue: QueueTask[] = [];
 
 export const setupAxiosInterceptors = (router: AppRouterInstance) => {
-    axios.interceptors.request.use(
-        async (config) => {
-            const token = localStorage.getItem('accessToken');
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-        }
-    )
+    // axios.interceptors.request.use(
+    //     async (config) => {
+    //         const token = localStorage.getItem('accessToken');
+    //         if (token) {
+    //             config.headers.Authorization = `Bearer ${token}`;
+    //         }
+    //         return config;
+    //     }
+    // )
 
     axios.interceptors.response.use(
         async (response) => {
@@ -79,7 +79,14 @@ export const setupAxiosInterceptors = (router: AppRouterInstance) => {
             }
             return response;
         }, (error) => {
-            router.push('/admin/signin')
+            if (typeof window !== "undefined") {
+                const router = require('next/router').default
+                if (error.response?.status === ResponseStatusCode.unauthorized) {
+                    localStorage.removeItem('accessToken')
+                    router.push('/admin/signin')
+                }
+            }
+            return Promise.reject(error)
         }
     )
 }

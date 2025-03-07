@@ -24,5 +24,4 @@ export interface EditMerchantBody {
     name: string;
     email: string;
     status: string;
-    createdAt: string;
 }

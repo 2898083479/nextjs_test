@@ -1,9 +1,14 @@
+'use client'
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 export const UserDashboardPage = () => {
-    return (
-        <div>
-            <h1>UserDashboard</h1>
-        </div>
-    )
+    const router = useRouter()
+    useEffect(() => {
+        router.push('/user/dashboard/good')
+    }, [])
+    return null
 }
 
 export default UserDashboardPage;
