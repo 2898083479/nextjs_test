@@ -13,9 +13,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { MerchantStatus } from "../../types"
-import { CalendarIcon } from "lucide-react"
-import { Calendar } from "@/components/ui/calendar"
-import { format } from "date-fns"
 import { EditStep } from "../../store"
 import { useEditStore } from "../../store"
 import { editMerchant } from "@/api/merchant"
@@ -28,15 +25,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import dayjs from "dayjs"
 import { ResponseStatusCode } from "@/api/types"
+
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -57,7 +48,6 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
         message: "status is invalid"
       })
     }),
-    createdAt: z.date().optional(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -66,7 +56,6 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
       name: data.name,
       email: data.email,
       status: data.status,
-      createdAt: dayjs(data.createdAt).toDate(),
     },
   })
 
@@ -76,7 +65,6 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
       name: form.getValues("name"),
       email: form.getValues("email"),
       status: form.getValues("status"),
-      createdAt: form.getValues("createdAt")?.toISOString() ?? "",
     })
     if (code === ResponseStatusCode.success) {
       onOpenChange(false)
@@ -158,46 +146,6 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="createdAt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>创建时间</FormLabel>
-                  <div>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-[390px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "yyyy/MM/dd")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={field.value === undefined ? undefined : new Date(field.value)}
-                          onSelect={field.onChange}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
                   <FormMessage />
                 </FormItem>
               )}

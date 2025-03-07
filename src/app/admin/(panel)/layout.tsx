@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
     const signOut = () => {
         router.push("/admin/signin");
-        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
     }
 
     const menu = <Menu

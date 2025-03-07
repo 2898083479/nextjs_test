@@ -1,9 +1,12 @@
-export const UserPage = () => {
-    return (
-        <div>
-            <h1>User</h1>
-        </div>
-    )
-}
+'use client'
 
-export default UserPage;
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function UserPage() {
+    const router = useRouter()
+    useEffect(() => {
+        router.push('/user/dashboard')
+    }, [])
+    return null
+}
