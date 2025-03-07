@@ -26,6 +26,8 @@ import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/app/user/store";
 import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
+import { userSignInAPI } from "@/api/merchant/auth/signin";
+import { ResponseStatusCode } from "@/api/types";
 
 const SigninPage = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -61,8 +63,15 @@ const SigninPage = () => {
             return;
         }
         setUserId('Ethan-fall')
-        router.push('/user/dashboard/good')
-        console.log(values);
+        const response = await userSignInAPI({
+            email: values.email,
+            password: values.password
+        })
+        if (response.code === ResponseStatusCode.success) {
+            localStorage.setItem('accessToken', response.data.accessToken)
+            localStorage.setItem('refreshToken', response.data.refreshToken)
+            router.push('/user/dashboard')
+        }
     }
 
     return (

@@ -9,8 +9,8 @@ export interface MerchantResponse {
 
 export interface SearchBody {
     id: string; // merchant id
-    filter: {
-        search: string; // 搜索
+    filter?: {
+        search: string; // 搜索关键字
     }
 }
 

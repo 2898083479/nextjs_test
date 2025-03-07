@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from "./types";
 import { MerchantStatus } from "@/app/admin/(panel)/dashboard/merchant/types";
 
-export const getMerchantInfo = async (body: SearchBody): Promise<IResponse & {data: MerchantResponse[]}> => {
+export const getMerchantInfo = async (body: SearchBody): Promise<IResponse & { data: MerchantResponse[] }> => {
     // const response = await getReq({
     //     path: "/merchants/info",
     //     params: body,
@@ -16,7 +16,7 @@ export const getMerchantInfo = async (body: SearchBody): Promise<IResponse & {da
         category: "00",
         code: ResponseStatusCode.success,
         message: "operating successfully",
-        data: Array.from({length: faker.number.int({min: 10, max: 20})}, () => {
+        data: Array.from({ length: faker.number.int({ min: 10, max: 20 }) }, () => {
             return {
                 id: faker.string.uuid(),
                 storeId: faker.string.uuid(),

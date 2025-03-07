@@ -1,11 +1,13 @@
 'use client'
-import { 
-    Card, 
-    CardContent, 
-    CardHeader 
+import {
+    Card,
+    CardContent,
+    CardHeader
 } from "@/components/ui/card";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { getMerchantInfo } from "@/api/merchant";
+import { useQuery } from "@tanstack/react-query";
 
 const SettingInfoPage = () => {
     const router = useRouter()
@@ -15,6 +17,16 @@ const SettingInfoPage = () => {
             router.push('/user/signin')
         }
     }, [])
+    const queryMerchantInfo = async () => {
+        const response = await getMerchantInfo({
+            id: ''
+        })
+        return response.data
+    }
+    const { data: merchantInfo, isLoading } = useQuery({
+        queryKey: ['merchantSettingInfo'],
+        queryFn: queryMerchantInfo,
+    })
     return (
         <Card>
             <CardHeader>
@@ -23,13 +35,13 @@ const SettingInfoPage = () => {
             <CardContent>
                 <div>
                     <div>
-                        Name
+                        Name: {merchantInfo?.[0].name}
                     </div>
                     <div>
-                        Email
+                        Email: {merchantInfo?.[0].email}
                     </div>
                     <div>
-                        Store Count
+                        Store Count: 12
                     </div>
                 </div>
             </CardContent>
