@@ -17,13 +17,13 @@ import { IndexDialog } from "./dialog/review/index-dialog";
 import { IndexDialog2 } from "./dialog/edit/index";
 import { EditStep } from "./store";
 import { MerchantStatusChip } from "./_status";
-import { AddMerchantDialog } from "./dialog/add-dialog";
 import { getMerchantInfo } from "@/api/merchant";
 import { CheckDialog } from "./dialog/check/check-dialog";
 import { MerchantDeleteDialog } from "./dialog/delete-dialog";
+import { useTableFilter } from "./filter.hook";
 
 export const MerchantDataTable = () => {
-    const [open, setOpen] = useState(false);
+    const { searchValue } = useTableFilter();
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
         {
             id: "admin-info",
@@ -72,7 +72,7 @@ export const MerchantDataTable = () => {
                 const { setStep: setEditStep } = useEditStore();
                 const [idDelete, setIdDelete] = useState(false)
                 const [idCheck, setIdCheck] = useState(false)
-                if (row.original.status === MerchantStatus.Inactive) {
+                if (row.original.status === MerchantStatus.Pending) {
                     return (
                         <div
                             className="flex items-center justify-center px-[20px] py-[16px] text-[14px] leading-[20px] text-primary cursor-pointer"
@@ -81,7 +81,7 @@ export const MerchantDataTable = () => {
                                 onClick={onOpen}
                                 className="text-[#0C7FDA] text-[14px] cursor-pointer"
                             >
-                                review
+                                審核
                             </div>
                             {
                                 isOpen && (
@@ -90,6 +90,7 @@ export const MerchantDataTable = () => {
                                         onOpenChange={(e) => {
                                             if (!e) {
                                                 setStep(ReviewStep.Default);
+                                                refetch();
                                             }
                                             onOpenChange(e);
                                         }}
@@ -151,7 +152,7 @@ export const MerchantDataTable = () => {
                                 <MerchantDeleteDialog
                                     open={idDelete}
                                     onOpenChange={setIdDelete}
-                                    id={row.original.id}
+                                    id={row.original.merchantId}
                                 />
                             )
                         }
@@ -166,7 +167,7 @@ export const MerchantDataTable = () => {
         pageSize: 9,
     });
 
-    const { isLoading, data } = useQuery({
+    const { isLoading, data, refetch } = useQuery({
         queryKey: ['merchant-data'],
         queryFn: () => getMerchantInfoList(),
         refetchOnWindowFocus: false,
@@ -175,17 +176,14 @@ export const MerchantDataTable = () => {
 
     const getMerchantInfoList = async () => {
         const response = await getMerchantInfo({
-            id: "1",
-            filter: {
-                search: "",
-            }
+            search: searchValue,
         });
         return response.data;
     }
 
     const { table } = useDataTable({
         columns,
-        data: data as Merchant[],
+        data: data as unknown as Merchant[],
         pagination,
         setPagination,
     });
@@ -193,23 +191,6 @@ export const MerchantDataTable = () => {
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto overscroll-none">
             <div className="flex items-center justify-between">
                 <Filter />
-                <Button
-                    type="button"
-                    className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
-                    onClick={() => {
-                        setOpen(true);
-                    }}
-                >
-                    Add merchant
-                </Button>
-                {
-                    open && (
-                        <AddMerchantDialog
-                            open={open}
-                            onOpenChange={setOpen}
-                        />
-                    )
-                }
             </div>
             <DataTable
                 isLoading={isLoading}

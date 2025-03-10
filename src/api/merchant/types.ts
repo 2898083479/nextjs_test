@@ -8,10 +8,8 @@ export interface MerchantResponse {
 }
 
 export interface SearchBody {
-    id: string; // merchant id
-    filter?: {
-        search: string; // 搜索关键字
-    }
+    id?: string; // merchant id
+    search?: string;
 }
 
 export interface AddMerchantBody {
@@ -20,7 +18,7 @@ export interface AddMerchantBody {
 }
 
 export interface EditMerchantBody {
-    id: string;
+    merchantId: string;
     name: string;
     email: string;
     status: string;

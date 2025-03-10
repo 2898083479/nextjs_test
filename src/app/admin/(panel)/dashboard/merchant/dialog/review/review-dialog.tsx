@@ -3,7 +3,8 @@ import { Merchant, MerchantStatus } from "../../types"
 import { Button } from "@/components/ui/button"
 import { ReviewStep, useStore } from "../../store"
 import { Label } from "@/components/ui/label"
-import { Loader } from "lucide-react"
+import { reviewMerchantAPI } from "@/api/merchant"
+import { ResponseStatusCode } from "@/api/types"
 
 interface Props {
     open: boolean
@@ -15,8 +16,12 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
     const { setStep } = useStore()
 
     const review = async () => {
-        setStep(ReviewStep.Approved)
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await reviewMerchantAPI(data.merchantId)
+        if (response.code === ResponseStatusCode.success) {
+            setStep(ReviewStep.Approved)
+        } else {
+            setStep(ReviewStep.ReviewFailed)
+        }
     }
 
     return (
@@ -49,13 +54,13 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                             setStep(ReviewStep.RejectReason)
                         }}
                     >
-                        Reject
+                        拒絕
                     </Button>
                     <Button
                         className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
                         onClick={review}
                     >
-                        approve
+                        批准
                     </Button>
                 </div>
             </div>
