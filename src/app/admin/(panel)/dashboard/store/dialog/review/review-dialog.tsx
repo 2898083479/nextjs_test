@@ -3,6 +3,10 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { ReviewStep, useReviewStore } from "../../store"
+import dayjs from "dayjs"
+import { ReviewStoreAPI } from "@/api/store"
+import { ResponseStatusCode } from "@/api/types"
+
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -11,6 +15,15 @@ interface Props {
 
 export default function ReviewDialog({ open, onOpenChange, data }: Props){
     const { setStep } = useReviewStore()
+
+    const reviewStore = async () => {
+        const response = await ReviewStoreAPI(data.storeId)
+        if (response.code === ResponseStatusCode.success) {
+            onOpenChange(false)
+            return
+        }
+    }
+
     return (
         <WrapperDialog
             open={open}
@@ -37,7 +50,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props){
                 <div>
                     <Label className="text-[14px] text-[#8E95A9]">创建时间</Label>
                     <div className="bg-[#f5f5f5] rounded-md p-[12px]">
-                        <div>{data.createdAt}</div>
+                        <div>{dayjs(data.createAt).format("YYYY/MM/DD")}</div>
                     </div>
                 </div>
                 <div className="flex justify-end gap-[12px]">
@@ -53,9 +66,7 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props){
                     <Button
                         type="button"
                         className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
-                        onClick={() => {
-                            setStep(ReviewStep.Approved)
-                        }}
+                        onClick={reviewStore}
                     >
                         Approve
                     </Button>

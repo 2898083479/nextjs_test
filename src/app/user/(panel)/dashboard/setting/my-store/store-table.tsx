@@ -8,7 +8,7 @@ import { useState } from "react";
 import { PaginationState } from "@tanstack/react-table";
 import { DataTable } from "@/components/core/data-table";
 import { Edit } from "lucide-react";
-
+import dayjs from "dayjs";
 export const StoreTable = () => {
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
@@ -28,7 +28,7 @@ export const StoreTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.createdAt}
+                        {dayjs(row.original.createAt).format("YYYY-MM-DD")}
                     </div>
                 )
             }
@@ -55,7 +55,10 @@ export const StoreTable = () => {
     const queryStoreList = async () => {
         const response = await getStoreInfoList(
             {
-                id: '1',
+                filter: {
+                    merchantCount: 1,
+                    goodCount: 1,
+                }
             }
         );
         return response.data;

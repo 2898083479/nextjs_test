@@ -27,7 +27,7 @@ export const MerchantDataTable = () => {
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
         {
             id: "admin-info",
-            header: '管理員信息',
+            header: 'Merchant信息',
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -117,6 +117,7 @@ export const MerchantDataTable = () => {
                                     onOpenChange={(e) => {
                                         if (!e) {
                                             setEditStep(EditStep.Edit)
+                                            refetch();
                                         }
                                         onOpenChange(e);
                                     }}
@@ -151,7 +152,12 @@ export const MerchantDataTable = () => {
                             idDelete && (
                                 <MerchantDeleteDialog
                                     open={idDelete}
-                                    onOpenChange={setIdDelete}
+                                    onOpenChange={(e) => {
+                                        if (!e) {
+                                            refetch()
+                                        }
+                                        setIdDelete(e)
+                                    }}
                                     id={row.original.merchantId}
                                 />
                             )
@@ -175,6 +181,7 @@ export const MerchantDataTable = () => {
     });
 
     const getMerchantInfoList = async () => {
+        console.log('searchValue', searchValue)
         const response = await getMerchantInfo({
             search: searchValue,
         });
@@ -187,6 +194,7 @@ export const MerchantDataTable = () => {
         pagination,
         setPagination,
     });
+
     return (
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto overscroll-none">
             <div className="flex items-center justify-between">

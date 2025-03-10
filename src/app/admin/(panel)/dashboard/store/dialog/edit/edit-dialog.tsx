@@ -12,13 +12,8 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { StoreStatus, type Store } from "../../types";
-import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import {
     Select,
     SelectTrigger,
@@ -27,6 +22,9 @@ import {
     SelectItem
 } from "@/components/ui/select";
 import { useEditStore, EditStep } from "../../store";
+import { EditStoreAPI } from "@/api/store";
+import { ResponseStatusCode } from "@/api/types";
+import { Textarea } from "@/components/ui/textarea";
 
 interface EditDialogProps {
     open: boolean;
@@ -46,7 +44,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                 message: "status is invalid"
             })
         }),
-        createdAt: z.date().optional(),
+        description: z.string().nonempty({ message: "請輸入描述" })
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -55,14 +53,22 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
             name: data.name,
             email: data.email,
             status: data.status,
-            createdAt: dayjs(data.createdAt).toDate(),
+            description: data.description,
         }
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setStep(EditStep.Success);
-        console.log(values);
+        const response = await EditStoreAPI({
+            storeId: data.storeId,
+            name: values.name,
+            email: values.email,
+            status: values.status,
+            description: values.description,
+        })
+        if (response.code === ResponseStatusCode.success) {
+            setStep(EditStep.Success);
+            console.log(values);
+        }
     }
 
     return (
@@ -117,62 +123,41 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>狀態</FormLabel>
-                                <Select>
-                                    <FormControl>
-                                        <SelectTrigger className="w-[350px]">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                    </FormControl>
+                                <Select
+                                    value={field.value}
+                                    onValueChange={field.onChange}
+                                >
+                                    <SelectTrigger className="w-[350px]">
+                                        <SelectValue />
+                                    </SelectTrigger>
                                     <SelectContent>
                                         {
                                             Object.values(StoreStatus).map(status => (
-                                                <SelectItem key={status} value={status as string}>
+                                                <SelectItem key={status} value={status}>
                                                     {status}
                                                 </SelectItem>
                                             ))
                                         }
                                     </SelectContent>
                                 </Select>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
                     <FormField
                         control={form.control}
-                        name="createdAt"
-                        render={({ field }) => (
+                        name="description"
+                        render={({field}) => (
                             <FormItem>
-                                <FormLabel>創建時間</FormLabel>
-                                <div>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    className={cn(
-                                                        "w-[350px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "yyyy/MM/dd")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value === undefined ? undefined : new Date(field.value)}
-                                                onSelect={field.onChange}
-                                                initialFocus
-                                                className="w-[350px]"
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                </div>
+                                <FormLabel>描述</FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        {...field}
+                                        placeholder="請輸入描述"
+                                        className="w-[350px] resize-none"
+                                    />
+                                </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />

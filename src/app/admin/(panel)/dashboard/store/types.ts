@@ -1,16 +1,16 @@
 export enum StoreStatus {
-    Pending = "待审核",
+    Pending = "待審核",
     Approved = "已批准",
-    Rejected = "已拒绝",
+    Rejected = "已拒絕",
 }
 
 export interface Store {
-    id: string;
+    storeId: string;
     name: string;
     email: string;
-    merchantCount: number;
-    goodCount: number;
+    merchant_count: number;
+    good_count: number;
     status: StoreStatus;
     description: string;
-    createdAt: string;
+    createAt: string;
 }
