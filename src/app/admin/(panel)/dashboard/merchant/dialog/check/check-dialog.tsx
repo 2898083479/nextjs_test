@@ -1,10 +1,10 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
-import { MerchantInfo } from "@/api/merchant/types";
 import { Button } from "@/components/ui/button";
+import { Merchant } from "@/app/admin/(panel)/dashboard/merchant/types";
 interface CheckDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    data: MerchantInfo;
+    data: Merchant;
 }
 
 export const CheckDialog = ({ open, onOpenChange, data }: CheckDialogProps) => {
@@ -29,7 +29,7 @@ export const CheckDialog = ({ open, onOpenChange, data }: CheckDialogProps) => {
                 <div className="flex flex-col gap-1">
                     <div className="text-[14px] text-[#8E95A9]">店铺</div>
                     <div className="bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2">
-                        {data.store}
+                        {data.storeId}
                     </div>
                 </div>
                 <div className="flex justify-end">

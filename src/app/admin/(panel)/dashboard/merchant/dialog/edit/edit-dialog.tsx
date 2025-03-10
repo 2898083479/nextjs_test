@@ -61,25 +61,25 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
 
   const editMerchantInfo = async () => {
     const { code } = await editMerchant({
-      id: data.id,
+      merchantId: data.merchantId,
       name: form.getValues("name"),
       email: form.getValues("email"),
       status: form.getValues("status"),
     })
     if (code === ResponseStatusCode.success) {
       onOpenChange(false)
+      setStep(EditStep.Success)
     }
   }
 
-  useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["editMerchant"],
     mutationFn: editMerchantInfo,
   }, queryClient)
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     await new Promise(resolve => setTimeout(resolve, 1000))
-    console.log(data)
-    setStep(EditStep.Success)
+    mutate()
   }
 
   return (

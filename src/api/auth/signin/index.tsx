@@ -26,6 +26,3 @@ export const signInAPI = async (body: ISignInBody): Promise<ISignInResponse> => 
     return response.data;
 }
 
-export const userSignInAPI = async (body: ISignInBody): Promise<ISignInResponse> => {
-    return await new Promise((resolve) => setTimeout(resolve, 3000))
-}

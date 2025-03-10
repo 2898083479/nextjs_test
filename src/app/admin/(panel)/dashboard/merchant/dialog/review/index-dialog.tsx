@@ -5,6 +5,7 @@ import { ApproveDialog } from "./approve-dialog";
 import { RejectDialog } from "./reject-dialog";
 import { RejectReasonDialog } from "./reject-reason-dialog";
 import { Merchant } from "../../types";
+import ReviewFailedDialog from "./reviewFailed-dialog";
 
 interface Props {
     open: boolean
@@ -36,6 +37,14 @@ export const IndexDialog = ({ open, onOpenChange, data }: Props) => {
         // TODO: 审核拒绝理由
         return (
             <RejectReasonDialog 
+                open={open}
+                onOpenChange={onOpenChange}
+            />
+        )
+    }
+    if (step === ReviewStep.ReviewFailed) {
+        return (
+            <ReviewFailedDialog
                 open={open}
                 onOpenChange={onOpenChange}
             />

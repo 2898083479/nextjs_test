@@ -4,7 +4,8 @@ export enum ReviewStep{
     Default,
     Approved,
     Rejected,
-    RejectReason
+    RejectReason,
+    ReviewFailed
 }
 
 export enum EditStep{

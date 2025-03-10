@@ -1,12 +1,12 @@
 export enum MerchantStatus {
     Inactive = '未激活',
-    Pending = '待审核',
+    Pending = '待審核',
     Approved = '已批准',
-    Rejected = '已拒绝',
+    Rejected = '已拒絕',
 }
 
 export interface Merchant {
-    id: string;
+    merchantId: string;
     identity: number;
     storeId: string;
     name: string;
