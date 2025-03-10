@@ -35,7 +35,7 @@ const StoreInfoCard = ({ store }: Props) => {
                         {store.description}
                     </div>
                     <div className="break-words">
-                        商品數量：{store.goodCount}
+                        商品數量：{store.good_count}
                     </div>
                 </div>
             </CardContent>
@@ -43,7 +43,7 @@ const StoreInfoCard = ({ store }: Props) => {
                 <div
                     className="cursor-pointer"
                     onClick={() => {
-                        setStoreId(store.id);
+                        setStoreId(store.storeId);
                         router.push('/user/dashboard/good')
                     }}
                 >

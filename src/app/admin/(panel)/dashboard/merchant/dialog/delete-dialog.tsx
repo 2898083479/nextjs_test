@@ -1,7 +1,8 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { Loader } from "lucide-react";
+import { deleteMerchantAPI } from "@/api/merchant";
+import { useState } from "react";
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -10,11 +11,11 @@ interface Props {
 
 export const MerchantDeleteDialog = ({ open, onOpenChange, id }: Props) => {
     const [isPending, setIsPending] = useState(false)
-    const delGood = async (id: string) => {
+    const delMerchant = async () => {
         setIsPending(true)
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-        setIsPending(false)
+        await deleteMerchantAPI(id)
         onOpenChange(false)
+        setIsPending(false)
     }
 
     return (
@@ -34,7 +35,6 @@ export const MerchantDeleteDialog = ({ open, onOpenChange, id }: Props) => {
                 </div>
                 <div className="flex gap-2 justify-end">
                     <Button
-                        type="button"
                         className="bg-destructive text-white hover:bg-destructive/80"
                         onClick={() => {
                             onOpenChange(false)
@@ -47,7 +47,7 @@ export const MerchantDeleteDialog = ({ open, onOpenChange, id }: Props) => {
                         disabled={isPending}
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         onClick={() => {
-                            delGood(id)
+                            delMerchant()
                         }}
                     >
                         {

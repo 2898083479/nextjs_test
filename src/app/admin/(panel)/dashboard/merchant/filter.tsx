@@ -1,7 +1,6 @@
 "use client"
 import { Input } from "@/components/ui/input"
 import { useTableFilter } from "./filter.hook";
-import { Button } from "@/components/ui/button";
 import { SearchIcon } from "lucide-react";
 export const Filter = () => {
     const { searchValue, setSearchValue, reset } = useTableFilter();
@@ -13,14 +12,9 @@ export const Filter = () => {
                 placeholder="搜索"
                 className="max-w-[200px]"
                 endContent={
-                    <Button
-                        variant="ghost"
-                        size={"icon"}
-                    >
-                        <SearchIcon
-                            className="size-[15px]"
-                        />
-                    </Button>
+                    <div className="flex items-center gap-2 cursor-pointer">
+                        <SearchIcon className="size-[15px]" />
+                    </div>
                 }
             />
             <div

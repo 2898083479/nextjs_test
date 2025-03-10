@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -15,8 +14,7 @@ import { Input } from "@/components/ui/input"
 import { MerchantStatus } from "../../types"
 import { EditStep } from "../../store"
 import { useEditStore } from "../../store"
-import { editMerchant } from "@/api/merchant"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { editMerchantAPI } from "@/api/merchant"
 import {
   Select,
   SelectContent,
@@ -36,9 +34,9 @@ interface Props {
 
 
 export default function EditDialog({ open, onOpenChange, data }: Props) {
-  const queryClient = useQueryClient()
   const { setStep } = useEditStore()
   const formSchema = z.object({
+    merchantId: z.string().optional(),
     name: z.string()
       .min(1, { message: "name must longer than 1 character" }),
     email: z.string()
@@ -53,33 +51,24 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      merchantId: data.merchantId,
       name: data.name,
       email: data.email,
       status: data.status,
     },
   })
 
-  const editMerchantInfo = async () => {
-    const { code } = await editMerchant({
-      merchantId: data.merchantId,
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data)
+    const { code } = await editMerchantAPI({
+      merchantId: data.merchantId ?? "",
       name: form.getValues("name"),
       email: form.getValues("email"),
       status: form.getValues("status"),
     })
     if (code === ResponseStatusCode.success) {
-      onOpenChange(false)
       setStep(EditStep.Success)
     }
-  }
-
-  const { mutate } = useMutation({
-    mutationKey: ["editMerchant"],
-    mutationFn: editMerchantInfo,
-  }, queryClient)
-
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    mutate()
   }
 
   return (
@@ -128,17 +117,18 @@ export default function EditDialog({ open, onOpenChange, data }: Props) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>状态</FormLabel>
-                  <Select>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
                     <SelectContent className="max-w-[450px]">
                       <SelectGroup>
                         {
                           Object.values(MerchantStatus).map(status => (
-                            <SelectItem key={status} value={status as string}>
+                            <SelectItem key={status} value={status}>
                               {status}
                             </SelectItem>
                           ))

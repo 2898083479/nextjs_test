@@ -6,7 +6,6 @@ import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { Filter } from "./filter";
 import { Store } from "./types";
-import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, TrashIcon } from "lucide-react";
 import { useDataTable } from "@/components/core/data-table/hook";
@@ -21,7 +20,15 @@ import EditIndexDialog from "./dialog/edit";
 import { getStoreInfoList } from "@/api/store";
 import { StoreDeleteDialog } from "./dialog/delete-dialog";
 import { EditStep } from "./store";
+import { useTableFilter } from "./filter.hook";
+import dayjs from "dayjs";
 export const StoreDataTable = () => {
+    const {
+        searchValue,
+        merchantCount,
+        goodCount,
+    } = useTableFilter();
+
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
             id: "store-info",
@@ -57,7 +64,7 @@ export const StoreDataTable = () => {
                     <div
                         className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
                     >
-                        {row.original.merchantCount}
+                        {row.original.merchant_count}
                     </div>
                 )
             }
@@ -71,7 +78,7 @@ export const StoreDataTable = () => {
                     <div
                         className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
                     >
-                        {row.original.goodCount}
+                        {row.original.good_count}
                     </div>
                 )
             }
@@ -85,7 +92,7 @@ export const StoreDataTable = () => {
                     <div
                         className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
                     >
-                        {format(row.original.createdAt, "yyyy/MM/dd")}
+                        {dayjs(row.original.createAt).format("YYYY/MM/DD")}
                     </div>
                 )
             }
@@ -118,6 +125,7 @@ export const StoreDataTable = () => {
                                         onOpenChange={(e) => {
                                             if (!e) {
                                                 setStep(ReviewStep.Default);
+                                                refetch()
                                             }
                                             onOpenChange(e);
                                         }}
@@ -148,6 +156,7 @@ export const StoreDataTable = () => {
                                     onOpenChange={(e) => {
                                         if (!e) {
                                             setEditStep(EditStep.Edit);
+                                            refetch()
                                         }
                                         onOpenChange(e);
                                     }}
@@ -167,7 +176,7 @@ export const StoreDataTable = () => {
                                 <StoreDeleteDialog
                                     open={idDelete}
                                     onOpenChange={setIdDelete}
-                                    id={row.original.id}
+                                    id={row.original.storeId}
                                 />
                             )
                         }
@@ -182,7 +191,7 @@ export const StoreDataTable = () => {
         pageSize: 9,
     });
 
-    const { isLoading, data } = useQuery({
+    const { isLoading, data, refetch } = useQuery({
         queryKey: ['store-data'],
         queryFn: () => getStoreList(),
         refetchOnWindowFocus: false,
@@ -191,13 +200,13 @@ export const StoreDataTable = () => {
 
     const getStoreList = async () => {
         const response = await getStoreInfoList({
-            id: "",
             filter: {
-                search: "",
-                merchantCount: 0,
-                goodCount: 0,
+                search: searchValue,
+                merchantCount: Number(merchantCount),
+                goodCount: Number(goodCount),
             }
         })
+        console.log(response.data)
         return response.data;
     }
 

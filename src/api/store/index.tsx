@@ -1,10 +1,8 @@
-import { ResponseStatusCode } from "../types";
-import { IResponse } from "../index";
-import { StoreInfo } from "./types";
-import { StoreStatus } from "@/app/admin/(panel)/dashboard/store/types";
+import { getReq, IResponse, putReq } from "../index";
+import { StoreResponseInfo } from "./types";
 import { faker } from "@faker-js/faker";
+import { EditStoreBody } from "./types";
 interface Body {
-    id?: string; // store id
     filter?: {
         search?: string; // search keyword
         merchantCount?: number; // merchant count
@@ -12,24 +10,28 @@ interface Body {
     }
 }
 
-export const getStoreInfoList = async (body?: Body): Promise<IResponse & { data: StoreInfo[] }> => {
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    return {
-        category: "00",
-        code: ResponseStatusCode.success,
-        message: "operating successfully",
-        data: Array.from({length: faker.number.int({min: 10, max: 20})}, () => {
-            return {
-                id: faker.string.uuid(),
-                name: faker.company.name(),
-                email: faker.internet.email(),
-                status: faker.helpers.enumValue(StoreStatus),
-                ownerId: faker.string.uuid(),
-                createdAt: faker.date.recent().toISOString(),
-                merchantCount: faker.number.int({min: 0, max: 100}),
-                goodCount: faker.number.int({min: 100, max: 1000}),
-                description: faker.lorem.paragraph(),
-            }
-        })
-    }
+export const getStoreInfoList = async (body?: Body): Promise<IResponse & { data: StoreResponseInfo[] }> => {
+    const response = await getReq({
+        path: "/store/list",
+        params: body
+    })
+    return response.data;
+}
+
+export const ReviewStoreAPI = async (storeId: string): Promise<IResponse> => {
+    const response = await putReq({
+        path: "/store/review",
+        params: {
+            storeId
+        }
+    })
+    return response.data;
+}
+
+export const EditStoreAPI = async (body: EditStoreBody): Promise<IResponse> => {
+    const response = await putReq({
+        path: "/store",
+        data: body
+    })
+    return response.data;
 }
