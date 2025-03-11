@@ -2,6 +2,8 @@ import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader } from "lucide-react";
+import { DeleteStoreAPI } from "@/api/store";
+
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -13,6 +15,7 @@ export const StoreDeleteDialog = ({ open, onOpenChange, id }: Props) => {
     const delGood = async (id: string) => {
         setIsPending(true)
         await new Promise((resolve) => setTimeout(resolve, 2000))
+        await DeleteStoreAPI(id)
         setIsPending(false)
         onOpenChange(false)
     }

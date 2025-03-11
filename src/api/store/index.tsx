@@ -1,4 +1,4 @@
-import { getReq, IResponse, putReq } from "../index";
+import { deleteReq, getReq, IResponse, putReq } from "../index";
 import { StoreResponseInfo } from "./types";
 import { faker } from "@faker-js/faker";
 import { EditStoreBody } from "./types";
@@ -32,6 +32,16 @@ export const EditStoreAPI = async (body: EditStoreBody): Promise<IResponse> => {
     const response = await putReq({
         path: "/store",
         data: body
+    })
+    return response.data;
+}
+
+export const DeleteStoreAPI = async (storeId: string): Promise<IResponse> => {
+    const response = await deleteReq({
+        path: "/store",
+        params: {
+            storeId
+        }
     })
     return response.data;
 }
