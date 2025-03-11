@@ -178,10 +178,10 @@ export const MerchantDataTable = () => {
         queryFn: () => getMerchantInfoList(),
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
+        retry: 0
     });
 
     const getMerchantInfoList = async () => {
-        console.log('searchValue', searchValue)
         const response = await getMerchantInfo({
             search: searchValue,
         });
