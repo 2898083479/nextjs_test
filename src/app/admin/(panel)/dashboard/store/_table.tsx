@@ -7,7 +7,7 @@ import { useMemo, useState } from "react";
 import { Filter } from "./filter";
 import { Store } from "./types";
 import { Button } from "@/components/ui/button";
-import { Edit2Icon, TrashIcon } from "lucide-react";
+import { Edit2Icon, TrashIcon, UserPlus } from "lucide-react";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { StoreStatusChip } from "./_status";
 import { StoreStatus } from "./types";
@@ -175,11 +175,21 @@ export const StoreDataTable = () => {
                             idDelete && (
                                 <StoreDeleteDialog
                                     open={idDelete}
-                                    onOpenChange={setIdDelete}
+                                    onOpenChange={() => {
+                                        setIdDelete
+                                        refetch()
+                                    }}
                                     id={row.original.storeId}
                                 />
                             )
                         }
+                        <Button
+                            size={"icon"}
+                            variant="link"
+                            onClick={() => {}}
+                        >
+                            <UserPlus />
+                        </Button>
                     </div>
                 )
             }
