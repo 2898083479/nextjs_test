@@ -148,7 +148,7 @@ const GoodTable = () => {
     })
 
     const { table } = useDataTable({
-        data: data?.data as Good[],
+        data: data?.data as unknown as Good[],
         columns,
         pagination,
         setPagination

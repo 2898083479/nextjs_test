@@ -22,6 +22,8 @@ import { StoreDeleteDialog } from "./dialog/delete-dialog";
 import { EditStep } from "./store";
 import { useTableFilter } from "./filter.hook";
 import dayjs from "dayjs";
+import { useAddStore, AddStep } from "./store";
+import AddMerchantDialog from "./dialog/addMerchant";
 export const StoreDataTable = () => {
     const {
         searchValue,
@@ -103,7 +105,9 @@ export const StoreDataTable = () => {
             size: 100,
             cell: ({ row }) => {
                 const { isOpen, onOpen, onOpenChange } = useDisclosure();
+                const { isOpen: isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure();
                 const [idDelete, setIdDelete] = useState(false)
+                const { setStep: setAddStep } = useAddStore()
                 const { setStep } = useReviewStore();
                 const { setStep: setEditStep } = useEditStore();
                 if (row.original.status === StoreStatus.Pending) {
@@ -186,10 +190,25 @@ export const StoreDataTable = () => {
                         <Button
                             size={"icon"}
                             variant="link"
-                            onClick={() => {}}
+                            onClick={onAddOpen}
                         >
                             <UserPlus />
                         </Button>
+                        {
+                            isAddOpen && (
+                                <AddMerchantDialog
+                                    open={isAddOpen}
+                                    onOpenChange={(e) => {
+                                        if (!e) {
+                                            setAddStep(AddStep.PreAdd)
+                                            refetch()
+                                        }
+                                        onAddOpenChange(e)
+                                    }}
+                                    storeId={row.original.storeId}
+                                />
+                            )
+                        }
                     </div>
                 )
             }

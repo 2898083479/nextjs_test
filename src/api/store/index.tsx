@@ -1,6 +1,5 @@
-import { deleteReq, getReq, IResponse, putReq } from "../index";
-import { StoreResponseInfo } from "./types";
-import { faker } from "@faker-js/faker";
+import { deleteReq, getReq, IResponse, putReq, postReq } from "../index";
+import { StoreResponseInfo, AddMerchantToStoreBody } from "./types";
 import { EditStoreBody } from "./types";
 interface Body {
     filter?: {
@@ -42,6 +41,14 @@ export const DeleteStoreAPI = async (storeId: string): Promise<IResponse> => {
         params: {
             storeId
         }
+    })
+    return response.data;
+}
+
+export const AddMerchantToStoreAPI = async (body: AddMerchantToStoreBody): Promise<IResponse> => {
+    const response = await postReq({
+        path: "/store/add/merchant",
+        data: body
     })
     return response.data;
 }

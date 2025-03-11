@@ -8,7 +8,6 @@ import StoreFilter from "./_filter";
 const StoreTable = () => {
     const queryStoreList = async () => {
         const response = await getStoreInfoList({
-            id: "",
             filter: {
                 search: "",
                 merchantCount: 0,
@@ -38,7 +37,7 @@ const StoreTable = () => {
                         <div className="grid grid-cols-3 gap-4">
                             {
                                 storeList?.map((store) => (
-                                    <StoreInfoCard key={store.id} store={store as unknown as Store} />
+                                    <StoreInfoCard key={store.storeId} store={store as unknown as Store} />
                                 ))
                             }
                         </div>
