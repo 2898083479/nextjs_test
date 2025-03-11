@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ResponseStatusCode } from "./types";
 import { refreshToken } from "./auth/refreshToken";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+
 export interface IRequest {
     path: string;
     params?: any;
@@ -19,8 +20,8 @@ export interface IPostReqest extends IRequest {
     data?: any;
 }
 
-// axios.defaults.baseURL = 'http://localhost:8080'; // java
-axios.defaults.baseURL = 'http://localhost:8000'; // python
+axios.defaults.baseURL = 'http://localhost:8080'; // java
+// axios.defaults.baseURL = 'http://localhost:8000'; // python
 
 interface QueueTask {
     config: AxiosRequestConfig;
@@ -63,6 +64,7 @@ export const setupAxiosInterceptors = (router: AppRouterInstance) => {
                         axios(config);
                     })
                     queue = []
+                    console.log('data', data)
                     isRefreshing = false;
                     // 將最新的access token放到Authorization中
                     localStorage.setItem('accessToken', data.accessToken);
@@ -110,9 +112,8 @@ export const getReq = async ({ path, params = {}, headers = {}, token }: IReques
         params,
         headers: {
             ...token && {
-                Authorization: `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
-            'Content-Type': 'application/json',
             ...headers
         }
     });
