@@ -1,13 +1,12 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { Button } from "@/components/ui/button"
 
-
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
 }
 
-const AddSuccessDialog = ({ open, onOpenChange }: Props) => {
+const AddFailedDialog = ({ open, onOpenChange }: Props) => {
     return (
         <WrapperDialog
             open={open}
@@ -16,7 +15,7 @@ const AddSuccessDialog = ({ open, onOpenChange }: Props) => {
         >
             <div className="flex flex-col gap-4">
                 <div className="text-lg">
-                    您已成功添加店員到該店鋪
+                    新增店员失败
                 </div>
                 <div className="flex justify-end">
                     <Button
@@ -31,4 +30,4 @@ const AddSuccessDialog = ({ open, onOpenChange }: Props) => {
     )
 }
 
-export default AddSuccessDialog;
+export default AddFailedDialog;

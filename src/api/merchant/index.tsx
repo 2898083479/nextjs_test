@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from "./types";
 import { MerchantStatus } from "@/app/admin/(panel)/dashboard/merchant/types";
 
-export const getMerchantInfo = async (body: SearchBody): Promise<IResponse & { data: MerchantResponse[] }> => {
+export const getMerchantInfo = async (body?: SearchBody): Promise<IResponse & { data: MerchantResponse[] }> => {
     const response = await getReq({
         path: "/account/merchant/list",
         params: body,

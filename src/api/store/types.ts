@@ -16,3 +16,8 @@ export interface EditStoreBody {
     status: string,
     description: string,
 }
+
+export interface AddMerchantToStoreBody {
+    storeId: string;
+    merchantIds: string[];
+}
