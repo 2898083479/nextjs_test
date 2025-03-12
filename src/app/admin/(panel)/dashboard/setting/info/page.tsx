@@ -2,7 +2,6 @@
 
 import { usePolicyStore } from "../store"
 import { updatePolicyInfo } from "@/api/policy"
-import { Policy } from "@/app/admin/(panel)/dashboard/policy/types"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -41,26 +40,33 @@ export const InfoPage = () => {
         name: z.string().optional(),
         description: z.string().optional(),
         date: z.object({
-            from: z.date(),
-            to: z.date()
+            startAt: z.date(),
+            endAt: z.date()
         })
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            id: policyInfo.id,
+            id: policyInfo.policyId,
             name: policyInfo.name,
             description: policyInfo.description,
             date: {
-                from: dayjs(policyInfo.startAt).toDate(),
-                to: dayjs(policyInfo.endAt).toDate()
+                startAt: dayjs(policyInfo.startAt).toDate(),
+                endAt: dayjs(policyInfo.endAt).toDate()
             }
         }
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const response = await updatePolicyInfo(data as unknown as Policy)
+        console.log(data)
+        const response = await updatePolicyInfo({
+            policyId: data.id || "",
+            name: data.name || "",
+            description: data.description || "",
+            startAt: data.date.startAt.toISOString(),
+            endAt: data.date.endAt.toISOString()
+        })
         if (response.code === ResponseStatusCode.success) {
             setOpen(true)
         }
@@ -149,20 +155,18 @@ export const InfoPage = () => {
                                         <PopoverContent className="w-auto p-0" align="start">
                                             <Calendar
                                                 mode="range"
-                                                selected={field.value}
+                                                selected={{
+                                                    from: field.value?.startAt,
+                                                    to: field.value?.endAt
+                                                }}
                                                 onSelect={(date) => {
                                                     if (date) {
                                                         field.onChange({
                                                             ...field.value,
-                                                            from: date?.from,
-                                                            to: date?.to
+                                                            startAt: date?.from,
+                                                            endAt: date?.to
                                                         })
                                                     }
-                                                    setPolicyInfo({
-                                                        ...policyInfo,
-                                                        startAt: date?.from?.toISOString() || "",
-                                                        endAt: date?.to?.toISOString() || ""
-                                                    })
                                                 }}
                                                 initialFocus
                                             />

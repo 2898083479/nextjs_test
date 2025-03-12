@@ -1,3 +1,5 @@
+import { PolicyStatus } from "@/app/admin/(panel)/dashboard/policy/types";
+
 export interface PolicyResponse {
     id: string;
     name: string;
@@ -10,8 +12,23 @@ export interface PolicyResponse {
 }
 
 export interface policyBody {
-    goodId?: string;
     filter?: {
         name: string;
     }
+}
+
+export interface createPolicyBody {
+    name: string;
+    status: PolicyStatus;
+    description: string;
+    startAt: string;
+    endAt: string;
+}
+
+export interface updatePolicyBody {
+    policyId: string;
+    name: string;
+    description: string;
+    startAt: string;
+    endAt: string;
 }

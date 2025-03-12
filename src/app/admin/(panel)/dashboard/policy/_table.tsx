@@ -2,7 +2,7 @@
 
 import { Policy } from "./types";
 import { ColumnDef } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { PaginationState } from "@tanstack/react-table";
 import DataTable from "@/components/core/data-table";
 import { useDataTable } from "@/components/core/data-table/hook";
@@ -89,7 +89,6 @@ export const PolicyTable = () => {
                         <Button
                             variant="ghost"
                             onClick={() => {
-                                // router.push(`/admin/dashboard/setting/${row.original.id}`);
                                 router.push("/admin/dashboard/setting");
                             }}
                         >
@@ -111,7 +110,7 @@ export const PolicyTable = () => {
         return response.data;
     }
 
-    const { isLoading, data } = useQuery({
+    const { isLoading, data, refetch } = useQuery({
         queryKey: ["policy-list"],
         queryFn: getPolicyList,
         refetchOnWindowFocus: false,
@@ -120,30 +119,38 @@ export const PolicyTable = () => {
 
     const { table } = useDataTable({
         columns,
-        data: data as Policy[],
+        data: data as unknown as Policy[],
         pagination,
         setPagination,
     })
 
+    useEffect(() => {
+        refetch()
+    }, [addPolicy])
+
     return (
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
             <div className="flex items-center justify-between">
-                <Filter />
-                <Button
-                    type="button"
-                    className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80 w-[200px]"
-                    onClick={() => setAddPolicy(true)}
-                >
-                    Add Policy
-                </Button>
-                {
-                    addPolicy && (
-                        <AddPolicyDialog
-                            isOpen={addPolicy}
-                            onOpenChange={setAddPolicy}
-                        />
-                    )
-                }
+                <div>
+                    <Filter />
+                </div>
+                <div>
+                    <Button
+                        type="button"
+                        className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80 w-[200px]"
+                        onClick={() => setAddPolicy(true)}
+                    >
+                        新增政策
+                    </Button>
+                    {
+                        addPolicy && (
+                            <AddPolicyDialog
+                                isOpen={addPolicy}
+                                onOpenChange={setAddPolicy}
+                            />
+                        )
+                    }
+                </div>
             </div>
             <DataTable
                 table={table}

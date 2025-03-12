@@ -20,7 +20,7 @@ const SuccessDialog = ({ open, onOpenChange }: Props) => {
                 <div className="flex justify-end">
                     <Button
                         onClick={() => onOpenChange(false)}
-                        className="bg-destructive text-white hover:bg-destructive/80"
+                        className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                     >
                         Close
                     </Button>
