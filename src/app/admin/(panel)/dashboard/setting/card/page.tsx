@@ -11,9 +11,7 @@ export const CardPage = () => {
     const { goodId } = useGoodStore();
 
     const getPolicyList = async () => {
-        const response = await queryPolicyList({
-            goodId: goodId
-        })
+        const response = await queryPolicyList()
         return response.data
     }
 
@@ -39,7 +37,7 @@ export const CardPage = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {policyList?.map((policy) => (
-                    <PolicyCard key={policy.id} policy={policy as Policy} />
+                    <PolicyCard key={policy.id} policy={policy as unknown as Policy} />
                 ))}
             </div>
         </div>

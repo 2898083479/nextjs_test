@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 
 export default function StorePanel() {
     const router = useRouter()
-    // useEffect(() => {
-    //     const accessToken = localStorage.getItem("accessToken")
-    //     if (!accessToken) {
-    //         router.push("/admin/signin")
-    //     }
-    // }, [])
+    useEffect(() => {
+        const accessToken = localStorage.getItem("accessToken")
+        if (!accessToken) {
+            router.push("/admin/signin")
+        }
+    }, [])
     return (
         <div>
             <StoreDataTable />

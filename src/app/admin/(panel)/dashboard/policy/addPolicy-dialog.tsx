@@ -27,6 +27,8 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader } from "lucide-react";
+import { createPolicyAPI } from "@/api/policy";
+import { ResponseStatusCode } from "@/api/types";
 
 interface Props {
     isOpen: boolean,
@@ -39,13 +41,13 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
         name: z.string().nonempty("Please enter policy name"),
         status: z.nativeEnum(PolicyStatus),
         date: z.object({
-            from: z.date(),
-            to: z.date()
+            startAt: z.date(),
+            endAt: z.date()
         }),
         description: z.string().optional()
     }).refine((data) => {
-        if (data.date.from && data.date.to) {
-            return data.date.from < data.date.to
+        if (data.date.startAt && data.date.endAt) {
+            return data.date.startAt < data.date.endAt
         }
         return true
     }, {
@@ -59,17 +61,28 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
             name: "",
             status: PolicyStatus.ACTIVE,
             date: {
-                from: undefined,
-                to: undefined
+                startAt: undefined,
+                endAt: undefined
             },
             description: ""
         }
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        onOpenChange(false)
-        console.log(data);
+        console.log('adding ....')
+        const response = await createPolicyAPI(
+            {
+                name: data.name,
+                status: data.status,
+                description: data.description || "",
+                startAt: data.date.startAt?.toISOString() || "",
+                endAt: data.date.endAt?.toISOString() || ""
+            }
+        )
+        if (response.code === ResponseStatusCode.success) {
+            onOpenChange(false)
+            console.log(data);
+        }
     }
 
     return (
@@ -138,11 +151,11 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                                                     variant="outline"
                                                     className={cn(
                                                         "w-[350px] pl-3 text-left font-normal",
-                                                        !field.value?.from && "text-muted-foreground"
+                                                        !field.value?.startAt && "text-muted-foreground"
                                                     )}
                                                 >
-                                                    {field.value?.from && field.value?.to ? (
-                                                        format(field.value.from, "yyyy/MM/dd") + " - " + format(field.value.to, "yyyy/MM/dd")
+                                                    {field.value?.startAt && field.value?.endAt ? (
+                                                        format(field.value.startAt, "yyyy/MM/dd") + " - " + format(field.value.endAt, "yyyy/MM/dd")
                                                     ) : (
                                                         <span>Pick a date</span>
                                                     )}
@@ -153,9 +166,17 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                                                 <Calendar
                                                     className="bg-white"
                                                     mode="range"
-                                                    selected={field.value}
-                                                    onSelect={field.onChange}
+                                                    onSelect={(range) => {
+                                                        field.onChange({
+                                                            startAt: range?.from,
+                                                            endAt: range?.to
+                                                        });
+                                                    }}
                                                     initialFocus
+                                                    selected={{
+                                                        from: field.value?.startAt,
+                                                        to: field.value?.endAt
+                                                    }}
                                                 />
                                             </PopoverContent>
                                         </Popover>

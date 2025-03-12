@@ -21,7 +21,7 @@ interface Props {
 
 export const PolicyCard = ({ policy }: Props) => {
     const [enable, setEnable] = useState(true)
-    const { setPolicyInfo } = usePolicyStore()
+    const { policyInfo, setPolicyInfo } = usePolicyStore()
     const router = useRouter()
     const changeStatus = async () => {
         const response = await updateStatusAPI();
@@ -30,6 +30,12 @@ export const PolicyCard = ({ policy }: Props) => {
         }
         setEnable(!enable)
         console.log(enable)
+    }
+
+    const checkDetail = () => {
+        setPolicyInfo(policy)
+        console.log(policyInfo)
+        router.push('setting/info')
     }
 
     return (
@@ -41,10 +47,7 @@ export const PolicyCard = ({ policy }: Props) => {
                         <div className="ml-auto">
                             <Button
                                 variant="ghost"
-                                onClick={() => {
-                                    setPolicyInfo(policy)
-                                    router.push("setting/info")
-                                }}
+                                onClick={checkDetail}
                             >
                                 Detail
                             </Button>

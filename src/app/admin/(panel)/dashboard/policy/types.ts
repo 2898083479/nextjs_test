@@ -4,7 +4,7 @@ export enum PolicyStatus {
 }
 
 export interface Policy {
-    id: string;
+    policyId: string;
     name: string;
     status: PolicyStatus;
     startAt: string;
