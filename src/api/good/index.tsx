@@ -1,30 +1,33 @@
-import { IResponse, getReq } from "../index";
-import { searchBody, GoodResponse, buyBody, addGoodToShoppingCarBody } from "./types";
-import { faker } from "@faker-js/faker";
-import { GoodCategory } from "@/app/admin/(panel)/dashboard/good/types";
+import { IResponse, getReq, putReq } from "../index";
+import {
+    searchBody,
+    GoodResponse,
+    buyBody,
+    addGoodToShoppingCarBody,
+    updateGoodBody
+} from "./types";
 import { ResponseStatusCode } from "../types";
 
-export const queryGoodList = async (body: searchBody): Promise<IResponse & {data: GoodResponse[]}> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+export const queryGoodListAPI = async (body?: searchBody): Promise<IResponse & { data: GoodResponse[] }> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await getReq({
+        path: '/good/list',
+        params: {
+            ...body
+        },
+        token: token || undefined
+    })
+    return response.data
+}
 
-    return {
-        category: "00",
-        code: ResponseStatusCode.success,
-        message: "success",
-        data: Array.from({length: faker.number.int({min: 10, max: 20})}, () => {
-            return {
-                id: faker.string.uuid(),
-                name: faker.commerce.productName(),
-                source: faker.location.city(),
-                category: faker.helpers.enumValue(GoodCategory),
-                price: faker.number.int({min: 100, max: 1000}),
-                count: faker.number.int({min: 10, max: 100}),
-                createdAt: faker.date.anytime().toLocaleString(),
-                updatedAt: faker.date.anytime().toLocaleString(),
-                policys: Array.from({length: faker.number.int({min: 1, max: 3})}, () => faker.lorem.word())
-            }
-        })
-    }
+export const updateGoodAPI = async (body: updateGoodBody): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await putReq({
+        path: '/good',
+        data: body,
+        token: token || undefined
+    })
+    return response.data
 }
 
 export const buyGoodAPI = async (body: buyBody): Promise<IResponse> => {

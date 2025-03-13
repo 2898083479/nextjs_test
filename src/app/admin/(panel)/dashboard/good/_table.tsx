@@ -6,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { PaginationState } from "@tanstack/react-table";
 import { useQuery } from "@tanstack/react-query";
-import { queryGoodList } from "@/api/good";
+import { queryGoodListAPI } from "@/api/good";
 import { keepPreviousData } from "@tanstack/react-query";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
@@ -18,6 +18,7 @@ import { EditDialog } from "./dialog/edit/edit-dialog";
 import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";
 import { useRouter } from "next/navigation";
 import { useGoodStore } from "./store";
+import dayjs from "dayjs";
 
 export const GoodDataTable = () => {
     const router = useRouter();
@@ -106,7 +107,7 @@ export const GoodDataTable = () => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-col text-[14px] leading-[20px]">
-                            <span className="text-tp">{row.original.createdAt}</span>
+                            <span className="text-tp">{dayjs(row.original.createAt).format('YYYY-MM-DD HH:mm:ss')}</span>
                         </div>
                     </div>
                 )
@@ -187,16 +188,11 @@ export const GoodDataTable = () => {
     });
 
     const getGoodList = async () => {
-        const response = await queryGoodList({
-            id: "",
-            filter: {
-                search: "",
-            }
-        })
+        const response = await queryGoodListAPI()
         return response.data;
     }
 
-    const { isLoading, data } = useQuery({
+    const { isLoading, data, refetch } = useQuery({
         queryKey: ["good-list"],
         queryFn: getGoodList,
         refetchOnWindowFocus: false,
