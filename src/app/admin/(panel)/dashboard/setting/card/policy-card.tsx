@@ -15,6 +15,7 @@ import {
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { usePolicyStore } from "../store"
+
 interface Props {
     policy: Policy
 }

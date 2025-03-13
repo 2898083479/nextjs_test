@@ -23,6 +23,9 @@ import { useForm } from "react-hook-form";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import { EditSuccessDialog } from "./success-dialog";
+import { updateGoodAPI } from "@/api/good";
+import { ResponseStatusCode } from "@/api/types";
+
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -38,8 +41,8 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
         name: z.string().optional(),
         source: z.string().optional(),
         category: z.nativeEnum(GoodCategory).optional(),
-        price: z.number().optional(),
-        count: z.number().optional(),
+        price: z.string().optional(),
+        count: z.string().optional(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -49,16 +52,25 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
             name: good.name,
             source: good.source,
             category: good.category as GoodCategory,
-            price: good.price,
-            count: good.count,
+            price: String(good.price),
+            count: String(good.count),
         }
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        onOpenChange(false)
-        setSuccessDialogOpen(true)
-        console.log(successDialogOpen)
+        console.log(good.id)
+        const response = await updateGoodAPI({
+            goodId: good.id,
+            name: data.name || "",
+            source: data.source || "",
+            category: data.category || "",
+            price: Number(data.price) || 0,
+            count: Number(data.count) || 0
+        })
+        if (response.code === ResponseStatusCode.success) {
+            onOpenChange(false)
+            setSuccessDialogOpen(true)
+        }
     }
 
     return (
