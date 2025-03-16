@@ -7,7 +7,10 @@ export const getMerchantInfo = async (body?: SearchBody): Promise<IResponse & { 
     console.log('token', token)
     const response = await getReq({
         path: "/account/merchant/list",
-        params: body,
+        params: {
+            ...body,
+            search: "2"
+        },
         token: token || undefined
     })
     return response.data;

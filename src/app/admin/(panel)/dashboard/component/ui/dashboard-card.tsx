@@ -15,12 +15,11 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { getStoreInfoList } from "@/api/store"
-import { queryGoodList } from "@/api/good"
+import { queryGoodListAPI } from "@/api/good"
 
 export const DashboardCard = () => {
     const queryStoreList = async () => {
         const response = await getStoreInfoList({
-            id: "1",
             filter: {
                 search: "",
                 merchantCount: 0,
@@ -38,8 +37,7 @@ export const DashboardCard = () => {
     })
 
     const getGoodList = async () => {
-        const response = await queryGoodList({
-            id: "1",
+        const response = await queryGoodListAPI({
             filter: {
                 search: "",
             }
@@ -84,7 +82,7 @@ export const DashboardCard = () => {
                             <Loader className="animate-spin" /> Loading...</span>
                     ) : (
                         storeList?.slice(0, 3).filter((store) => store.status === "待审核").map((store) => (
-                            <DashboardCardStore key={store.id} store={store as Store} className="w-1/3" />
+                            <DashboardCardStore key={store.storeId} store={store as unknown as Store} className="w-1/3" />
                         ))
                     )}
                 </CardContent>
@@ -117,7 +115,7 @@ export const DashboardCard = () => {
                             <Loader className="animate-spin" /> Loading...</span>
                     ) : (
                         goodList?.slice(0, 3).map((good) => (
-                            <DashboardCardGood key={good.id} good={good as Good} className="1/3" />
+                            <DashboardCardGood key={good.id} good={good as unknown as Good} className="1/3" />
                         ))
                     )}
                 </CardContent>
