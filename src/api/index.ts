@@ -20,8 +20,8 @@ export interface IPostReqest extends IRequest {
     data?: any;
 }
 
-// axios.defaults.baseURL = 'http://localhost:8080'; // java
-axios.defaults.baseURL = 'http://localhost:8000'; // python
+axios.defaults.baseURL = 'http://localhost:8080'; // java
+// axios.defaults.baseURL = 'http://localhost:8000'; // python
 
 interface QueueTask {
     config: AxiosRequestConfig;
@@ -32,16 +32,6 @@ let isRefreshing = false;
 let queue: QueueTask[] = [];
 
 export const setupAxiosInterceptors = (router: AppRouterInstance) => {
-    // axios.interceptors.request.use(
-    //     async (config) => {
-    //         const token = localStorage.getItem('accessToken');
-    //         if (token) {
-    //             config.headers.Authorization = `Bearer ${token}`;
-    //         }
-    //         return config;
-    //     }
-    // )
-
     axios.interceptors.response.use(
         async (response) => {
             if (response.data.code === ResponseStatusCode.unauthorized) {
