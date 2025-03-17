@@ -1,4 +1,5 @@
 "use client"
+
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay"
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,6 +8,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel"
+
 export const DashboardAdvertising = () => {
     const plugin = React.useRef(
         Autoplay({ delay: 3000, stopOnInteraction: true })
