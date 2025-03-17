@@ -20,8 +20,8 @@ export interface IPostReqest extends IRequest {
     data?: any;
 }
 
-axios.defaults.baseURL = 'http://localhost:8080'; // java
-// axios.defaults.baseURL = 'http://localhost:8000'; // python
+// axios.defaults.baseURL = 'http://localhost:8080'; // java
+axios.defaults.baseURL = 'http://localhost:8000'; // python
 
 interface QueueTask {
     config: AxiosRequestConfig;

@@ -1,11 +1,11 @@
 export interface Good {
-    id: string;
+    goodId: string;
     name: string;
     source: string;
     category: string;
     price: number;
     count: number;
-    policyId: string;
+    policyList: string[];
     storeId: string;
     createAt: string;
     updateAt: string;

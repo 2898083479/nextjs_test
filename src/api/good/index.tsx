@@ -1,4 +1,4 @@
-import { IResponse, getReq, putReq } from "../index";
+import { IResponse, getReq, putReq, deleteReq } from "../index";
 import {
     searchBody,
     GoodResponse,
@@ -25,6 +25,18 @@ export const updateGoodAPI = async (body: updateGoodBody): Promise<IResponse> =>
     const response = await putReq({
         path: '/good',
         data: body,
+        token: token || undefined
+    })
+    return response.data
+}
+
+export const deleteGoodAPI = async (goodId: string): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await deleteReq({
+        path: "/good",
+        params: {
+            goodId
+        },
         token: token || undefined
     })
     return response.data

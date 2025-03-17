@@ -1,8 +1,8 @@
 'use client'
 
-import { Policy } from "@/app/admin/(panel)/dashboard/policy/types"
+import { Policy, PolicyStatus } from "@/app/admin/(panel)/dashboard/policy/types"
 import { Switch } from "@/components/ui/switch"
-import { updateStatusAPI } from "@/api/policy"
+import { togglePolicyStatusAPI } from "@/api/policy"
 import { ResponseStatusCode } from "@/api/types"
 import { useRouter } from "next/navigation"
 import {
@@ -18,20 +18,22 @@ import { usePolicyStore } from "../store"
 
 interface Props {
     policy: Policy
+    refetch: () => void
 }
 
-export const PolicyCard = ({ policy }: Props) => {
+export const PolicyCard = ({ policy, refetch }: Props) => {
     const [enable, setEnable] = useState(true)
     const { policyInfo, setPolicyInfo } = usePolicyStore()
     const router = useRouter()
     const changeStatus = async () => {
-        const response = await updateStatusAPI();
+        const response = await togglePolicyStatusAPI(policy.policyId);
         if (response.code !== ResponseStatusCode.success) {
             setEnable(enable)
         }
         setEnable(!enable)
         console.log(enable)
-    }
+        refetch()
+    }   
 
     const checkDetail = () => {
         setPolicyInfo(policy)
@@ -63,7 +65,9 @@ export const PolicyCard = ({ policy }: Props) => {
             </CardContent>
             <CardFooter className="flex justify-end pr-0">
                 <Switch
-                    checked={!enable}
+                    checked={
+                        policy.status === PolicyStatus.ACTIVE
+                    }
                     onCheckedChange={changeStatus}
                     className="data-[state=checked]:bg-green-500 mt-2 mr-2"
                 />

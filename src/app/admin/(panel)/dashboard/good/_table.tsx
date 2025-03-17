@@ -166,13 +166,13 @@ export const GoodDataTable = () => {
                                 <PreDeleteDialog
                                     open={isDeleteDialogOpen}
                                     onOpenChange={setDeleteDialogOpen}
-                                    id={row.original.id}
+                                    id={row.original.goodId}
                                 />
                             )
                         }
                         <Button
                             variant="ghost"
-                            onClick={() => policySetting(row.original.id)}
+                            onClick={() => policySetting(row.original.goodId)}
                         >
                             政策設置
                         </Button>

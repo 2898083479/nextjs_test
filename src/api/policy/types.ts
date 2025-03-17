@@ -12,6 +12,7 @@ export interface PolicyResponse {
 }
 
 export interface policyBody {
+    goodId?: string;
     filter?: {
         name: string;
     }

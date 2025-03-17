@@ -2,6 +2,9 @@ import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Loader } from "lucide-react";
+import { deleteGoodAPI } from "@/api/good";
+import { ResponseStatusCode } from "@/api/types";
+
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -11,11 +14,12 @@ interface Props {
 export const PreDeleteDialog = ({ open, onOpenChange, id }: Props) => {
     const [isPending, setIsPending] = useState(false)
     const delGood = async (id: string) => {
-        console.log(id)
         setIsPending(true)
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        const response = await deleteGoodAPI(id)
+        if (response.code === ResponseStatusCode.success) {
+            onOpenChange(false)
+        }
         setIsPending(false)
-        onOpenChange(false)
     }
 
     return (

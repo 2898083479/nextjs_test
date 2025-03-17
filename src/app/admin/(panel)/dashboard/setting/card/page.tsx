@@ -11,11 +11,20 @@ export const CardPage = () => {
     const { goodId } = useGoodStore();
 
     const getPolicyList = async () => {
+        console.log(goodId)
+        if (goodId) {
+            const response = await queryPolicyList(
+                {
+                    goodId: goodId
+                }
+            )
+            return response.data
+        }
         const response = await queryPolicyList()
         return response.data
     }
 
-    const { data: policyList } = useQuery({
+    const { data: policyList, refetch } = useQuery({
         queryKey: ["policyList"],
         queryFn: getPolicyList
     })
@@ -27,7 +36,7 @@ export const CardPage = () => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-end">
-                <Button 
+                <Button
                     type="button"
                     className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                     onClick={addPolicyToGood}
@@ -37,7 +46,11 @@ export const CardPage = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {policyList?.map((policy) => (
-                    <PolicyCard key={policy.id} policy={policy as unknown as Policy} />
+                    <PolicyCard
+                        key={policy.id}
+                        policy={policy as unknown as Policy}
+                        refetch={refetch}
+                    />
                 ))}
             </div>
         </div>

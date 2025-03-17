@@ -48,7 +48,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            id: good.id,
+            id: good.goodId,
             name: good.name,
             source: good.source,
             category: good.category as GoodCategory,
@@ -58,9 +58,9 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(good.id)
+        console.log(good.goodId)
         const response = await updateGoodAPI({
-            goodId: good.id,
+            goodId: good.goodId,
             name: data.name || "",
             source: data.source || "",
             category: data.category || "",
