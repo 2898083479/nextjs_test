@@ -25,6 +25,7 @@ import { useState } from "react";
 import { EditSuccessDialog } from "./success-dialog";
 import { updateGoodAPI } from "@/api/good";
 import { ResponseStatusCode } from "@/api/types";
+import { EditStore, useEditStore } from "../../store";
 
 interface Props {
     open: boolean
@@ -33,7 +34,7 @@ interface Props {
 }
 
 export const EditDialog = ({ open, onOpenChange, good }: Props) => {
-
+    const { setStep: setEditStep } = useEditStore();
     const [successDialogOpen, setSuccessDialogOpen] = useState(false)
 
     const formSchema = z.object({
@@ -58,7 +59,6 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(good.goodId)
         const response = await updateGoodAPI({
             goodId: good.goodId,
             name: data.name || "",
@@ -68,8 +68,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
             count: Number(data.count) || 0
         })
         if (response.code === ResponseStatusCode.success) {
-            onOpenChange(false)
-            setSuccessDialogOpen(true)
+            setEditStep(EditStore.success)
         }
     }
 
@@ -175,6 +174,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                         />
                         <div className="flex items-center justify-end gap-2">
                             <Button
+                                type="button"
                                 onClick={() => onOpenChange(false)}
                                 className="bg-destructive text-white hover:bg-destructive/80"
                             >
