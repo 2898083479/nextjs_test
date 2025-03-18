@@ -17,8 +17,10 @@ export const CheckDialog = ({ open, onOpenChange, data }: CheckDialogProps) => {
             <div className="flex flex-col gap-2">
                 <div className="text-[14px] text-[#8E95A9]">商户信息</div>
                 <div className="bg-[#F8FAFC] h-[70px] flex items-center rounded-[4px] p-2">
-                    {data.name}
-                    {data.email}
+                    <div className="flex flex-col gap-1">
+                        <div>{data.name}</div>
+                        <div>{data.email}</div>
+                    </div>
                 </div>
                 <div className="flex flex-col gap-1">
                     <div className="text-[14px] text-[#8E95A9]">状态</div>

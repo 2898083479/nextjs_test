@@ -14,11 +14,12 @@ import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
 import { GoodStatusChip } from "./_status";
 import CheckDialog from "./dialog/check";
-import { EditDialog } from "./dialog/edit/edit-dialog";
 import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";
 import { useRouter } from "next/navigation";
-import { useGoodStore } from "./store";
+import { EditStore, useEditStore, useGoodStore } from "./store";
 import dayjs from "dayjs";
+import { useDisclosure } from "@/components/hooks/use-disclosure";
+import EditIndexDialog from "./dialog/edit/index";
 
 export const GoodDataTable = () => {
     const router = useRouter();
@@ -117,7 +118,8 @@ export const GoodDataTable = () => {
             id: "action",
             size: 200,
             cell: ({ row }) => {
-                const [isEditDialogOpen, setEditDialogOpen] = useState(false);
+                const { isOpen, onOpen, onOpenChange } = useDisclosure();
+                const { step: editStep, setStep: setEditStep } = useEditStore();
                 const [isCheckDialogOpen, setCheckDialogOpen] = useState(false);
                 const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
                 return (
@@ -125,15 +127,21 @@ export const GoodDataTable = () => {
                         <Button
                             variant="ghost"
                             size={"icon"}
-                            onClick={() => setEditDialogOpen(true)}
+                            onClick={onOpen}
                         >
                             <Edit2Icon />
                         </Button>
                         {
-                            isEditDialogOpen && (
-                                <EditDialog
-                                    open={isEditDialogOpen}
-                                    onOpenChange={setEditDialogOpen}
+                            isOpen && (
+                                <EditIndexDialog
+                                    open={isOpen}
+                                    onOpenChange={(e) => {
+                                        if (!e) {
+                                            setEditStep(EditStore.edit)
+                                            refetch()
+                                        }
+                                        onOpenChange(e)
+                                    }}
                                     good={row.original}
                                 />
                             )
