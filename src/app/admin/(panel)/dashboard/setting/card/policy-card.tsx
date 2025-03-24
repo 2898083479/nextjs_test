@@ -31,13 +31,11 @@ export const PolicyCard = ({ policy, refetch }: Props) => {
             setEnable(enable)
         }
         setEnable(!enable)
-        console.log(enable)
         refetch()
     }   
 
     const checkDetail = () => {
         setPolicyInfo(policy)
-        console.log(policyInfo)
         router.push('setting/info')
     }
 
