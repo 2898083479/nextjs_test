@@ -1,4 +1,5 @@
 export interface searchBody {
+    storeId?: string;
     filter: {
         search?: string;
     }

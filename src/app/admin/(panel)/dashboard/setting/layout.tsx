@@ -1,10 +1,6 @@
-'use client'
-
 import { NavMenu } from "@/components/menu";
-import { useRouter } from "next/navigation";
 
 const SettingLayout = ({ children }: { children: React.ReactNode }) => {
-    const router = useRouter();
 
     const menu = <NavMenu
         items={[
