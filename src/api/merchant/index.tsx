@@ -4,12 +4,10 @@ import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from 
 
 export const getMerchantInfo = async (body?: SearchBody): Promise<IResponse & { data: MerchantResponse[] }> => {
     const token = localStorage.getItem('accessToken')
-    console.log('token', token)
     const response = await getReq({
         path: "/account/merchant/list",
         params: {
             ...body,
-            search: "2"
         },
         token: token || undefined
     })
