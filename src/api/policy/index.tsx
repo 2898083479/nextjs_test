@@ -10,7 +10,6 @@ import {
     policyBody, 
     updatePolicyBody 
 } from "./types";
-import { ResponseStatusCode } from "../types";
 
 export const queryPolicyList = async (body?: policyBody): Promise<IResponse & { data: PolicyResponse[] }> => {
     const token = localStorage.getItem('accessToken')

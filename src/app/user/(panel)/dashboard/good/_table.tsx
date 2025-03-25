@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Good } from "@/app/admin/(panel)/dashboard/good/types";
 import { PaginationState } from "@tanstack/react-table";
-import { queryGoodList } from "@/api/good";
+import { queryGoodListAPI } from "@/api/good";
 import { useQuery } from "@tanstack/react-query";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
@@ -14,6 +14,7 @@ import { useDisclosure } from "@/components/hooks";
 import { AddStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useAddStore } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useBuyStore, BuyStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
+
 const GoodTable = () => {
     const [sort, setSort] = useState(false);
     const columns = useMemo<ColumnDef<Good>[]>(() => [
@@ -93,7 +94,7 @@ const GoodTable = () => {
                                             }
                                             onAddOpenChange(e);
                                         }}
-                                        goodId={row.original.id}
+                                        goodId={row.original.goodId}
                                     />
                                 )
                             }
@@ -133,8 +134,7 @@ const GoodTable = () => {
     })
 
     const getGoodList = async () => {
-        const response = await queryGoodList({
-            id: '1',
+        const response = await queryGoodListAPI({
             filter: {
                 search: ''
             }
