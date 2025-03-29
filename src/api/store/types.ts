@@ -1,6 +1,7 @@
 export interface StoreResponseInfo {
     storeId: string;
-    merchantId: string;
+    merchantList: string[];
+    goodList: string[];
     name: string;
     email: string;
     status: string;
