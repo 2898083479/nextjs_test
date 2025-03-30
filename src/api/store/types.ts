@@ -11,7 +11,6 @@ export interface StoreResponseInfo {
 }
 
 export interface EditStoreBody {
-    storeId: string;
     name: string,
     email: string,
     status: string,

@@ -182,9 +182,7 @@ export const MerchantDataTable = () => {
     });
 
     const getMerchantInfoList = async () => {
-        const response = await getMerchantInfo({
-            search: searchValue,
-        });
+        const response = await getMerchantInfo(undefined, searchValue);
         return response.data;
     }
 

@@ -16,13 +16,14 @@ export interface addGoodToShoppingCarBody {
 }
 
 export interface GoodResponse {
-    id: string;
+    goodId: string;
     name: string;
     source: string;
     category: string;
     price: number;
     count: number;
     policys: string[];
+    createAt: string;
 }
 
 export interface updateGoodBody {

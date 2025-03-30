@@ -8,9 +8,9 @@ export interface Store {
     storeId: string;
     name: string;
     email: string;
-    merchant_count: number;
-    good_count: number;
-    status: StoreStatus;
+    merchantCount: number;
+    goodCount: number;
+    status: string;
     description: string;
     createAt: string;
 }

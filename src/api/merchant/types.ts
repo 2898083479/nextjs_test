@@ -8,7 +8,6 @@ export interface MerchantResponse {
 }
 
 export interface SearchBody {
-    id?: string; // merchant id
     search?: string;
 }
 
