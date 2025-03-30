@@ -2,12 +2,13 @@ import { IResponse, deleteReq, getReq, putReq } from "../index"
 import { ResponseStatusCode } from "../types"
 import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from "./types";
 
-export const getMerchantInfo = async (body?: SearchBody): Promise<IResponse & { data: MerchantResponse[] }> => {
+export const getMerchantInfo = async (merchantId?: string, search?: string): Promise<IResponse & { data: MerchantResponse[] }> => {
     const token = localStorage.getItem('accessToken')
     const response = await getReq({
         path: "/account/merchant/list",
         params: {
-            ...body,
+            merchantId,
+            search,
         },
         token: token || undefined
     })
@@ -51,6 +52,18 @@ export const deleteMerchantAPI = async (merchantId: string): Promise<IResponse> 
         path: "/account/merchant",
         params: {
             merchantId
+        },
+        token: token || undefined
+    })
+    return response.data;
+}
+
+export const queryMerchantListByStoreAPI = async (storeId: string): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await getReq({
+        path: "/account/merchant/store/list",
+        params: {
+            storeId
         },
         token: token || undefined
     })

@@ -53,7 +53,7 @@ export const StoreDataTable = () => {
             size: 200,
             cell: ({ row }) => {
                 return (
-                    <StoreStatusChip status={row.original.status} />
+                    <StoreStatusChip status={row.original.status as StoreStatus} />
                 )
             }
         },
@@ -66,7 +66,7 @@ export const StoreDataTable = () => {
                     <div
                         className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
                     >
-                        {row.original.merchant_count}
+                        {row.original.merchantCount}
                     </div>
                 )
             }
@@ -80,7 +80,7 @@ export const StoreDataTable = () => {
                     <div
                         className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
                     >
-                        {row.original.good_count}
+                        {row.original.goodCount}
                     </div>
                 )
             }
@@ -100,13 +100,27 @@ export const StoreDataTable = () => {
             }
         },
         {
+            id: "description",
+            header: "描述",
+            size: 200,
+            cell: ({ row }) => {
+                return (
+                    <div
+                        className="flex items-center px-[20px] py-[16px] text-[14px] leading-[20px] text-ts"
+                    >
+                        {row.original.description}
+                    </div>
+                )
+            }
+        },
+        {
             id: "action",
             enablePinning: true,
             size: 100,
             cell: ({ row }) => {
                 const { isOpen, onOpen, onOpenChange } = useDisclosure();
                 const { isOpen: isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure();
-                const [idDelete, setIdDelete] = useState(false)
+                const { isOpen: isDeleteOpen, onOpen: onOpenDelete, onOpenChange: onOpenDeleteChange } = useDisclosure(false)
                 const { setStep: setAddStep } = useAddStore()
                 const { setStep } = useReviewStore();
                 const { setStep: setEditStep } = useEditStore();
@@ -171,17 +185,19 @@ export const StoreDataTable = () => {
                         <Button
                             size={"icon"}
                             variant='link'
-                            onClick={() => setIdDelete(true)}
+                            onClick={onOpenDelete}
                         >
                             <TrashIcon />
                         </Button>
                         {
-                            idDelete && (
+                            isDeleteOpen && (
                                 <StoreDeleteDialog
-                                    open={idDelete}
-                                    onOpenChange={() => {
-                                        setIdDelete
-                                        refetch()
+                                    open={isDeleteOpen}
+                                    onOpenChange={(e) => {
+                                        if (!e) {
+                                            refetch()
+                                        }
+                                        onOpenDeleteChange(e)
                                     }}
                                     id={row.original.storeId}
                                 />
@@ -229,11 +245,9 @@ export const StoreDataTable = () => {
 
     const getStoreList = async () => {
         const response = await getStoreInfoList({
-            filter: {
-                search: searchValue,
-                merchantCount: Number(merchantCount),
-                goodCount: Number(goodCount),
-            }
+            search: searchValue,
+            merchantCount: Number(merchantCount),
+            goodCount: Number(goodCount),
         })
         console.log(response.data)
         return response.data;

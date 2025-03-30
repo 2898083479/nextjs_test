@@ -52,19 +52,20 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
         defaultValues: {
             name: data.name,
             email: data.email,
-            status: data.status,
+            status: data.status as StoreStatus,
             description: data.description,
         }
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const response = await EditStoreAPI({
-            storeId: data.storeId,
-            name: values.name,
-            email: values.email,
-            status: values.status,
-            description: values.description,
-        })
+        const response = await EditStoreAPI(
+            data.storeId,
+            {
+                name: values.name,
+                email: values.email,
+                status: values.status,
+                description: values.description,
+            })
         if (response.code === ResponseStatusCode.success) {
             setStep(EditStep.Success);
             console.log(values);
@@ -147,7 +148,7 @@ export default function EditDialog({ open, onOpenChange, data }: EditDialogProps
                     <FormField
                         control={form.control}
                         name="description"
-                        render={({field}) => (
+                        render={({ field }) => (
                             <FormItem>
                                 <FormLabel>描述</FormLabel>
                                 <FormControl>

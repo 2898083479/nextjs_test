@@ -2,11 +2,9 @@ import { deleteReq, getReq, IResponse, putReq, postReq } from "../index";
 import { StoreResponseInfo, AddMerchantToStoreBody } from "./types";
 import { EditStoreBody } from "./types";
 interface Body {
-    filter?: {
-        search?: string; // search keyword
-        merchantCount?: number; // merchant count
-        goodCount?: number; // good count
-    }
+    search?: string | ''; // search keyword
+    merchantCount?: number | ''; // merchant count
+    goodCount?: number | ''; // good count
 }
 
 export const getStoreInfoList = async (body?: Body): Promise<IResponse & { data: StoreResponseInfo[] }> => {
@@ -31,10 +29,13 @@ export const ReviewStoreAPI = async (storeId: string): Promise<IResponse> => {
     return response.data;
 }
 
-export const EditStoreAPI = async (body: EditStoreBody): Promise<IResponse> => {
+export const EditStoreAPI = async (storeId: string, body: EditStoreBody): Promise<IResponse> => {
     const token = localStorage.getItem('accessToken')
     const response = await putReq({
         path: "/store",
+        params: {
+            storeId
+        },
         data: body,
         token: token || undefined
     })
@@ -58,6 +59,16 @@ export const AddMerchantToStoreAPI = async (body: AddMerchantToStoreBody): Promi
     const response = await postReq({
         path: "/store/add/merchant",
         data: body,
+        token: token || undefined
+    })
+    return response.data;
+}
+
+export const QueryMerchantByStoreAPI = async (storeId: string): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await getReq({
+        path: "/store/merchant/list",
+        params: { storeId },
         token: token || undefined
     })
     return response.data;
