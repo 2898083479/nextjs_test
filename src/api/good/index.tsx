@@ -20,10 +20,13 @@ export const queryGoodListAPI = async (body?: searchBody): Promise<IResponse & {
     return response.data
 }
 
-export const updateGoodAPI = async (body: updateGoodBody): Promise<IResponse> => {
+export const updateGoodAPI = async (goodId: string, body: updateGoodBody): Promise<IResponse> => {
     const token = localStorage.getItem('accessToken')
     const response = await putReq({
         path: '/good',
+        params: {
+            goodId
+        },
         data: body,
         token: token || undefined
     })

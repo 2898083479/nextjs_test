@@ -1,6 +1,7 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog";
 import { useQuery } from "@tanstack/react-query";
 import { getMerchantInfo } from "@/api/merchant";
+import { queryMerchantListByStoreAPI } from "@/api/store";
 import { Merchant } from "../../../merchant/types";
 import { Loader } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox"
@@ -22,7 +23,14 @@ const PreAddDialog = ({ storeId, open, onOpenChange }: Props) => {
 
     const { data: merchantList, isLoading } = useQuery({
         queryKey: ["merchantList"],
-        queryFn: () => getMerchantInfo(),
+        queryFn: () => getMerchantInfo(
+            undefined,
+        ),
+    });
+
+    const { data: merchantResponse } = useQuery({
+        queryKey: ["merchantListByStore"],
+        queryFn: () => queryMerchantListByStoreAPI(storeId),
     });
 
     const toggleMerchant = (id: string) => {
@@ -37,11 +45,7 @@ const PreAddDialog = ({ storeId, open, onOpenChange }: Props) => {
     };
 
     const addMerchantToStore = async () => {
-        console.log('merchants', merchants);
-        const res = await AddMerchantToStoreAPI({
-            storeId,
-            merchantIds: merchants
-        })
+        const res = await AddMerchantToStoreAPI(storeId, merchants)
         if (res.code === ResponseStatusCode.success) {
             setStep(AddStep.AddSuccess);
         } else {
@@ -78,7 +82,15 @@ const PreAddDialog = ({ storeId, open, onOpenChange }: Props) => {
                         </div>
                     )}
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-2">
+                    <Button
+                        className="text-[#0C7FDA] border-[#0C7FDA]"
+                        type="button"
+                        variant="outline"
+                        onClick={() => onOpenChange(false)}
+                    >
+                        取消
+                    </Button>
                     <Button
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         onClick={addMerchantToStore}
