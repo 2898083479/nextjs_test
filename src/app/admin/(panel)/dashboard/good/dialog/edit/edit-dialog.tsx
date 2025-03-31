@@ -59,8 +59,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
     })
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const response = await updateGoodAPI({
-            goodId: good.goodId,
+        const response = await updateGoodAPI(good.goodId, {
             name: data.name || "",
             source: data.source || "",
             category: data.category || "",

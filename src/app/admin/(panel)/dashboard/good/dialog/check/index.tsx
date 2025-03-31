@@ -1,6 +1,7 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { Good } from "../../types";
 import { Button } from "@/components/ui/button";
+import dayjs from "dayjs";
 interface Props {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -52,7 +53,7 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                     <div
                         className="flex flex-row gap-1 bg-[#F8FAFC] h-[46px] items-center rounded-[4px] p-2"
                     >
-                        {
+                        {/* {
                             data.policys?.map((item) => (
                                 <span
                                     key={item}
@@ -61,7 +62,7 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                                     {item}
                                 </span>
                             ))
-                        }
+                        } */}
                     </div>
                 </div>
                 <div>
@@ -69,7 +70,7 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                     <div
                         className="bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2"
                     >
-                        {data.createdAt}
+                        {dayjs(data.createAt).format('YYYY-MM-DD HH:mm:ss')}
                     </div>
                 </div>
                 <div>
@@ -77,7 +78,7 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                     <div
                         className="bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2"
                     >
-                        {data.updatedAt}
+                        {dayjs(data.updateAt).format('YYYY-MM-DD HH:mm:ss')}
                     </div>
                 </div>
                 <div className="flex justify-end">

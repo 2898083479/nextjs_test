@@ -27,7 +27,6 @@ export interface GoodResponse {
 }
 
 export interface updateGoodBody {
-    goodId: string;
     name: string;
     source: string;
     category: string;

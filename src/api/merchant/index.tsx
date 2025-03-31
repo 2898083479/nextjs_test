@@ -58,14 +58,3 @@ export const deleteMerchantAPI = async (merchantId: string): Promise<IResponse> 
     return response.data;
 }
 
-export const queryMerchantListByStoreAPI = async (storeId: string): Promise<IResponse> => {
-    const token = localStorage.getItem('accessToken')
-    const response = await getReq({
-        path: "/account/merchant/store/list",
-        params: {
-            storeId
-        },
-        token: token || undefined
-    })
-    return response.data;
-}
