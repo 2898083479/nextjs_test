@@ -14,6 +14,8 @@ import { useRouter } from "next/navigation";
 import { PolicyStatusChip } from "./_status";
 import AddPolicyDialog from "./addPolicy-dialog";
 import dayjs from "dayjs";
+import { TrashIcon } from "lucide-react";
+import { DeleteDialog } from "./_delete-dialog";
 
 export const PolicyTable = () => {
     const router = useRouter();
@@ -81,19 +83,39 @@ export const PolicyTable = () => {
         },
         {
             id: "action",
-            header: "action",
             size: 300,
-            cell: () => {
+            cell: ({ row }) => {
+                const [deleteDialog, setDeleteDialog] = useState(false);
                 return (
-                    <div>
-                        <Button
-                            variant="ghost"
+                    <div className="flex flex-row items-center justify-center gap-2">
+                        <div
+                            className="cursor-pointer"
                             onClick={() => {
                                 router.push("/admin/dashboard/setting");
                             }}
                         >
                             設置
-                        </Button>
+                        </div>
+                        <div
+                            className="w-4 h-4 cursor-pointer"
+                            onClick={() => {
+                                setDeleteDialog(true);
+                            }}
+                        >
+                            <TrashIcon />
+                        </div>
+                        {
+                            deleteDialog && (
+                                <DeleteDialog
+                                    open={deleteDialog}
+                                    onOpenChange={()=>{
+                                        setDeleteDialog
+                                        refetch()
+                                    }}
+                                    policyId={row.original.id}
+                                />
+                            )
+                        }
                     </div>
                 )
             }

@@ -27,7 +27,6 @@ export interface createPolicyBody {
 }
 
 export interface updatePolicyBody {
-    policyId: string;
     name: string;
     description: string;
     startAt: string;
