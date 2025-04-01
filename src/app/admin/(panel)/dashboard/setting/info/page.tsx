@@ -36,7 +36,6 @@ export const InfoPage = () => {
     const [open, setOpen] = useState(false)
 
     const formSchema = z.object({
-        id: z.string().optional(),
         name: z.string().optional(),
         description: z.string().optional(),
         date: z.object({
@@ -48,7 +47,6 @@ export const InfoPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            id: policyInfo.policyId,
             name: policyInfo.name,
             description: policyInfo.description,
             date: {
@@ -60,8 +58,7 @@ export const InfoPage = () => {
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data)
-        const response = await updatePolicyInfo({
-            policyId: data.id || "",
+        const response = await updatePolicyInfo("", {
             name: data.name || "",
             description: data.description || "",
             startAt: data.date.startAt.toISOString(),

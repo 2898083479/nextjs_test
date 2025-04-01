@@ -14,7 +14,6 @@ export const CardPage = () => {
     const [addPolicy, setAddPolicy] = useState(false);
 
     const getPolicyList = async () => {
-        console.log(goodId)
         if (goodId) {
             const response = await queryPolicyList(
                 {
