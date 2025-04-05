@@ -1,6 +1,14 @@
 import { ISignUpBody } from "@/api/auth/siginup"
-import { IResponse } from "@/api/index"
+import { formPostReq, IResponse } from "@/api/index"
 
 export const userSignUpAPI = async (body: ISignUpBody): Promise<IResponse> => {
-    return await new Promise((resolve) => setTimeout(resolve, 3000))
+    const formData = new FormData();
+    formData.append('email', body.email);
+    formData.append('password', body.password);
+
+    const response = await formPostReq({
+        path: '/account/merchant',
+        data: formData,
+    })
+    return response.data;
 }

@@ -5,12 +5,12 @@ const SettingLayout = ({ children }: { children: React.ReactNode }) => {
     const menuItems = <NavMenu
         items={[
             {
-                name: 'store',
+                name: 'personal-store',
                 href: ['/user/dashboard/setting/my-store'],
                 icon: ''
             },
             {
-                name: 'info',
+                name: 'personal-info',
                 href: ['/user/dashboard/setting'],
                 icon: ''
             }

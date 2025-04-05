@@ -173,7 +173,10 @@ export const GoodDataTable = () => {
                             isDeleteDialogOpen && (
                                 <PreDeleteDialog
                                     open={isDeleteDialogOpen}
-                                    onOpenChange={setDeleteDialogOpen}
+                                    onOpenChange={() => {
+                                        setDeleteDialogOpen
+                                        refetch
+                                    }}
                                     id={row.original.goodId}
                                 />
                             )

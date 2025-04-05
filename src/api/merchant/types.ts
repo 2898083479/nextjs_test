@@ -20,5 +20,5 @@ export interface EditMerchantBody {
     merchantId: string;
     name: string;
     email: string;
-    status: string;
+    status?: string;
 }

@@ -1,4 +1,4 @@
-import { IResponse, getReq, putReq, deleteReq } from "../index";
+import { IResponse, getReq, putReq, deleteReq, postReq } from "../index";
 import {
     searchBody,
     GoodResponse,
@@ -46,26 +46,21 @@ export const deleteGoodAPI = async (goodId: string): Promise<IResponse> => {
 }
 
 export const buyGoodAPI = async (body: buyBody): Promise<IResponse> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // return {
-    //     category: "00",
-    //     code: ResponseStatusCode.error,
-    //     message: "商品庫存不足，可以挑選其他商品～",
-    // }
-    return {
-        category: "00",
-        code: ResponseStatusCode.success,
-        message: "success",
-    }
+    const token = localStorage.getItem("accessToken");
+    const response = await postReq({
+        path: "/order",
+        data: body,
+        token: token || undefined
+    })
+    return response.data
 }
 
 export const addGoodToShoppingCarAPI = async (body: addGoodToShoppingCarBody): Promise<IResponse> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return {
-        category: "00",
-        code: ResponseStatusCode.success,
-        message: "success",
-    }
+    const token = localStorage.getItem("accessToken");
+    const response = await postReq({
+        path: "/shoppingCar",
+        data: body,
+        token: token || undefined
+    })
+    return response.data
 }

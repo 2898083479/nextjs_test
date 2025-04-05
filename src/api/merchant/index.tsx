@@ -1,4 +1,5 @@
 import { IResponse, deleteReq, getReq, putReq } from "../index"
+import { StoreResponseInfo } from "../store/types";
 import { ResponseStatusCode } from "../types"
 import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from "./types";
 
@@ -58,3 +59,12 @@ export const deleteMerchantAPI = async (merchantId: string): Promise<IResponse> 
     return response.data;
 }
 
+export const getStoreListOfMerchant = async (merchantId: string): Promise<IResponse & { data: StoreResponseInfo[] }> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await getReq({
+        path: "/account/merchant/store/list",
+        params: { merchantId },
+        token: token || undefined
+    })
+    return response.data;
+}

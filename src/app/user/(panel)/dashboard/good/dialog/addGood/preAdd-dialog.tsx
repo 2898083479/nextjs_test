@@ -17,15 +17,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader } from "lucide-react";
+import { Good } from "@/app/admin/(panel)/dashboard/good/types";
 
 interface Props {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    goodId: string;
 }
 
-const PreAddDialog = ({ open, onOpenChange, goodId }: Props) => {
+interface Props {
+    good: Good;
+}
 
+const PreAddDialog = ({ open, onOpenChange, good }: Props) => {
+    const merchantId = localStorage.getItem("merchantId") || "";
     const formSchema = z.object({
         quantity: z.string()
             .transform(value => Number(value)),
@@ -42,12 +46,15 @@ const PreAddDialog = ({ open, onOpenChange, goodId }: Props) => {
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         if (data.quantity <= 0) {
-            form.setError("quantity", { message: "The quantity must be greater than 0" });
+            form.setError("quantity", { message: "添加的数量必须大于0" });
             return;
         }
         const response = await addGoodToShoppingCarAPI(
             {
-                goodId,
+                merchantId: merchantId,
+                goodId: good.goodId,
+                goodName: good.name,
+                price: good.price,
                 quantity: Number(data.quantity),
             }
         );

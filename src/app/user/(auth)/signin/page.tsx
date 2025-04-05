@@ -23,15 +23,16 @@ import {
     EyeClosedIcon
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
-import { useUserStore } from "@/app/user/store";
+import { useMerchantStore } from "@/app/user/store";
 import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 import { userSignInAPI } from "@/api/merchant/auth/signin";
 import { ResponseStatusCode } from "@/api/types";
+import { toast } from "sonner";
 
 const SigninPage = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const { setUserId } = useUserStore();
+    const { setMerchantId } = useMerchantStore();
     const router = useRouter();
     const formSchema = z.object({
         email: z.string()
@@ -39,9 +40,6 @@ const SigninPage = () => {
             .email({ message: "Please enter a valid email" }),
         password: z.string()
             .nonempty({ message: "Please Enter password" })
-            // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            //     { message: "Please enter a valid password" }
-            // )
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -53,25 +51,23 @@ const SigninPage = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        await new Promise(resolve => setTimeout(resolve, 3000))
-        if (values.email !== "123@gmail.com") {
-            form.setError("email", { message: "The email is not registered" })
-            return;
-        }
-        if (values.password !== "123456") {
-            form.setError("password", { message: "The password is incorrect" })
-            return;
-        }
-        setUserId('Ethan-fall')
         const response = await userSignInAPI({
             email: values.email,
             password: values.password
         })
-        if (response.code === ResponseStatusCode.success) {
-            localStorage.setItem('accessToken', response.data.accessToken)
-            localStorage.setItem('refreshToken', response.data.refreshToken)
-            router.push('/user/dashboard')
+        setMerchantId(response.data.merchantId)
+        if (values.email !== response.data.merchantEmail) {
+            form.setError("email", { message: "The email is not registered" })
+            return;
         }
+        if (response.code !== ResponseStatusCode.success) {
+            form.setError("password", { message: "The password is incorrect" })
+            return;
+        }
+        localStorage.setItem('accessToken', response.data.accessToken)
+        localStorage.setItem('merchantId', response.data.merchantId)
+        toast.success("登入成功")
+        router.push('/user/dashboard')
     }
 
     return (
@@ -80,7 +76,7 @@ const SigninPage = () => {
                 className="w-[450px]"
             >
                 <CardHeader>
-                    User Login
+                    用户登录
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -138,7 +134,7 @@ const SigninPage = () => {
                                     className="bg-[#6366f1] text-white hover:bg-[#6366f1]/80"
                                     onClick={() => router.push('/user/signup')}
                                 >
-                                    signup
+                                    注册
                                 </Button>
                                 <Button
                                     type="submit"
@@ -147,10 +143,10 @@ const SigninPage = () => {
                                 >
                                     {form.formState.isSubmitting ? (
                                         <span className="flex items-center gap-2">
-                                            <Loader className="w-4 h-4 animate-spin" /> Signing in...
+                                            <Loader className="w-4 h-4 animate-spin" /> 登录中...
                                         </span>
                                     ) : (
-                                        "signin"
+                                        "登录"
                                     )}
                                 </Button>
                             </div>

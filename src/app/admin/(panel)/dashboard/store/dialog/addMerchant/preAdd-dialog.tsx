@@ -37,7 +37,7 @@ const PreAddDialog = ({ storeId, open, onOpenChange }: Props) => {
         const updatedMerchants = merchants.includes(id)
             ? merchants.filter(merchantId => merchantId !== id)
             : [...merchants, id];
-    
+
         // Update the store with the new merchants array
         useMerchantStore.setState({ merchants: updatedMerchants });
         console.log('updated merchants', updatedMerchants);
@@ -93,7 +93,10 @@ const PreAddDialog = ({ storeId, open, onOpenChange }: Props) => {
                     </Button>
                     <Button
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
-                        onClick={addMerchantToStore}
+                        onClick={() => {
+                            addMerchantToStore()
+                            setMerchants([])
+                        }}
                     >
                         確定
                     </Button>

@@ -26,7 +26,7 @@ export const PolicyCard = ({ policy, refetch }: Props) => {
     const { policyInfo, setPolicyInfo } = usePolicyStore()
     const router = useRouter()
     const changeStatus = async () => {
-        const response = await togglePolicyStatusAPI(policy.policyId);
+        const response = await togglePolicyStatusAPI(policy.id);
         if (response.code !== ResponseStatusCode.success) {
             setEnable(enable)
         }

@@ -1,8 +1,8 @@
 interface ShoppingCar {
     id: string;
-    ownerId: string;
+    merchantId: string;
     goodId: string;
-    name: string;
+    goodName: string;
     price: number;
     quantity: number;
     addTime: string;

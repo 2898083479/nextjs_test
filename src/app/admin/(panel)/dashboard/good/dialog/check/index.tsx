@@ -53,16 +53,7 @@ export default function CheckDialog({ open, onOpenChange, data }: Props) {
                     <div
                         className="flex flex-row gap-1 bg-[#F8FAFC] h-[46px] items-center rounded-[4px] p-2"
                     >
-                        {/* {
-                            data.policys?.map((item) => (
-                                <span
-                                    key={item}
-                                    className="text-[14px] text-[#8E95A9]"
-                                >
-                                    {item}
-                                </span>
-                            ))
-                        } */}
+                        海南沉香传统技艺传承项目
                     </div>
                 </div>
                 <div>
