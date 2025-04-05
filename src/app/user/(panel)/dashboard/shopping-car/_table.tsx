@@ -10,7 +10,8 @@ import DelSuccessDialog from "./del-dialog";
 import ShoppingCarFilter from "./_filter";
 import { Button } from "@/components/ui/button";
 import { clearShoppingCarAPI } from "@/api/shoppingCar";
-import { useUserStore } from "@/app/user/store";
+import CheckDialog from "./_check-dialog";
+import { toast } from "sonner";
 
 const ShoppingCarTable = () => {
     const columns = useMemo<ColumnDef<ShoppingCar>[]>(() => [
@@ -21,7 +22,7 @@ const ShoppingCarTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        {row.original.name}
+                        {row.original.goodName}
                     </div>
                 )
             }
@@ -80,8 +81,9 @@ const ShoppingCarTable = () => {
             size: 300,
             cell: ({ row }) => {
                 const [isOpen, setIsOpen] = useState(false);
+                const [checkDialog, setCheckDialog] = useState(false);
                 return (
-                    <>
+                    <div className="flex items-center gap-[12px]">
                         <div
                             className="flex items-center px-[20px] py-[16px] gap-[12px] cursor-pointer"
                             onClick={() => setIsOpen(true)}
@@ -92,22 +94,47 @@ const ShoppingCarTable = () => {
                             isOpen && (
                                 <DelSuccessDialog
                                     isOpen={isOpen}
-                                    setIsOpen={setIsOpen}
+                                    setIsOpen={() => {
+                                        setIsOpen
+                                        refetch();
+                                    }}
+                                    shoppingCarId={row.original.id}
                                 />
                             )
                         }
-                    </>
+                        <div
+                            className="flex items-center px-[20px] py-[16px] gap-[12px] cursor-pointer"
+                            onClick={() => {
+                                setCheckDialog(true);
+                            }}
+                        >
+                            购买
+                        </div>
+                        {
+                            checkDialog && (
+                                <CheckDialog
+                                    open={checkDialog}
+                                    onOpenChange={setCheckDialog}
+                                    shoppingCar={row.original}
+                                />
+                            )
+                        }
+                    </div>
                 )
             }
         }
     ], []);
 
+    const merchantId = localStorage.getItem('merchantId') || "";
+
     const queryShoppingCarList = async () => {
-        const response = await getShoppingCarList();
+        const response = await getShoppingCarList(
+            merchantId
+        );
         return response.data;
     }
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ["shoppingCarList"],
         queryFn: queryShoppingCarList,
     })
@@ -118,19 +145,29 @@ const ShoppingCarTable = () => {
     })
 
     const { table } = useDataTable({
-        data: data as ShoppingCar[],
+        data: data as unknown as ShoppingCar[],
         columns,
         pagination,
         setPagination
     })
 
-    const { userId } = useUserStore();
 
     const clearShoppingCar = async () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        const response = await clearShoppingCarAPI(userId);
+        await clearShoppingCarAPI(merchantId);
+        toast.success("已成功清空購物車");
+        refetch();
     }
 
+    if (data?.length === 0) {
+        return (
+            <div className="flex flex-col gap-[12px]">
+                <div className="text-[18px] font-medium">
+                    購物車為空，快去逛逛吧！
+                </div>
+            </div>
+        )
+    }
     return (
         <div className="flex flex-col gap-[12px]">
             <div className="flex flex-row justify-between">

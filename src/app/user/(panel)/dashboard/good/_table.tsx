@@ -64,6 +64,18 @@ const GoodTable = () => {
             }
         },
         {
+            id: "count",
+            header: "庫存",
+            size: 300,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
+                        {row.original.count}
+                    </div>
+                )
+            }
+        },
+        {
             id: "action",
             header: "操作",
             size: 300,
@@ -94,7 +106,7 @@ const GoodTable = () => {
                                             }
                                             onAddOpenChange(e);
                                         }}
-                                        goodId={row.original.goodId}
+                                        good={row.original}
                                     />
                                 )
                             }
@@ -116,6 +128,7 @@ const GoodTable = () => {
                                                 setBuyStep(BuyStep.PreBuy);
                                             }
                                             onBuyOpenChange(e);
+                                            refetch
                                         }}
                                         good={row.original}
                                     />
@@ -134,15 +147,11 @@ const GoodTable = () => {
     })
 
     const getGoodList = async () => {
-        const response = await queryGoodListAPI({
-            filter: {
-                search: ''
-            }
-        })
+        const response = await queryGoodListAPI()
         return response;
     }
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['goodList'],
         queryFn: getGoodList,
     })

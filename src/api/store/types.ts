@@ -20,3 +20,11 @@ export interface EditStoreBody {
 export interface AddMerchantToStoreBody {
     merchantIds: string[];
 }
+
+export interface GoodListofStore {
+    storeId: string;
+    goodId: string;
+    name: string;
+    price: number;
+    count: number;
+}

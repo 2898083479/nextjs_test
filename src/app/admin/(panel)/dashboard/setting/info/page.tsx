@@ -58,7 +58,7 @@ export const InfoPage = () => {
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data)
-        const response = await updatePolicyInfo("", {
+        const response = await updatePolicyInfo(policyInfo.id, {
             name: data.name || "",
             description: data.description || "",
             startAt: data.date.startAt.toISOString(),

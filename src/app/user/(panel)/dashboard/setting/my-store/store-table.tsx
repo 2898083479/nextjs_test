@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Store } from "@/app/admin/(panel)/dashboard/store/types"
-import { getStoreInfoList } from "@/api/store";
 import { useQuery } from "@tanstack/react-query";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { useState } from "react";
@@ -9,7 +8,10 @@ import { PaginationState } from "@tanstack/react-table";
 import { DataTable } from "@/components/core/data-table";
 import { Edit } from "lucide-react";
 import dayjs from "dayjs";
+import { getStoreListOfMerchant } from "@/api/merchant";
+
 export const StoreTable = () => {
+    const merchantId = localStorage.getItem('merchantId') || "";
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
             id: "name",
@@ -53,14 +55,7 @@ export const StoreTable = () => {
     ], [])
 
     const queryStoreList = async () => {
-        const response = await getStoreInfoList(
-            {
-                filter: {
-                    merchantCount: 1,
-                    goodCount: 1,
-                }
-            }
-        );
+        const response = await getStoreListOfMerchant(merchantId);
         return response.data;
     }
 

@@ -1,7 +1,8 @@
 export interface Order {
     id: string;
-    ownerId: string;
+    merchantId: string;
     goodName: string;
     totalPrice: number;
+    destination: string;
     orderCreateTime: string;
 }

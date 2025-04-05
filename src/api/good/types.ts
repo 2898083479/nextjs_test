@@ -7,11 +7,16 @@ export interface searchBody {
 
 export interface buyBody {
     goodId: string;
+    merchantId: string;
     quantity: number;
+    destination: string;
 }
 
 export interface addGoodToShoppingCarBody {
     goodId: string;
+    merchantId: string;
+    goodName: string;
+    price: number;
     quantity: number;
 }
 

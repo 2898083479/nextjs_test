@@ -1,6 +1,4 @@
-import { IResponse } from "@/api/index"
-import { ResponseStatusCode } from "@/api/types";
-import { faker } from "@faker-js/faker";
+import { formPostReq, IResponse } from "@/api/index"
 
 
 export interface ISignInBody {
@@ -10,21 +8,20 @@ export interface ISignInBody {
 
 export interface ISignInResponse extends IResponse {
     data: {
+        merchantId: string;
+        merchantName: string;
+        merchantEmail: string;
         accessToken: string;
-        refreshToken: string;
     }
 }
 
 export const userSignInAPI = async (body: ISignInBody): Promise<ISignInResponse> => {
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-
-    return {
-        category: '00',
-        code: ResponseStatusCode.success,
-        message: 'success',
-        data: {
-            accessToken: faker.string.uuid(),
-            refreshToken: faker.string.uuid(),
-        }
-    }
+    const formData = new FormData();
+    formData.append('email', body.email);
+    formData.append('password', body.password);
+    const response = await formPostReq({
+        path: "/account/merchant/login",
+        data: formData
+    })
+    return response.data;
 }

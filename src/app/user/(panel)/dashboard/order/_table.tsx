@@ -7,7 +7,7 @@ import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import dayjs from "dayjs";
 const OrderTable = () => {
-
+    const merchantId = localStorage.getItem("merchantId") || "";
     const columns: ColumnDef<Order>[] = useMemo(() => [
         {
             id: 'id',
@@ -46,6 +46,18 @@ const OrderTable = () => {
             }
         },
         {
+            id: 'destination',
+            header: '收貨地址',
+            size: 300,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
+                        {row.original.destination}
+                    </div>
+                )
+            }
+        },
+        {
             id: 'orderCreateTime',
             header: '支付時間',
             size: 300,
@@ -65,7 +77,7 @@ const OrderTable = () => {
     })
 
     const queryOrderList = async () => {
-        const response = await getOrderList();
+        const response = await getOrderList(merchantId);
         return response.data;
     }
 
@@ -75,7 +87,7 @@ const OrderTable = () => {
     })
 
     const { table } = useDataTable({
-        data: data as Order[],
+        data: data as unknown as Order[],
         columns,
         pagination,
         setPagination,

@@ -1,14 +1,18 @@
 import PreAddDialog from "./preAdd-dialog";
 import SuccessDialog from "./success-dialog";
 import { useAddStore, AddStep } from "../store";
+import { Good } from "@/app/admin/(panel)/dashboard/good/types";
 
 interface Props {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    goodId: string;
 }
 
-const AddGoodDialog = ({ open, onOpenChange, goodId }: Props) => {
+interface Props {
+    good: Good;
+}
+
+const AddGoodDialog = ({ open, onOpenChange, good }: Props) => {
     const { step } = useAddStore();
 
     if (step === AddStep.Success) {
@@ -24,7 +28,7 @@ const AddGoodDialog = ({ open, onOpenChange, goodId }: Props) => {
         <PreAddDialog
             open={open}
             onOpenChange={onOpenChange}
-            goodId={goodId}
+            good={good}
         />
     )
 }

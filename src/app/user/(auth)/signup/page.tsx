@@ -66,7 +66,7 @@ const SignupPage = () => {
         <div className="flex justify-center items-center h-screen">
             <Card className="w-[450px]">
                 <CardHeader>
-                    User Register
+                    用户注册
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -153,7 +153,7 @@ const SignupPage = () => {
                                     type="button"
                                     onClick={() => router.push('/user/signin')}
                                 >
-                                    back
+                                    返回登录
                                 </Button>
                                 <Button
                                     type="submit"
@@ -162,10 +162,10 @@ const SignupPage = () => {
                                 >
                                     {form.formState.isSubmitting ? (
                                         <span className="flex items-center gap-2">
-                                            <Loader className="w-4 h-4 animate-spin" /> Registering...
+                                            <Loader className="w-4 h-4 animate-spin" /> 注册中...
                                         </span>
                                     ) : (
-                                        "register"
+                                        "注册"
                                     )}
                                 </Button>
                             </div>

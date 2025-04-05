@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 export interface IUserStore {
-    userId: string;
-    setUserId: (userId: string) => void;
+    merchantId: string;
+    setMerchantId: (merchantId: string) => void;
 }
 
-export const useUserStore = create<IUserStore>((set) => ({
-    userId: "",
-    setUserId: (userId) => set({ userId }),
+export const useMerchantStore = create<IUserStore>((set) => ({
+    merchantId: "",
+    setMerchantId: (merchantId) => set({ merchantId }),
 }))
