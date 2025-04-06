@@ -96,7 +96,6 @@ const ShoppingCarTable = () => {
                                     isOpen={isOpen}
                                     setIsOpen={() => {
                                         setIsOpen
-                                        refetch();
                                     }}
                                     shoppingCarId={row.original.id}
                                 />

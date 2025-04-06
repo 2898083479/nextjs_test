@@ -86,6 +86,7 @@ const CheckDialog = ({ open, onOpenChange, shoppingCar }: Props) => {
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         onClick={() => {
                             buy(shoppingCar, destination);
+                            onOpenChange(false)
                         }}
                     >
                         確認
