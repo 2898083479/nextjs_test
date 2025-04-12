@@ -36,10 +36,10 @@ const SigninPage = () => {
     const router = useRouter();
     const formSchema = z.object({
         email: z.string()
-            .nonempty({ message: "Please Enter email" })
-            .email({ message: "Please enter a valid email" }),
+            .nonempty({ message: "请输入邮箱" })
+            .email({ message: "请输入正确的邮箱" }),
         password: z.string()
-            .nonempty({ message: "Please Enter password" })
+            .nonempty({ message: "请输入密码" })
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -57,11 +57,11 @@ const SigninPage = () => {
         })
         setMerchantId(response.data.merchantId)
         if (values.email !== response.data.merchantEmail) {
-            form.setError("email", { message: "The email is not registered" })
+            form.setError("email", { message: "邮箱未注册" })
             return;
         }
         if (response.code !== ResponseStatusCode.success) {
-            form.setError("password", { message: "The password is incorrect" })
+            form.setError("password", { message: "密码错误" })
             return;
         }
         localStorage.setItem('accessToken', response.data.accessToken)

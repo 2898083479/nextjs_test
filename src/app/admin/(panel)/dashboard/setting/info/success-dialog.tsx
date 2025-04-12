@@ -15,14 +15,14 @@ const SuccessDialog = ({ open, onOpenChange }: Props) => {
         >
             <div className="flex flex-col gap-4">
                 <div>
-                    operation success
+                    修改成功
                 </div>
                 <div className="flex justify-end">
                     <Button
                         onClick={() => onOpenChange(false)}
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                     >
-                        Close
+                        確定
                     </Button>
                 </div>
             </div>

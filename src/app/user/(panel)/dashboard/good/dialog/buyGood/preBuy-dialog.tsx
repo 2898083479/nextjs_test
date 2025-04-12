@@ -31,7 +31,15 @@ const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
 
     const formSchema = z.object({
         quantity: z.string()
-            .transform(value => Number(value)),
+            .transform(value => Number(value))
+            .refine(value => {
+                if (value <= 0) {
+                    return false;
+                }
+                return true;
+            }, {
+                message: "不能小于等于0"
+            }),
         destination: z.string().nonempty("請輸入收貨地址"),
     })
 
