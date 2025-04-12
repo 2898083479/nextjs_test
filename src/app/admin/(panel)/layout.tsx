@@ -39,6 +39,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 icon: ""
             },
             {
+                name: "Order",
+                href: ["/admin/dashboard/order"],
+                icon: ""
+            },
+            {
                 name: "Setting",
                 href: ["/admin/dashboard/setting"],
                 icon: ""
