@@ -32,19 +32,19 @@ const SignupPage = () => {
     const router = useRouter();
     const formSchema = z.object({
         email: z.string()
-            .nonempty({ message: "Please enter your email" })
-            .email({ message: "Please enter a valid email" }),
+            .nonempty({ message: "请输入邮箱" })
+            .email({ message: "请输入正确的邮箱" }),
         password: z.string()
-            .nonempty({ message: "Please enter your password" }),
+            .nonempty({ message: "请输入密码" }),
         confirmPassword: z.string()
-            .nonempty({ message: "Please confirm your password" })
+            .nonempty({ message: "请确认密码" })
     }).refine((data) => {
         if (data.password !== data.confirmPassword) {
             return false;
         }
         return true;
     }, {
-        message: "Two passwords must be the same",
+        message: "两次密码不一致",
         path: ["confirmPassword"]
     })
 

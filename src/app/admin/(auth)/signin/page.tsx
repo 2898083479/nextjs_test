@@ -59,13 +59,13 @@ export default function SignInPage() {
             email: values.email,
             password: values.password,
         })
-
+        console.log(message)
         if (code === ResponseStatusCode.success) {
             localStorage.setItem("accessToken", data.accessToken)
             localStorage.setItem("refreshToken", data.refreshToken)
             router.push("/admin/dashboard")
         } else {
-            form.setError("email", { message: message })
+            form.setError("password", { message: message })
         }
     }
 

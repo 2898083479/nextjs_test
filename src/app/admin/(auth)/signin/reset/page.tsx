@@ -59,7 +59,7 @@ export default function ResetPage() {
         if (code === ResponseStatusCode.success) {
             setOpen(true)
         }
-        if (code === ResponseStatusCode.error) {
+        if (code === ResponseStatusCode.operating_failed) {
             form.setError("email", { message: message })
         }
     }

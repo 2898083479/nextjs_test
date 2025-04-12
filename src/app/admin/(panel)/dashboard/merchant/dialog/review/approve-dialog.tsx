@@ -15,7 +15,7 @@ export const ApproveDialog = ({ open, onOpenChange }: Props) => {
         >
             <div className="flex flex-col gap-4">
                 <div className="text-[18px]">审核通过</div>
-                <div className="text-[14px] text-[#8E95A9]">您已同意该商品申请</div>
+                <div className="text-[14px] text-[#8E95A9]">您已同意该用户的注册申请</div>
                 <div className="flex justify-end">
                     <Button
                         className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
