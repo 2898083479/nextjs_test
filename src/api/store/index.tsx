@@ -1,5 +1,5 @@
 import { deleteReq, getReq, IResponse, putReq, postReq } from "../index";
-import { StoreResponseInfo, AddMerchantToStoreBody, GoodListofStore } from "./types";
+import { StoreResponseInfo, AddMerchantToStoreBody, GoodListofStore, CreateStoreBody } from "./types";
 import { EditStoreBody } from "./types";
 import { MerchantResponse } from "../merchant/types";
 
@@ -98,6 +98,37 @@ export const QueryGoodListofStoreAPI = async (storeId: string): Promise<IRespons
     const response = await getReq({
         path: "/store/good/list",
         params: { storeId },
+        token: token || undefined
+    })
+    return response.data;
+}
+
+export const CreateStoreAPI = async (merchantId: string, body: CreateStoreBody): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await postReq({
+        path: "/store",
+        params: {
+            merchantId
+        },
+        data: body,
+        token: token || undefined
+    })
+    return response.data;
+}
+
+export const UpdateMerchantStoreAPI = async (
+    merchantId: string,
+    storeId: string,
+    body: EditStoreBody
+): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken')
+    const response = await putReq({
+        path: "/store/merchant",
+        params: {
+            merchantId,
+            storeId
+        },
+        data: body,
         token: token || undefined
     })
     return response.data;

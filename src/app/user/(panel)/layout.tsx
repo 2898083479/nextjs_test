@@ -46,7 +46,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <div>
             <div className="fixed left-0 top-0 h-screen w-64 bg-[#f5f5f5] text-white p-4">
                 <div className="mb-8">
-                    <h1 className="text-2xl font-bold text-center text-[#0C7FDA]">User Panel</h1>
+                    <h1 className="text-2xl font-bold text-center text-[#0C7FDA]">用户面板</h1>
                 </div>
                 {menu}
                 <div className="flex absolute bottom-4 text-black">
@@ -55,7 +55,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                         variant='ghost'
                         onClick={signOut}
                     >
-                        logout
+                        登出
                     </Button>
                 </div>
             </div>
