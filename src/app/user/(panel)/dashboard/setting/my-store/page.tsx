@@ -18,7 +18,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { CreateStoreAPI } from "@/api/store";
+import { ResponseStatusCode } from "@/api/types";
+import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
+
 const SettingMyStorePage = () => {
+    const merchantId = localStorage.getItem('merchantId')
     const router = useRouter()
     const [open, setOpen] = useState(false)
     const formSchema = z.object({
@@ -40,9 +46,14 @@ const SettingMyStorePage = () => {
             router.push('/user/signin')
         }
     }, [])
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data)
-        setOpen(false)
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const response = await CreateStoreAPI(merchantId || '', data)
+        if (response.code === ResponseStatusCode.success) {
+            toast.success('创建店铺成功')
+            setOpen(false)
+        } else {
+            form.setError('email', { message: response.message })
+        }
     }
     return (
         <>
@@ -91,7 +102,8 @@ const SettingMyStorePage = () => {
                                 <FormItem>
                                     <FormLabel>店铺描述</FormLabel>
                                     <FormControl>
-                                        <Input
+                                        <Textarea
+                                            className="resize-none"
                                             {...field}
                                         />
                                     </FormControl>

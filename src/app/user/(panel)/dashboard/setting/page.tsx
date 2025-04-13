@@ -70,7 +70,7 @@ const SettingInfoPage = () => {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>姓名</FormLabel>
                             <FormControl>
                                 <Input
                                     {...field}
@@ -86,7 +86,7 @@ const SettingInfoPage = () => {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel>邮箱</FormLabel>
                             <FormControl>
                                 <Input {...field} placeholder={merchantInfo?.[0].email} />
                             </FormControl>
@@ -99,7 +99,7 @@ const SettingInfoPage = () => {
                         type="submit"
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/90"
                     >
-                        Submit
+                        提交
                     </Button>
                 </div>
             </form>

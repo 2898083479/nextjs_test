@@ -9,6 +9,7 @@ import { DataTable } from "@/components/core/data-table";
 import { Edit } from "lucide-react";
 import dayjs from "dayjs";
 import { getStoreListOfMerchant } from "@/api/merchant";
+import { EditDialog } from "./_edit-dialog";
 
 export const StoreTable = () => {
     const merchantId = localStorage.getItem('merchantId') || "";
@@ -39,16 +40,32 @@ export const StoreTable = () => {
             id: "action",
             header: "操作",
             cell: ({ row }) => {
+                const [open, setOpen] = useState(false)
                 return (
-                    <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        <div
-                            className="cursor-pointer"
-                        >
-                            <Edit
-                                className="size-[15px]"
-                            />
+                    <>
+                        <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
+                            <div
+                                className="cursor-pointer"
+                                onClick={() => setOpen(true)}
+                            >
+                                <Edit
+                                    className="size-[15px]"
+                                />
+                            </div>
                         </div>
-                    </div>
+                        {
+                            open && (
+                                <EditDialog
+                                    open={open}
+                                    onOpenChange={() => {
+                                        setOpen(false)
+                                        refetch()
+                                    }}
+                                    store={row.original}
+                                />
+                            )
+                        }
+                    </>
                 )
             }
         }
@@ -59,7 +76,7 @@ export const StoreTable = () => {
         return response.data;
     }
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['storeList'],
         queryFn: queryStoreList,
     });

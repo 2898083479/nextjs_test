@@ -11,10 +11,10 @@ export interface StoreResponseInfo {
 }
 
 export interface EditStoreBody {
-    name: string,
-    email: string,
-    status: string,
-    description: string,
+    name?: string,
+    email?: string,
+    status?: string,
+    description?: string,
 }
 
 export interface AddMerchantToStoreBody {
@@ -27,4 +27,10 @@ export interface GoodListofStore {
     name: string;
     price: number;
     count: number;
+}
+
+export interface CreateStoreBody {
+    name: string;
+    description: string;
+    email: string;
 }
