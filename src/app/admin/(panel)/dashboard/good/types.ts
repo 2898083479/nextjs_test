@@ -3,6 +3,7 @@ export interface Good {
     name: string;
     source: string;
     category: string;
+    status: string;
     price: number;
     count: number;
     createAt: string;
@@ -14,4 +15,10 @@ export enum GoodCategory {
     CARVING = '精雕',
     MEDICINE = '藥物',
     FURNITURE = '家具',
+}
+
+export enum GoodStatus {
+    Pending = "待審核",
+    Approved = "已批准",
+    Rejected = "已拒絕",
 }

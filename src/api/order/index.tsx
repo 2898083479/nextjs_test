@@ -22,3 +22,16 @@ export const createOrder = async (body: OrderBody): Promise<IResponse> => {
     })
     return response.data;
 }
+
+export const feedbackOrderAPI = async (orderId: string, reason: string): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken') || "";
+    const response = await postReq({
+        path: "/order/feedback",
+        params: {
+            orderId,
+            reason
+        },
+        token
+    })
+    return response.data;
+}

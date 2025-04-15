@@ -9,5 +9,11 @@ export const useGoodFilter = () => {
         setCategory("");
     }
 
-    return { searchValue, setSearchValue, reset, category, setCategory };
+    return {
+        searchValue,
+        setSearchValue,
+        reset,
+        category,
+        setCategory
+    };
 }

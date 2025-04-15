@@ -3,6 +3,7 @@ import { Overview } from "./types";
 import { ResponseStatusCode } from "../types";
 import dayjs from "dayjs";
 import { faker } from "@faker-js/faker";
+
 export const getBarginOverview = async (): Promise<IResponse & {data: Overview[]}> => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 

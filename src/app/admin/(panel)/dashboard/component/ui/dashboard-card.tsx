@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card"
 import { ChevronRight, Loader } from "lucide-react"
 import { Good } from "../../good/types"
-import { Store } from "../../store/types"
+import { Store, StoreStatus } from "../../store/types"
 import { useQuery, keepPreviousData } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -20,11 +20,9 @@ import { queryGoodListAPI } from "@/api/good"
 export const DashboardCard = () => {
     const queryStoreList = async () => {
         const response = await getStoreInfoList({
-            filter: {
-                search: "",
-                merchantCount: 0,
-                goodCount: 0,
-            }
+            search: "",
+            merchantCount: 0,
+            goodCount: 0,
         })
         return response.data
     }
@@ -37,11 +35,7 @@ export const DashboardCard = () => {
     })
 
     const getGoodList = async () => {
-        const response = await queryGoodListAPI({
-            filter: {
-                search: "",
-            }
-        })
+        const response = await queryGoodListAPI()
         return response.data
     }
 
@@ -76,13 +70,13 @@ export const DashboardCard = () => {
                     </CardTitle>
                     <CardDescription>审核符合条件的店铺注册申请</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-row gap-4 items-center justify-center">
+                <CardContent className="grid grid-cols-3 gap-4 items-center justify-center">
                     {storeLoading ? (
                         <span className="flex items-center gap-2">
                             <Loader className="animate-spin" /> Loading...</span>
                     ) : (
-                        storeList?.slice(0, 3).filter((store) => store.status === "待审核").map((store) => (
-                            <DashboardCardStore key={store.storeId} store={store as unknown as Store} className="w-1/3" />
+                        storeList?.slice(0, 3).filter((store) => store.status === StoreStatus.Pending).map((store) => (
+                            <DashboardCardStore key={store.storeId} store={store as unknown as Store} />
                         ))
                     )}
                 </CardContent>
@@ -109,13 +103,13 @@ export const DashboardCard = () => {
                     </CardTitle>
                     <CardDescription>审核符合条件的商品</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-row gap-4 items-center justify-center">
+                <CardContent className="grid grid-cols-3 gap-4 items-center justify-center">
                     {goodLoading ? (
                         <span className="flex items-center gap-2">
                             <Loader className="animate-spin" /> Loading...</span>
                     ) : (
                         goodList?.slice(0, 3).map((good) => (
-                            <DashboardCardGood key={good.id} good={good as unknown as Good} className="1/3" />
+                            <DashboardCardGood key={good.goodId} good={good as unknown as Good} />
                         ))
                     )}
                 </CardContent>
