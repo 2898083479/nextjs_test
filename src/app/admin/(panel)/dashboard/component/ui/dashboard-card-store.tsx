@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Store } from "../../store/types"
 import { Button } from "@/components/ui/button"
@@ -7,27 +9,28 @@ import {
 } from "@/components/ui/card"
 import { Eye } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 interface Props {
     store: Store
     className?: string
 }
 
 export const DashboardCardStore = ({ store, className }: Props) => {
+    const router = useRouter()
     return (
         <Card className={cn(className)}>
             <CardHeader>
                 <div className="flex items-center justify-between">
                     <span>
-                        <div>百年沉香店铺</div>
+                        <div>{store.name}</div>
                         <div className="text-sm text-gray-500">
-                            chenxiang@example.com
+                            {store.email}
                         </div>
                     </span>
                     <Button
                         variant="ghost"
                         onClick={() => {
-                            console.log("store")
-                            console.log(store)
+                            router.push('dashboard/store')
                         }}
                     >
                         <Eye />

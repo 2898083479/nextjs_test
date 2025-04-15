@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import dayjs from "dayjs";
+import { FeedbackDialog } from "./_feedback-dialog";
 const OrderTable = () => {
     const merchantId = localStorage.getItem("merchantId") || "";
     const columns: ColumnDef<Order>[] = useMemo(() => [
@@ -66,6 +67,34 @@ const OrderTable = () => {
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         {dayjs(row.original.orderCreateTime).format('YYYY-MM-DD HH:mm:ss')}
                     </div>
+                )
+            }
+        },
+        {
+            id: 'action',
+            size: 100,
+            cell: ({ row }) => {
+                const [open, setOpen] = useState(false)
+                return (
+                    <div>
+                        <div
+                            onClick={() => {
+                                setOpen(true)
+                            }}
+                            className="flex items-center px-[20px] py-[16px] gap-[12px] cursor-pointer">
+                            我要反馈
+                        </div>
+                        {
+                            open && (
+                                <FeedbackDialog
+                                    open={open}
+                                    onOpenChange={setOpen}
+                                    orderId={row.original.id}
+                                />
+                            )
+                        }
+                    </div>
+
                 )
             }
         }

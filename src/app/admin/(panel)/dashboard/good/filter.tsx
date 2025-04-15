@@ -3,11 +3,11 @@ import { useGoodFilter } from "./filter.hook";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { 
-    Form, 
-    FormControl, 
-    FormField, 
-    FormItem 
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem
 } from "@/components/ui/form";
 import { GoodCategory } from "./types";
 import {
@@ -18,6 +18,8 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { SearchIcon } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+
 export const Filter = () => {
     const {
         searchValue,
@@ -26,6 +28,7 @@ export const Filter = () => {
         setCategory,
         reset
     } = useGoodFilter();
+    const queryClient = useQueryClient();
 
     const formSchema = z.object({
         searchValue: z.string().optional(),
@@ -43,7 +46,6 @@ export const Filter = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         values.searchValue = searchValue;
         values.category = category as GoodCategory;
-        console.log(values);
     }
 
     return (
@@ -52,7 +54,7 @@ export const Filter = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <div className="flex flex-row gap-4">
-                <FormField
+                    <FormField
                         control={form.control}
                         name="category"
                         render={({ field }) => (
@@ -62,6 +64,7 @@ export const Filter = () => {
                                         value={category}
                                         onValueChange={(value) => {
                                             setCategory(value as GoodCategory);
+                                            queryClient.invalidateQueries({ queryKey: ["good-list"] });
                                         }}
                                     >
                                         <SelectTrigger className="text-[#94A3B8]">

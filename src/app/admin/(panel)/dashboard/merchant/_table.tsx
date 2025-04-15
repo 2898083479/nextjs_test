@@ -7,11 +7,10 @@ import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { useDisclosure } from "@/components/hooks";
 import { ReviewStep, useEditStore, useStore } from "./store";
-import { Filter } from "./filter";
 import { Merchant } from "./types";
 import { format } from "date-fns";
 import { MerchantStatus } from "./types";
-import { Edit2Icon, TrashIcon, ClipboardList } from "lucide-react";
+import { Edit2Icon, TrashIcon, ClipboardList, SearchIcon } from "lucide-react";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { IndexDialog } from "./dialog/review/index-dialog";
 import { IndexDialog2 } from "./dialog/edit/index";
@@ -21,9 +20,10 @@ import { getMerchantInfo } from "@/api/merchant";
 import { CheckDialog } from "./dialog/check/check-dialog";
 import { MerchantDeleteDialog } from "./dialog/delete-dialog";
 import { useTableFilter } from "./filter.hook";
+import { Filter } from "./filter";
 
 export const MerchantDataTable = () => {
-    const { searchValue } = useTableFilter();
+    const { searchValue, setSearchValue, reset } = useTableFilter();
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
         {
             id: "admin-info",
@@ -172,17 +172,16 @@ export const MerchantDataTable = () => {
         pageIndex: 0,
         pageSize: 9,
     });
+    const { filter } = useTableFilter();
 
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['merchant-data'],
+        queryKey: ['merchant-list', filter.search],
         queryFn: () => getMerchantInfoList(),
         refetchOnWindowFocus: false,
-        placeholderData: keepPreviousData,
-        retry: 0
     });
 
     const getMerchantInfoList = async () => {
-        const response = await getMerchantInfo(undefined, searchValue);
+        const response = await getMerchantInfo(searchValue);
         return response.data;
     }
 

@@ -3,12 +3,11 @@ import { StoreResponseInfo } from "../store/types";
 import { ResponseStatusCode } from "../types"
 import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from "./types";
 
-export const getMerchantInfo = async (merchantId?: string, search?: string): Promise<IResponse & { data: MerchantResponse[] }> => {
+export const getMerchantInfo = async (search?: string): Promise<IResponse & { data: MerchantResponse[] }> => {
     const token = localStorage.getItem('accessToken')
     const response = await getReq({
         path: "/account/merchant/list",
         params: {
-            merchantId,
             search,
         },
         token: token || undefined

@@ -2,13 +2,22 @@
 import { Input } from "@/components/ui/input"
 import { useTableFilter } from "./filter.hook";
 import { SearchIcon } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+
 export const Filter = () => {
-    const { searchValue, setSearchValue, reset } = useTableFilter();
+    const { searchValue, setSearchValue, reset, filter } = useTableFilter();
+    const queryClient = useQueryClient();
     return (
         <div className="flex flex-row gap-2">
             <Input
                 value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
+                onChange={(e) => {
+                    setSearchValue(e.target.value);
+                    queryClient.invalidateQueries({ 
+                        queryKey: ["merchant-list", filter.search] 
+                    });
+                    console.log(e.target.value)
+                }}
                 placeholder="搜索"
                 className="max-w-[200px]"
                 endContent={

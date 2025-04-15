@@ -1,7 +1,7 @@
 'use client'
 
 import { Filter } from "./filter";
-import { Good, GoodCategory } from "./types";
+import { Good, GoodCategory, GoodStatus } from "./types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { PaginationState } from "@tanstack/react-table";
@@ -12,7 +12,7 @@ import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import { Button } from "@/components/ui/button";
 import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
-import { GoodStatusChip } from "./_status";
+import { GoodCategoryChip, GoodStatusChip } from "./_status";
 import CheckDialog from "./dialog/check";
 import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";
 import { useRouter } from "next/navigation";
@@ -52,7 +52,21 @@ export const GoodDataTable = () => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-col text-[14px] leading-[20px]">
-                            <GoodStatusChip category={row.original.category as GoodCategory} />
+                            <GoodCategoryChip category={row.original.category as GoodCategory} />
+                        </div>
+                    </div>
+                )
+            }
+        },
+        {
+            id: "status",
+            header: "status",
+            size: 200,
+            cell: ({ row }) => {
+                return (
+                    <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
+                        <div className="flex flex-col text-[14px] leading-[20px]">
+                            <GoodStatusChip status={row.original.status as GoodStatus} />
                         </div>
                     </div>
                 )

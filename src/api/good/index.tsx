@@ -6,7 +6,6 @@ import {
     addGoodToShoppingCarBody,
     updateGoodBody
 } from "./types";
-import { ResponseStatusCode } from "../types";
 
 export const queryGoodListAPI = async (body?: searchBody): Promise<IResponse & { data: GoodResponse[] }> => {
     const token = localStorage.getItem('accessToken')

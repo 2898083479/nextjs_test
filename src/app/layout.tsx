@@ -5,6 +5,8 @@ import "./globals.css";
 import { Providers } from "@/components/providers"
 import { useRouter } from "next/navigation";
 import { setupAxiosInterceptors } from "@/api";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -23,13 +25,18 @@ export default function RootLayout({
 }>) {
   const router = useRouter();
   setupAxiosInterceptors(router);
+  const queryClient = new QueryClient();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-            {children}
+            <QueryClientProvider client={queryClient}>
+                <NuqsAdapter>
+                    {children}
+                </NuqsAdapter>
+            </QueryClientProvider>
         </Providers>
       </body>
     </html>
