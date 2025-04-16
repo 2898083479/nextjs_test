@@ -17,11 +17,14 @@ import {
 import { useQuery } from "@tanstack/react-query"
 import { getStoreInfoList, QueryGoodListofStoreAPI } from "@/api/store"
 import { useParams } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { GoodListofStore } from "@/api/store/types"
+import { Button } from "@/components/ui/button"
+import { AddGoodDialog } from "./_addGood-dialog"
 
 export const StoreInfoPage = () => {
     const [goodList, setGoodList] = useState<GoodListofStore[]>([]);
+    const [addGoodDialogOpen, setAddGoodDialogOpen] = useState(false);
     const { storeId } = useParams()
     const { data } = useQuery({
         queryKey: ["storeInfo", storeId],
@@ -31,6 +34,11 @@ export const StoreInfoPage = () => {
         const { data: goodList } = await QueryGoodListofStoreAPI(storeId as string);
         setGoodList(goodList);
     }
+
+    useEffect(() => {
+        getGoodList();
+    }, [addGoodDialogOpen])
+
     return (
         <div>
             <Card>
@@ -52,6 +60,15 @@ export const StoreInfoPage = () => {
             </Card>
             <Card>
                 <CardContent>
+                    <CardHeader>
+                        <CardTitle>商品列表</CardTitle>
+                        <Button
+                            className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
+                            onClick={() => setAddGoodDialogOpen(true)}
+                        >
+                            添加商品
+                        </Button>
+                    </CardHeader>
                     <Table className="min-h-[112px]">
                         <TableHeader className="bg-[#CBD5E1]">
                             <TableRow>
@@ -92,6 +109,11 @@ export const StoreInfoPage = () => {
                     </Table>
                 </CardContent>
             </Card>
+            <AddGoodDialog
+                open={addGoodDialogOpen}
+                onOpenChange={setAddGoodDialogOpen}
+                storeId={storeId as string}
+            />
         </div>
     )
 }

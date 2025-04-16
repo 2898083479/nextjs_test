@@ -61,7 +61,7 @@ const SettingMyStorePage = () => {
                 <div>
                     <Button
                         type="button"
-                        className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80 text-white"
+                        className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         onClick={() => setOpen(true)}
                     >
                         创建个人店铺
@@ -131,7 +131,7 @@ const SettingMyStorePage = () => {
                         >
                             <Button
                                 type="submit"
-                                className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80 text-white"
+                                className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
                             >
                                 创建店铺
                             </Button>
