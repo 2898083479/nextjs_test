@@ -230,26 +230,29 @@ export const StoreDataTable = () => {
             }
         }
     ], []);
-
+    const accessToken = localStorage.getItem("accessToken")
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 9,
     });
 
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['store-data'],
+        queryKey: ['store-data', searchValue, merchantCount, goodCount],
         queryFn: () => getStoreList(),
+        select: (data) => 
+            searchValue || merchantCount || goodCount
+                ? data.filter((item) => item.name.includes(searchValue) || item.merchant_count === Number(merchantCount) || item.good_count === Number(goodCount))
+                : data,
         refetchOnWindowFocus: false,
-        placeholderData: keepPreviousData,
+        enabled: !!accessToken,
     });
 
     const getStoreList = async () => {
-        const response = await getStoreInfoList({
+        const response = await getStoreInfoList("", {
             search: searchValue,
             merchantCount: Number(merchantCount),
             goodCount: Number(goodCount),
         })
-        console.log(response.data)
         return response.data;
     }
 

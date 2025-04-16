@@ -20,6 +20,7 @@ import { EditStore, useEditStore, useGoodStore } from "./store";
 import dayjs from "dayjs";
 import { useDisclosure } from "@/components/hooks/use-disclosure";
 import EditIndexDialog from "./dialog/edit/index";
+import { useGoodFilter } from "./filter.hook";
 
 export const GoodDataTable = () => {
     const router = useRouter();
@@ -206,7 +207,8 @@ export const GoodDataTable = () => {
             }
         }
     ], [])
-
+    const { searchValue, category } = useGoodFilter();
+    const accessToken = localStorage.getItem("accessToken")
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 9,
@@ -218,10 +220,14 @@ export const GoodDataTable = () => {
     }
 
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ["good-list"],
+        queryKey: ["good-list", searchValue, category],
         queryFn: getGoodList,
+        select: (data) => 
+            searchValue || category
+                ? data.filter((item) => item.name.includes(searchValue) || item.category === category)
+                : data,
         refetchOnWindowFocus: false,
-        placeholderData: keepPreviousData,
+        enabled: !!accessToken,
     })
 
     const { table } = useDataTable({
