@@ -7,7 +7,7 @@ import StoreFilter from "./_filter";
 
 const StoreTable = () => {
     const queryStoreList = async () => {
-        const response = await getStoreInfoList({
+        const response = await getStoreInfoList("", {
             search: "",
             merchantCount: 0,
             goodCount: 0,

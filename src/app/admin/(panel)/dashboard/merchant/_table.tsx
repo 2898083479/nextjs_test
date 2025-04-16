@@ -21,6 +21,12 @@ import { CheckDialog } from "./dialog/check/check-dialog";
 import { MerchantDeleteDialog } from "./dialog/delete-dialog";
 import { useTableFilter } from "./filter.hook";
 import { Filter } from "./filter";
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+  } from "@/components/ui/avatar"
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const MerchantDataTable = () => {
     const { searchValue, setSearchValue, reset } = useTableFilter();
@@ -33,6 +39,12 @@ export const MerchantDataTable = () => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
                         <div className="flex flex-col text-[14px] leading-[20px]">
+                            <Avatar>
+                                <AvatarImage src={row.original.avatar} alt="@shadcn" />
+                                <AvatarFallback>
+                                    <Skeleton/>
+                                </AvatarFallback>
+                            </Avatar>
                             <span className="text-tp">{row.original.name}</span>
                             <span className="text-ts">{row.original.email}</span>
                         </div>

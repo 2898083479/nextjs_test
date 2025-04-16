@@ -9,11 +9,14 @@ interface Body {
     goodCount?: number | ''; // good count
 }
 
-export const getStoreInfoList = async (body?: Body): Promise<IResponse & { data: StoreResponseInfo[] }> => {
+export const getStoreInfoList = async (storeId?: string, body?: Body): Promise<IResponse & { data: StoreResponseInfo[] }> => {
     const token = localStorage.getItem('accessToken')
     const response = await getReq({
         path: "/store/list",
-        params: body,
+        params: {
+            storeId,
+            ...body,
+        },
         token: token || undefined
     })
     return response.data;
