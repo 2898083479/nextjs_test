@@ -7,6 +7,7 @@ export enum MerchantStatus {
 
 export interface Merchant {
     merchantId: string;
+    avatar: string;
     identity: number;
     storeId: string;
     name: string;

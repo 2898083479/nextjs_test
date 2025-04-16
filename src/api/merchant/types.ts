@@ -1,6 +1,7 @@
 export interface MerchantResponse {
     id: string;
     storeId: string;
+    avatar: string;
     email: string;
     name: string;
     status: string;

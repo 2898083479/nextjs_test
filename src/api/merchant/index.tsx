@@ -1,7 +1,7 @@
 import { IResponse, deleteReq, getReq, putReq } from "../index"
 import { StoreResponseInfo } from "../store/types";
 import { ResponseStatusCode } from "../types"
-import { MerchantResponse, SearchBody, AddMerchantBody, EditMerchantBody } from "./types";
+import { MerchantResponse, AddMerchantBody, EditMerchantBody } from "./types";
 
 export const getMerchantInfo = async (search?: string): Promise<IResponse & { data: MerchantResponse[] }> => {
     const token = localStorage.getItem('accessToken')
