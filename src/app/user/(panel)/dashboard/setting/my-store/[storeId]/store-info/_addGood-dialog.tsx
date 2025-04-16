@@ -13,11 +13,16 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GoodCategory } from "@/app/admin/(panel)/dashboard/good/types"
-import { Loader } from "lucide-react"
+import { Loader, Loader2 } from "lucide-react"
 import { addGoodAPI } from "@/api/good"
 import { addGoodBody } from "@/api/good/types"
 import { toast } from "sonner"
 import { ResponseStatusCode } from "@/api/types"
+import { AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar } from "@/components/ui/avatar"
+import { Skeleton } from "@/components/ui/skeleton"
+import { PlusIcon } from "@radix-ui/react-icons"
+import { useState } from "react"
 
 interface Props {
     open: boolean;
@@ -28,19 +33,24 @@ interface Props {
     storeId: string;
 }
 
-export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
+const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
+export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
+    const [imageUrl, setImageUrl] = useState<string>("");
+    const [isUploading, setIsUploading] = useState<boolean>(false);
     const formSchema = z.object({
-        name: z.string().optional(),
-        source: z.string().optional(),
-        category: z.nativeEnum(GoodCategory).optional(),
-        price: z.string().optional(),
-        count: z.string().optional(),
+        image: z.string().nonempty({ message: "请上传商品图片" }),
+        name: z.string().nonempty({ message: "请输入商品名称" }),
+        source: z.string().nonempty({ message: "请输入商品来源" }),
+        category: z.nativeEnum(GoodCategory, { message: "请选择商品分类" }),
+        price: z.string().nonempty({ message: "请输入商品价格" }),
+        count: z.string().nonempty({ message: "请输入商品数量" }),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            image: "",
             name: "",
             source: "",
             category: GoodCategory.SPICE,
@@ -57,6 +67,11 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
             toast.error("商品添加失败")
         }
     }
+
+    const generateImageUrl = (file: File) => {
+        setImageUrl(URL.createObjectURL(file));
+    }
+
     return (
         <WrapperDialog open={open} onOpenChange={onOpenChange}>
             <Form {...form}>
@@ -64,6 +79,56 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex flex-col gap-2"
                 >
+                    <FormField
+                        control={form.control}
+                        name="image"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>image</FormLabel>
+                                <FormControl>
+                                    <label className="w-[56px] h-[56px] bg-[#F6F6F6] flex flex-col items-center justify-center cursor-pointer border rounded-full overflow-hidden">
+                                        <input
+                                            type="file"
+                                            id="good-image"
+                                            accept={ACCEPTED_FILE_TYPES.join(
+                                                ",",
+                                            )}
+                                            onBlur={field.onBlur}
+                                            onChange={(e) => {
+                                                generateImageUrl(
+                                                    e.target.files?.[0] ||
+                                                    new File([], ""),
+                                                );
+                                            }}
+                                            className="hidden"
+                                            ref={field.ref}
+                                        />
+                                        {isUploading ? (
+                                            <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                                        ) : field.value ? (
+                                            <Avatar className="w-[56px] h-[56px]">
+                                                <AvatarImage
+                                                    alt="team-image"
+                                                    src={
+                                                        imageUrl
+                                                            ? imageUrl
+                                                            : field.value
+                                                    }
+                                                    className="w-full h-full object-cover"
+                                                />
+                                                <AvatarFallback>
+                                                    <Skeleton />
+                                                </AvatarFallback>
+                                            </Avatar>
+                                        ) : (
+                                            <PlusIcon className="w-4 h-4" />
+                                        )}
+                                    </label>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="name"

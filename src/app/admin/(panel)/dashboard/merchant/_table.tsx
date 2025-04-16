@@ -185,11 +185,16 @@ export const MerchantDataTable = () => {
         pageSize: 9,
     });
     const { filter } = useTableFilter();
-
+    const accessToken = localStorage.getItem("accessToken")
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['merchant-list', filter.search],
+        queryKey: ['merchant-list', searchValue],
         queryFn: () => getMerchantInfoList(),
+        select: (data) => 
+            searchValue
+                ? data.filter((item) => item.name.includes(searchValue))
+                : data,
         refetchOnWindowFocus: false,
+        enabled: !!accessToken,
     });
 
     const getMerchantInfoList = async () => {

@@ -14,6 +14,7 @@ import { useDisclosure } from "@/components/hooks";
 import { AddStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useAddStore } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useBuyStore, BuyStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
+import { useGoodFilter } from "./filter.hook";
 
 const GoodTable = () => {
     const [sort, setSort] = useState(false);
@@ -140,7 +141,8 @@ const GoodTable = () => {
             }
         }
     ], [])
-
+    const accessToken = localStorage.getItem("accessToken")
+    const { search } = useGoodFilter();
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 9
@@ -148,16 +150,21 @@ const GoodTable = () => {
 
     const getGoodList = async () => {
         const response = await queryGoodListAPI()
-        return response;
+        return response.data;
     }
 
     const { data, isLoading, refetch } = useQuery({
-        queryKey: ['goodList'],
+        queryKey: ['goodList', search],
         queryFn: getGoodList,
+        select: (data) => 
+            search
+                ? data.filter((item) => item.name.includes(search))
+                : data,
+        enabled: !!accessToken,
     })
 
     const { table } = useDataTable({
-        data: data?.data as unknown as Good[],
+        data: data as unknown as Good[],
         columns,
         pagination,
         setPagination
