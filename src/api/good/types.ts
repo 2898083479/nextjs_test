@@ -1,3 +1,5 @@
+import { GoodCategory } from "@/app/admin/(panel)/dashboard/good/types";
+
 export interface searchBody {
     storeId?: string;
     filter: {
@@ -18,6 +20,14 @@ export interface addGoodToShoppingCarBody {
     goodName: string;
     price: number;
     quantity: number;
+}
+
+export interface addGoodBody {
+    name: string;
+    source: string;
+    category: GoodCategory;
+    price: string;
+    count: string;
 }
 
 export interface GoodResponse {

@@ -4,7 +4,8 @@ import {
     GoodResponse,
     buyBody,
     addGoodToShoppingCarBody,
-    updateGoodBody
+    updateGoodBody,
+    addGoodBody
 } from "./types";
 
 export const queryGoodListAPI = async (body?: searchBody): Promise<IResponse & { data: GoodResponse[] }> => {
@@ -58,6 +59,19 @@ export const addGoodToShoppingCarAPI = async (body: addGoodToShoppingCarBody): P
     const token = localStorage.getItem("accessToken");
     const response = await postReq({
         path: "/shoppingCar",
+        data: body,
+        token: token || undefined
+    })
+    return response.data
+}
+
+export const addGoodAPI = async (storeId: string, body: addGoodBody): Promise<IResponse> => {
+    const token = localStorage.getItem("accessToken");
+    const response = await postReq({
+        path: "/good",
+        params: {
+            storeId
+        },
         data: body,
         token: token || undefined
     })
