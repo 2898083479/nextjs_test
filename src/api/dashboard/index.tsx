@@ -19,3 +19,4 @@ export const getBarginOverview = async (): Promise<IResponse & {data: Overview[]
         }))
     }
 }
+

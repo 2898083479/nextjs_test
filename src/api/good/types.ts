@@ -28,6 +28,7 @@ export interface addGoodBody {
     category: GoodCategory;
     price: string;
     count: string;
+    image: string;
 }
 
 export interface GoodResponse {
@@ -38,6 +39,7 @@ export interface GoodResponse {
     price: number;
     count: number;
     policys: string[];
+    image: string;
     createAt: string;
 }
 
@@ -47,4 +49,5 @@ export interface updateGoodBody {
     category: string;
     price: number;
     count: number;
+    image?: string;
 }

@@ -1,3 +1,5 @@
+"use client"
+
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Store } from "@/app/admin/(panel)/dashboard/store/types"
@@ -10,9 +12,11 @@ import { Edit } from "lucide-react";
 import dayjs from "dayjs";
 import { getStoreListOfMerchant } from "@/api/merchant";
 import { EditDialog } from "./_edit-dialog";
+import { useRouter } from "next/navigation";
 
 export const StoreTable = () => {
     const merchantId = localStorage.getItem('merchantId') || "";
+    const router = useRouter();
     const columns = useMemo<ColumnDef<Store>[]>(() => [
         {
             id: "name",
@@ -51,6 +55,11 @@ export const StoreTable = () => {
                                 <Edit
                                     className="size-[15px]"
                                 />
+                            </div>
+                            <div className="cursor-pointer" onClick={() => {
+                                router.push(`/user/dashboard/setting/my-store/${row.original.storeId}/store-info`)
+                            }}>
+                                detail
                             </div>
                         </div>
                         {

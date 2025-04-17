@@ -24,11 +24,12 @@ import { useTableFilter } from "./filter.hook";
 import dayjs from "dayjs";
 import { useAddStore, AddStep } from "./store";
 import AddMerchantDialog from "./dialog/addMerchant";
+import { Input } from "@/components/ui/input";
 export const StoreDataTable = () => {
     const {
         searchValue,
-        merchantCount,
-        goodCount,
+        setSearchValue,
+        reset
     } = useTableFilter();
 
     const columns = useMemo<ColumnDef<Store>[]>(() => [
@@ -237,22 +238,18 @@ export const StoreDataTable = () => {
     });
 
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ['store-data', searchValue, merchantCount, goodCount],
+        queryKey: ['store-data', searchValue],
         queryFn: () => getStoreList(),
-        select: (data) => 
-            searchValue || merchantCount || goodCount
-                ? data.filter((item) => item.name.includes(searchValue) || item.merchant_count === Number(merchantCount) || item.good_count === Number(goodCount))
+        select: (data) =>
+            searchValue
+                ? data.filter((item) => item.name.includes(searchValue))
                 : data,
         refetchOnWindowFocus: false,
         enabled: !!accessToken,
     });
 
     const getStoreList = async () => {
-        const response = await getStoreInfoList("", {
-            search: searchValue,
-            merchantCount: Number(merchantCount),
-            goodCount: Number(goodCount),
-        })
+        const response = await getStoreInfoList()
         return response.data;
     }
 
@@ -265,7 +262,20 @@ export const StoreDataTable = () => {
 
     return (
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
-            <Filter />
+            <div className="flex flex-row gap-2">
+                <Input
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="搜索"
+                    className="max-w-[200px] text-[#94A3B8]"
+                />
+                <div
+                    onClick={reset}
+                    className="flex items-center justify-center text-[#94A3B8] cursor-pointer"
+                >
+                    重置
+                </div>
+            </div>
             <DataTable
                 isLoading={isLoading}
                 table={table}

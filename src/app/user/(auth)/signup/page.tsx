@@ -19,14 +19,19 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
     EyeOpenIcon,
     EyeClosedIcon
 } from "@radix-ui/react-icons";
 import { Loader } from "lucide-react";
+import { userSignUpAPI } from "@/api/merchant/auth/signinup";
+import { toast } from "sonner";
+import { ResponseStatusCode } from "@/api/types";
 
 const SignupPage = () => {
+    const [avatar, setAvatar] = useState<string>("/image/default-avatar.jpeg");
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const router = useRouter();
@@ -57,9 +62,31 @@ const SignupPage = () => {
         }
     })
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
+    useEffect(() => {
+        const loadDefaultAvatar = async () => {
+            if (avatar) {
+                const response = await fetch(avatar);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                setAvatarPreview(url);
+            }
+        };
+
+        loadDefaultAvatar();
+    }, []);
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const response = await userSignUpAPI({
+            email: data.email,
+            password: data.password,
+            avatar: avatarPreview || avatar
+        })
+        if (response.code !== ResponseStatusCode.success) {
+            form.setError("email", { message: response.message })
+            return
+        }
+        toast.success("注册成功")
         router.push('/user/signin')
-        console.log(data)
     }
 
     return (
@@ -79,7 +106,7 @@ const SignupPage = () => {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>邮箱</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -94,7 +121,7 @@ const SignupPage = () => {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>密码</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type={showPassword ? "text" : "password"}
@@ -123,7 +150,7 @@ const SignupPage = () => {
                                 name="confirmPassword"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Confirm Password</FormLabel>
+                                        <FormLabel>确认密码</FormLabel>
                                         <FormControl>
                                             <Input
                                                 type={showConfirmPassword ? "text" : "password"}

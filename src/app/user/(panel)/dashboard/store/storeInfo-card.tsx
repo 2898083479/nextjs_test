@@ -26,7 +26,7 @@ const StoreInfoCard = ({ store }: Props) => {
     const [selectedGood, setSelectedGood] = useState<Good>();
 
     const getGoodList = async () => {
-        const { data: goodList } = await QueryGoodListofStoreAPI(store.storeId);
+        const { data: goodList, message } = await QueryGoodListofStoreAPI(store.storeId);
         setGoodList(goodList);
     }
 
@@ -49,7 +49,7 @@ const StoreInfoCard = ({ store }: Props) => {
                             {store.description}
                         </div>
                         <div className="break-words text-sm text-gray-600">
-                            商品數量：{store.goodCount}
+                            该店铺共有{store.goodCount}种商品
                         </div>
                     </div>
                 </CardContent>
@@ -85,64 +85,70 @@ const StoreInfoCard = ({ store }: Props) => {
                                 </TableHeader>
                                 <TableBody>
                                     {
-                                        goodList.length > 0 ? (
-                                            goodList?.map((good) => (
-                                                <TableRow key={good.goodId}>
-                                                    <TableCell className="px-4 py-3 text-ts">
-                                                        {good.name}
-                                                    </TableCell>
-                                                    <TableCell className="px-4 py-3 text-ts">
-                                                        {good.price}
-                                                    </TableCell>
-                                                    <TableCell className="px-4 py-3 text-ts">
-                                                        {good.count}
-                                                    </TableCell>
-                                                    <TableCell className="flex flex-row gap-2 text-ts text-center">
-                                                        <div
-                                                            className="cursor-pointer"
-                                                            onClick={() => {
-                                                                setSelectedGood(good as unknown as Good);
-                                                                setAddGood(true);
-                                                            }}
-                                                        >
-                                                            添加到购物车
-                                                        </div>
-                                                        {
-                                                            addGood && (
-                                                                <AddGoodDialog
-                                                                    open={addGood}
-                                                                    onOpenChange={setAddGood}
-                                                                    good={selectedGood as Good}
-                                                                />
-                                                            )
-                                                        }
-                                                        <div
-                                                            className="cursor-pointer"
-                                                            onClick={() => {
-                                                                setSelectedGood(good as unknown as Good);
-                                                                setBuyGood(true);
-                                                            }}
-                                                        >
-                                                            直接购买
-                                                        </div>
-                                                        {
-                                                            buyGood && (
-                                                                <BuyGoodDialog
-                                                                    open={buyGood}
-                                                                    onOpenChange={setBuyGood}
-                                                                    good={selectedGood as Good}
-                                                                />
-                                                            )
-                                                        }
+                                        goodList == null ? (
+                                            <div>
+                                                该店铺暂时没有商品
+                                            </div>
+                                        ) : (
+                                            goodList.length > 0 ? (
+                                                goodList?.map((good) => (
+                                                    <TableRow key={good.goodId}>
+                                                        <TableCell className="px-4 py-3 text-ts">
+                                                            {good.name}
+                                                        </TableCell>
+                                                        <TableCell className="px-4 py-3 text-ts">
+                                                            {good.price}
+                                                        </TableCell>
+                                                        <TableCell className="px-4 py-3 text-ts">
+                                                            {good.count}
+                                                        </TableCell>
+                                                        <TableCell className="flex flex-row gap-2 text-ts text-center">
+                                                            <div
+                                                                className="cursor-pointer"
+                                                                onClick={() => {
+                                                                    setSelectedGood(good as unknown as Good);
+                                                                    setAddGood(true);
+                                                                }}
+                                                            >
+                                                                添加到购物车
+                                                            </div>
+                                                            {
+                                                                addGood && (
+                                                                    <AddGoodDialog
+                                                                        open={addGood}
+                                                                        onOpenChange={setAddGood}
+                                                                        good={selectedGood as Good}
+                                                                    />
+                                                                )
+                                                            }
+                                                            <div
+                                                                className="cursor-pointer"
+                                                                onClick={() => {
+                                                                    setSelectedGood(good as unknown as Good);
+                                                                    setBuyGood(true);
+                                                                }}
+                                                            >
+                                                                直接购买
+                                                            </div>
+                                                            {
+                                                                buyGood && (
+                                                                    <BuyGoodDialog
+                                                                        open={buyGood}
+                                                                        onOpenChange={setBuyGood}
+                                                                        good={selectedGood as Good}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            ) : (
+                                                <TableRow>
+                                                    <TableCell colSpan={4} className="text-center">
+                                                        暂无商品
                                                     </TableCell>
                                                 </TableRow>
-                                            ))
-                                        ) : (
-                                            <TableRow>
-                                                <TableCell colSpan={4} className="text-center">
-                                                    暂无商品
-                                                </TableCell>
-                                            </TableRow>
+                                            )
                                         )
                                     }
                                 </TableBody>

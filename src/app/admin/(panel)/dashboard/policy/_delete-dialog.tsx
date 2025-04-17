@@ -37,7 +37,7 @@ export const DeleteDialog = ({ open, onOpenChange, policyId }: Props) => {
                 <div className="flex flex-row gap-2 justify-end">
                     <Button
                         variant="outline"
-                        className="text-[#0C7FDA] border-[#0C7FDA]"
+                        className="text-[#0C7FDA] border-[#0C7FDA] hover:text-[#0C7FDA] border-[#0C7FDA]/80"
                         onClick={() => {
                             onOpenChange(false);
                         }}
@@ -45,7 +45,7 @@ export const DeleteDialog = ({ open, onOpenChange, policyId }: Props) => {
                         取消
                     </Button>
                     <Button
-                        className="bg-[#0C7FDA] text-white"
+                        className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         onClick={() => {
                             deletePolicy(policyId);
                         }}

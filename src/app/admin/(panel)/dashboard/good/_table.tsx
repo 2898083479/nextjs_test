@@ -1,17 +1,15 @@
 'use client'
 
-import { Filter } from "./filter";
 import { Good, GoodCategory, GoodStatus } from "./types";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { PaginationState } from "@tanstack/react-table";
 import { useQuery } from "@tanstack/react-query";
 import { queryGoodListAPI } from "@/api/good";
-import { keepPreviousData } from "@tanstack/react-query";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import { Button } from "@/components/ui/button";
-import { Edit2Icon, ClipboardList, TrashIcon } from "lucide-react";
+import { Edit2Icon, ClipboardList, TrashIcon, SearchIcon } from "lucide-react";
 import { GoodCategoryChip, GoodStatusChip } from "./_status";
 import CheckDialog from "./dialog/check";
 import { PreDeleteDialog } from "./dialog/delete/preDelete-dialog";
@@ -21,6 +19,8 @@ import dayjs from "dayjs";
 import { useDisclosure } from "@/components/hooks/use-disclosure";
 import EditIndexDialog from "./dialog/edit/index";
 import { useGoodFilter } from "./filter.hook";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const GoodDataTable = () => {
     const router = useRouter();
@@ -207,7 +207,7 @@ export const GoodDataTable = () => {
             }
         }
     ], [])
-    const { searchValue, category } = useGoodFilter();
+    const { searchValue, category, setCategory, setSearchValue, reset } = useGoodFilter();
     const accessToken = localStorage.getItem("accessToken")
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
@@ -222,7 +222,7 @@ export const GoodDataTable = () => {
     const { isLoading, data, refetch } = useQuery({
         queryKey: ["good-list", searchValue, category],
         queryFn: getGoodList,
-        select: (data) => 
+        select: (data) =>
             searchValue || category
                 ? data.filter((item) => item.name.includes(searchValue) || item.category === category)
                 : data,
@@ -239,7 +239,48 @@ export const GoodDataTable = () => {
 
     return (
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
-            <Filter />
+            <div className="flex flex-row gap-2">
+                <div>
+                    <Select
+                        value={category}
+                        onValueChange={(e) => {
+                            setCategory(e as GoodCategory);
+                            refetch();
+                            console.log(e)
+                        }}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="请选择商品分类" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {Object.values(GoodCategory).map((category) => (
+                                <SelectItem key={category} value={category}>
+                                    {category}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <Input
+                    value={searchValue}
+                    onChange={(e) => {
+                        setSearchValue(e.target.value);
+                    }}
+                    placeholder="搜索"
+                    className="max-w-[200px]"
+                    endContent={
+                        <div className="flex items-center gap-2 cursor-pointer">
+                            <SearchIcon className="size-[15px]" />
+                        </div>
+                    }
+                />
+                <div
+                    className="flex items-center text-[#94A3B8] cursor-pointer mr-2"
+                    onClick={reset}
+                >
+                    重置
+                </div>
+            </div>
             <DataTable
                 isLoading={isLoading}
                 table={table}

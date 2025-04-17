@@ -83,21 +83,41 @@ const OrderTable = () => {
                             onClick={() => {
                                 setOpenCancelDialog(true)
                             }}
-                        >取消订单</span>
-                        <CancelDialog
-                            open={openCancelDialog}
-                            onOpenChange={setOpenCancelDialog}
-                        />
+                        >
+                            取消订单
+                        </span>
+                        {
+                            openCancelDialog && (
+                                <CancelDialog
+                                    open={openCancelDialog}
+                                    onOpenChange={() => {
+                                        setOpenCancelDialog
+                                        // refetch()
+                                    }}
+                                    orderId={row.original.id}
+                                />
+                            )
+                        }
                         <span
                             className="cursor-pointer text-[#0ea5e9]"
                             onClick={() => {
                                 setOpenCloseDialog(true)
                             }}
-                        >终止订单</span>
-                        <CloseDialog
-                            open={openCloseDialog}
-                            onOpenChange={setOpenCloseDialog}
-                        />
+                        >
+                            终止订单
+                        </span>
+                        {
+                            openCloseDialog && (
+                                <CloseDialog
+                                    open={openCloseDialog}
+                                    onOpenChange={() => {
+                                        setOpenCloseDialog
+                                        // refetch()
+                                    }}
+                                    orderId={row.original.id}
+                                />
+                            )
+                        }
                     </div>
                 )
             }
@@ -114,7 +134,7 @@ const OrderTable = () => {
         return response.data;
     }
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['orderList'],
         queryFn: queryOrderList,
     })

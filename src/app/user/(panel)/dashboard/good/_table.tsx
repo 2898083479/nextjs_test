@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import GoodFilter from "./_filter";
-import { ArrowDownUp } from "lucide-react";
+import { ArrowDownUp, SearchIcon } from "lucide-react";
 import AddGoodDialog from "@/app/user/(panel)/dashboard/good/dialog/addGood"
 import BuyGoodDialog from "@/app/user/(panel)/dashboard/good/dialog/buyGood"
 import { useDisclosure } from "@/components/hooks";
@@ -15,6 +15,7 @@ import { AddStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useAddStore } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useBuyStore, BuyStep } from "@/app/user/(panel)/dashboard/good/dialog/store";
 import { useGoodFilter } from "./filter.hook";
+import { Input } from "@/components/ui/input";
 
 const GoodTable = () => {
     const [sort, setSort] = useState(false);
@@ -142,7 +143,7 @@ const GoodTable = () => {
         }
     ], [])
     const accessToken = localStorage.getItem("accessToken")
-    const { search } = useGoodFilter();
+    const { search, setSearch, reset } = useGoodFilter();
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 9
@@ -156,7 +157,7 @@ const GoodTable = () => {
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['goodList', search],
         queryFn: getGoodList,
-        select: (data) => 
+        select: (data) =>
             search
                 ? data.filter((item) => item.name.includes(search))
                 : data,
@@ -172,7 +173,25 @@ const GoodTable = () => {
 
     return (
         <div className="flex flex-col gap-[12px] w-full mx-auto">
-            <GoodFilter />
+            <div className="flex flex-row gap-2">
+                <Input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="搜索"
+                    endContent={
+                        <SearchIcon
+                            className="cursor-pointer"
+                            size={15}
+                        />
+                    }
+                />
+                <div
+                    className="flex flex-row items-center cursor-pointer text-[#afafaf]"
+                    onClick={reset}
+                >
+                    重置
+                </div>
+            </div>
             <DataTable
                 table={table}
                 isLoading={isLoading}

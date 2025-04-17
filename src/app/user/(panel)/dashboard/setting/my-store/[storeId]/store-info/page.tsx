@@ -3,6 +3,7 @@
 import {
     Card,
     CardContent,
+    CardFooter,
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
@@ -21,10 +22,13 @@ import { useState, useEffect } from "react"
 import { GoodListofStore } from "@/api/store/types"
 import { Button } from "@/components/ui/button"
 import { AddGoodDialog } from "./_addGood-dialog"
+import { EditGoodDialog } from "./_editGood-dialog"
+import { Good } from "@/app/admin/(panel)/dashboard/good/types"
 
-export const StoreInfoPage = () => {
+const StoreInfoPage = () => {
     const [goodList, setGoodList] = useState<GoodListofStore[]>([]);
     const [addGoodDialogOpen, setAddGoodDialogOpen] = useState(false);
+    const [editGoodDialogOpen, setEditGoodDialogOpen] = useState(false);
     const { storeId } = useParams()
     const { data } = useQuery({
         queryKey: ["storeInfo", storeId],
@@ -40,20 +44,18 @@ export const StoreInfoPage = () => {
     }, [addGoodDialogOpen])
 
     return (
-        <div>
+        <div className="flex flex-col gap-4">
             <Card>
                 <CardContent>
-                    <CardHeader>
-                        <CardTitle>店铺信息</CardTitle>
-                    </CardHeader>
-                    <div className="flex flex-col gap-2">
-                        <div>
-                            <span>店铺名称</span>
-                            <span>{data?.data[0].name}</span>
+                    <CardHeader className="text-lg font-bold">店铺信息</CardHeader>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm font-medium">店铺名称</span>
+                            <span className="text-sm">{data?.data[0].name}</span>
                         </div>
-                        <div>
-                            <span>店铺邮箱</span>
-                            <span>{data?.data[0].email}</span>
+                        <div className="flex justify-between items-center">
+                            <span className="text-sm font-medium">店铺邮箱</span>
+                            <span className="text-sm">{data?.data[0].email}</span>
                         </div>
                     </div>
                 </CardContent>
@@ -62,12 +64,6 @@ export const StoreInfoPage = () => {
                 <CardContent>
                     <CardHeader>
                         <CardTitle>商品列表</CardTitle>
-                        <Button
-                            className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
-                            onClick={() => setAddGoodDialogOpen(true)}
-                        >
-                            添加商品
-                        </Button>
                     </CardHeader>
                     <Table className="min-h-[112px]">
                         <TableHeader className="bg-[#CBD5E1]">
@@ -75,38 +71,67 @@ export const StoreInfoPage = () => {
                                 <TableHead className="px-4 py-3 text-ts">商品名稱</TableHead>
                                 <TableHead className="px-4 py-3 text-ts">商品價格</TableHead>
                                 <TableHead className="px-4 py-3 text-ts">商品數量</TableHead>
-                                <TableHead className="px-4 py-3 text-ts text-center">操作</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {
-                                goodList.length > 0 ? (
-                                    goodList?.map((good) => (
-                                        <TableRow key={good.goodId}>
-                                            <TableCell className="px-4 py-3 text-ts">
-                                                {good.name}
-                                            </TableCell>
-                                            <TableCell className="px-4 py-3 text-ts">
-                                                {good.price}
-                                            </TableCell>
-                                            <TableCell className="px-4 py-3 text-ts">
-                                                {good.count}
-                                            </TableCell>
-                                            <TableCell className="flex flex-row gap-2 text-ts text-center">
-
+                                goodList === null ? (
+                                    <div className="text-[20px]">
+                                        您的店铺目前没有商品哦，快去添加吧。
+                                    </div>
+                                ) : (
+                                    goodList.length > 0 ? (
+                                        goodList?.map((good) => (
+                                            <TableRow key={good.goodId}>
+                                                <TableCell className="px-4 py-3 text-ts">
+                                                    {good.name}
+                                                </TableCell>
+                                                <TableCell className="px-4 py-3 text-ts">
+                                                    {good.price}
+                                                </TableCell>
+                                                <TableCell className="px-4 py-3 text-ts">
+                                                    {good.count}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <span
+                                                        className="cursor-pointer"
+                                                        onClick={() => setEditGoodDialogOpen(true)}
+                                                    >
+                                                        Edit
+                                                    </span>
+                                                    {
+                                                        editGoodDialogOpen && (
+                                                            <EditGoodDialog
+                                                                open={editGoodDialogOpen}
+                                                                onOpenChange={setEditGoodDialogOpen}
+                                                                good={good as unknown as Good}
+                                                            />
+                                                        )
+                                                    }
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    ) : (
+                                        <TableRow>
+                                            <TableCell colSpan={4} className="text-center">
+                                                暂无商品
                                             </TableCell>
                                         </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={4} className="text-center">
-                                            暂无商品
-                                        </TableCell>
-                                    </TableRow>
+                                    )
                                 )
                             }
                         </TableBody>
                     </Table>
+                    <CardFooter>
+                        <div className="flex flex-row gap-2">
+                            <Button
+                                className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
+                                onClick={() => setAddGoodDialogOpen(true)}
+                            >
+                                添加商品
+                            </Button>
+                        </div>
+                    </CardFooter>
                 </CardContent>
             </Card>
             <AddGoodDialog
@@ -114,6 +139,9 @@ export const StoreInfoPage = () => {
                 onOpenChange={setAddGoodDialogOpen}
                 storeId={storeId as string}
             />
+
         </div>
     )
 }
+
+export default StoreInfoPage;
