@@ -84,6 +84,12 @@ const PreBuyDialog = ({ open, onOpenChange, good }: Props) => {
             <div>
                 <div>
                     <Label>您將要購買的商品是：</Label>{good.name}
+                    <div>
+                        <img
+                            src={good.image}
+                            alt={"图片损坏"}
+                        />
+                    </div>
                 </div>
                 <Form {...form}>
                     <form

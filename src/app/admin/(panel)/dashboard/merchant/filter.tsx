@@ -13,9 +13,6 @@ export const Filter = () => {
                 value={searchValue}
                 onChange={(e) => {
                     setSearchValue(e.target.value);
-                    queryClient.invalidateQueries({ 
-                        queryKey: ["merchant-list", filter.search]
-                    });
                 }}
                 placeholder="搜索"
                 className="max-w-[200px]"

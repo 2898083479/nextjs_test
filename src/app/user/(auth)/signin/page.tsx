@@ -50,36 +50,10 @@ const SigninPage = () => {
         }
     })
 
-    const [avatar, setAvatar] = useState<string>("/image/default-avatar.png");
-    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadDefaultAvatar = async () => {
-            try {
-                const response = await fetch(avatar);
-                const blob = await response.blob();
-                const objectUrl = URL.createObjectURL(blob);
-                setAvatarPreview(objectUrl);
-            } catch (error) {
-                console.error('Error loading default avatar:', error);
-            }
-        };
-    
-        loadDefaultAvatar();
-    
-        // 清理函数
-        return () => {
-            if (avatar.startsWith('blob:')) {
-                URL.revokeObjectURL(avatar);
-            }
-        };
-    }, []);
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const response = await userSignInAPI({
             email: values.email,
             password: values.password,
-            avatar: avatarPreview || undefined
         })
         setMerchantId(response.data.merchantId)
         if (values.email !== response.data.merchantEmail) {

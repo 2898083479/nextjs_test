@@ -2,26 +2,22 @@ import StoreInfoCard from "./storeInfo-card";
 import { useQuery } from "@tanstack/react-query";
 import { getStoreInfoList } from "@/api/store/index";
 import { Store } from "@/app/admin/(panel)/dashboard/store/types";
-import { Loader } from "lucide-react";
-import StoreFilter from "./_filter";
+import { Loader, Search } from "lucide-react";
 import { useStoreFilter } from "./filter.hook";
+import { Input } from "@/components/ui/input";
 
 const StoreTable = () => {
     const accessToken = localStorage.getItem("accessToken")
-    const { search } = useStoreFilter();
+    const { search, setSearch, reset } = useStoreFilter();
     const queryStoreList = async () => {
-        const response = await getStoreInfoList("", {
-            search: "",
-            merchantCount: 0,
-            goodCount: 0,
-        })
+        const response = await getStoreInfoList()
         return response.data;
     }
 
     const { data: storeList, isLoading } = useQuery({
         queryKey: ["storeList", search],
         queryFn: queryStoreList,
-        select: (data) => 
+        select: (data) =>
             search
                 ? data.filter((item) => item.name.includes(search))
                 : data,
@@ -31,7 +27,22 @@ const StoreTable = () => {
     return (
         <div className="flex flex-col gap-4">
             <div>
-                <StoreFilter />
+                <div className="flex items-center gap-2">
+                    <Input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="搜索"
+                        endContent={
+                            <Search className="size-[15px] cursor-pointer" />
+                        }
+                    />
+                    <div
+                        className="cursor-pointer text-[#afafaf]"
+                        onClick={reset}
+                    >
+                        重置
+                    </div>
+                </div>
             </div>
             <div>
                 {

@@ -3,19 +3,13 @@ import { StoreResponseInfo, AddMerchantToStoreBody, GoodListofStore, CreateStore
 import { EditStoreBody } from "./types";
 import { MerchantResponse } from "../merchant/types";
 
-interface Body {
-    search?: string | ''; // search keyword
-    merchantCount?: number | ''; // merchant count
-    goodCount?: number | ''; // good count
-}
-
-export const getStoreInfoList = async (storeId?: string, body?: Body): Promise<IResponse & { data: StoreResponseInfo[] }> => {
+export const getStoreInfoList = async (storeId?: string, search?: string): Promise<IResponse & { data: StoreResponseInfo[] }> => {
     const token = localStorage.getItem('accessToken')
     const response = await getReq({
         path: "/store/list",
         params: {
             storeId,
-            ...body,
+            search,
         },
         token: token || undefined
     })

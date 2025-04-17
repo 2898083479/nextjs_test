@@ -7,21 +7,6 @@ import {
     FormLabel,
     FormMessage
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { GoodCategory } from "@/app/admin/(panel)/dashboard/good/types"
-import { Loader, Loader2 } from "lucide-react"
-import { addGoodAPI } from "@/api/good"
-import { toast } from "sonner"
-import { ResponseStatusCode } from "@/api/types"
-import { AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Avatar } from "@/components/ui/avatar"
-import { Skeleton } from "@/components/ui/skeleton"
-import { PlusIcon } from "@radix-ui/react-icons"
-import { useState } from "react"
 import {
     Select,
     SelectContent,
@@ -29,7 +14,20 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select"
-import { fi } from "@faker-js/faker"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Good, GoodCategory } from "@/app/admin/(panel)/dashboard/good/types"
+import { PlusIcon } from "@radix-ui/react-icons"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Loader, Loader2 } from "lucide-react"
+import { useState } from "react"
+import { updateGoodAPI } from "@/api/good"
+import { toast } from "sonner"
+import { ResponseStatusCode } from "@/api/types"
 
 interface Props {
     open: boolean;
@@ -37,48 +35,50 @@ interface Props {
 }
 
 interface Props {
-    storeId: string;
+    good: Good;
 }
 
 const ACCEPTED_FILE_TYPES = ["image/png", "image/jpeg", "image/jpg"];
 
-export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
+export const EditGoodDialog = ({ open, onOpenChange, good }: Props) => {
     const [imageUrl, setImageUrl] = useState<string>("");
     const [isUploading, setIsUploading] = useState<boolean>(false);
+
     const formSchema = z.object({
+        name: z.string().min(1),
+        price: z.string().min(0),
+        count: z.string().min(0),
         image: z.string().optional(),
-        name: z.string().nonempty({ message: "请输入商品名称" }),
-        source: z.string().nonempty({ message: "请输入商品来源" }),
-        category: z.nativeEnum(GoodCategory, { message: "请选择商品分类" }),
-        price: z.string().nonempty({ message: "请输入商品价格" }),
-        count: z.string().nonempty({ message: "请输入商品数量" }),
+        source: z.string().min(1),
+        category: z.nativeEnum(GoodCategory).optional(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            image: "",
-            name: "",
-            source: "",
-            category: GoodCategory.SPICE,
-            price: "",
-            count: "",
+            name: good.name,
+            price: String(good.price),
+            count: String(good.count),
+            image: good.image,
+            source: good.source,
+            category: good.category as GoodCategory,
         }
     })
+
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const response = await addGoodAPI(storeId, {
-            image: imageUrl,
+        const response = await updateGoodAPI(good.goodId, {
             name: data.name,
+            price: Number(data.price),
+            count: Number(data.count),
+            image: imageUrl,
             source: data.source,
-            category: data.category,
-            price: data.price,
-            count: data.count,
+            category: data.category || GoodCategory.CARVING,
         })
         if (response.code === ResponseStatusCode.success) {
-            toast.success("商品添加成功")
+            toast.success("商品更新成功")
             onOpenChange(false)
         } else {
-            toast.error("商品添加失败")
+            toast.error("商品更新失败")
         }
     }
 
@@ -89,12 +89,9 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
     }
 
     return (
-        <WrapperDialog open={open} onOpenChange={onOpenChange}>
+        <WrapperDialog open={open} onOpenChange={onOpenChange} title="编辑商品">
             <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-2"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-2">
                     <FormField
                         control={form.control}
                         name="image"
@@ -152,10 +149,33 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
                             <FormItem>
                                 <FormLabel>商品名称</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        value={field.value}
-                                    />
+                                    <Input {...field} defaultValue={good.name} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="price"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>商品价格</FormLabel>
+                                <FormControl>
+                                    <Input {...field} defaultValue={good.price} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="count"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>商品数量</FormLabel>
+                                <FormControl>
+                                    <Input {...field} defaultValue={good.count} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -168,10 +188,7 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
                             <FormItem>
                                 <FormLabel>商品来源</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        value={field.value}
-                                    />
+                                    <Input {...field} defaultValue={good.source} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -184,10 +201,7 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
                             <FormItem>
                                 <FormLabel>商品分类</FormLabel>
                                 <FormControl>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                    >
+                                    <Select defaultValue={good.category}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="请选择商品分类" />
                                         </SelectTrigger>
@@ -204,38 +218,7 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="price"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>商品价格</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        value={field.value}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="count"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>商品数量</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        value={field.value}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+
                     <div className="flex items-center justify-end gap-2">
                         <Button
                             type="button"
@@ -250,7 +233,7 @@ export const AddGoodDialog = ({ open, onOpenChange, storeId }: Props) => {
                             className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                         >
                             {form.formState.isSubmitting ? <span className="flex items-center gap-2">
-                                <Loader className="animate-spin" /> 提交中...</span> : "提交"}
+                                <Loader className="animate-spin" /> 保存中...</span> : "保存"}
                         </Button>
                     </div>
                 </form>

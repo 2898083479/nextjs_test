@@ -1,4 +1,4 @@
-import { getReq, IResponse, postReq } from "../index";
+import { getReq, IResponse, postReq, deleteReq } from "../index";
 import { OrderResponse, OrderBody } from "./types";
 
 export const getOrderList = async (merchantId?: string): Promise<IResponse & { data: OrderResponse[] }> => {
@@ -31,6 +31,16 @@ export const feedbackOrderAPI = async (orderId: string, reason: string): Promise
             orderId,
             reason
         },
+        token
+    })
+    return response.data;
+}
+
+export const deleteOrderAPI = async (orderId: string): Promise<IResponse> => {
+    const token = localStorage.getItem('accessToken') || "";
+    const response = await deleteReq({
+        path: "/order",
+        params: { orderId },
         token
     })
     return response.data;

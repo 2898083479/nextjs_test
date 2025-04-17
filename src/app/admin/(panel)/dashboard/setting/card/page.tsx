@@ -46,7 +46,7 @@ export const CardPage = () => {
     return (
         <>
             <div className="flex flex-col gap-4">
-                <div className="flex justify-end">
+                {/* <div className="flex justify-end">
                     <Button
                         type="button"
                         className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
@@ -54,7 +54,7 @@ export const CardPage = () => {
                     >
                         添加政策
                     </Button>
-                </div>
+                </div> */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {policyList?.map((policy) => (
                         <PolicyCard

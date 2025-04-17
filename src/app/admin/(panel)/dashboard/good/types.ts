@@ -6,6 +6,7 @@ export interface Good {
     status: string;
     price: number;
     count: number;
+    image: string;
     createAt: string;
     updateAt: string;
 }

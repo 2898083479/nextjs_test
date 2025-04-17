@@ -9,13 +9,14 @@ import { useDataTable } from "@/components/core/data-table/hook";
 import { queryPolicyList } from "@/api/policy";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import Filter from "./filter";
 import { useRouter } from "next/navigation";
 import { PolicyStatusChip } from "./_status";
 import AddPolicyDialog from "./addPolicy-dialog";
 import dayjs from "dayjs";
-import { TrashIcon } from "lucide-react";
+import { SearchIcon, TrashIcon } from "lucide-react";
 import { DeleteDialog } from "./_delete-dialog";
+import { Input } from "@/components/ui/input";
+import { usePolicyFilter } from "./filter.hook";
 
 export const PolicyTable = () => {
     const router = useRouter();
@@ -108,7 +109,7 @@ export const PolicyTable = () => {
                             deleteDialog && (
                                 <DeleteDialog
                                     open={deleteDialog}
-                                    onOpenChange={()=>{
+                                    onOpenChange={() => {
                                         setDeleteDialog
                                         refetch()
                                     }}
@@ -122,6 +123,8 @@ export const PolicyTable = () => {
         }
     ], [])
 
+    const { search, setSearch, reset } = usePolicyFilter();
+
     const [pagination, setPagination] = useState<PaginationState>({
         pageIndex: 0,
         pageSize: 9,
@@ -133,8 +136,12 @@ export const PolicyTable = () => {
     }
 
     const { isLoading, data, refetch } = useQuery({
-        queryKey: ["policy-list"],
+        queryKey: ["policy-list", search],
         queryFn: getPolicyList,
+        select: (data) =>
+            search
+                ? data.filter((item) => item.name.includes(search))
+                : data,
         refetchOnWindowFocus: false,
         placeholderData: keepPreviousData,
     })
@@ -154,7 +161,27 @@ export const PolicyTable = () => {
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto">
             <div className="flex items-center justify-between">
                 <div>
-                    <Filter />
+                    <div className="flex flex-row gap-2">
+                        <Input
+                            value={search}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                            }}
+                            placeholder="搜索"
+                            className="max-w-[200px]"
+                            endContent={
+                                <div className="flex items-center gap-2 cursor-pointer">
+                                    <SearchIcon className="size-[15px]" />
+                                </div>
+                            }
+                        />
+                        <div
+                            className="flex items-center text-[#94A3B8] cursor-pointer mr-2"
+                            onClick={reset}
+                        >
+                            重置
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <Button

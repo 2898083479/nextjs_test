@@ -17,14 +17,16 @@ interface Props {
 
 export const FeedbackDialog = ({ open, onOpenChange, orderId }: Props) => {
     const [reason, setReason] = useState("")
+    const [message, setMessage] = useState("")
 
     const feedback = async (orderId: string) => {
         const res = await feedbackOrderAPI(orderId, reason)
         if (res.code !== ResponseStatusCode.success) {
-            toast.error(res.message)
+            setMessage(res.message)
             return
         }
         toast.success("反馈成功")
+        await new Promise(resolve => setTimeout(resolve, 3000));
         onOpenChange(false)
     }
 
@@ -44,6 +46,7 @@ export const FeedbackDialog = ({ open, onOpenChange, orderId }: Props) => {
                             setReason(e.target.value)
                         }}
                     />
+                    {message}
                 </div>
                 <div className="flex items-center justify-end gap-2">
                     <Button

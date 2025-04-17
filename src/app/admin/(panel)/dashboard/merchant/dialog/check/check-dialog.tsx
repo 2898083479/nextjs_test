@@ -1,6 +1,9 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { Button } from "@/components/ui/button";
 import { Merchant } from "@/app/admin/(panel)/dashboard/merchant/types";
+import { useQuery } from "@tanstack/react-query";
+import { getStoreListOfMerchant } from "@/api/merchant";
+
 interface CheckDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -8,6 +11,17 @@ interface CheckDialogProps {
 }
 
 export const CheckDialog = ({ open, onOpenChange, data }: CheckDialogProps) => {
+
+    const queryStoreList = async () => {
+        const response = getStoreListOfMerchant(data.merchantId);
+        return response
+    }
+
+    const { data: storeList } = useQuery({
+        queryKey: ['storeListOfMerchant'],
+        queryFn: queryStoreList
+    })
+
     return (
         <WrapperDialog
             open={open}
@@ -31,7 +45,11 @@ export const CheckDialog = ({ open, onOpenChange, data }: CheckDialogProps) => {
                 <div className="flex flex-col gap-1">
                     <div className="text-[14px] text-[#8E95A9]">店铺</div>
                     <div className="bg-[#F8FAFC] h-[46px] flex items-center rounded-[4px] p-2">
-                        {data.storeId}
+                        {
+                            storeList?.data?.map((store) => (
+                                <div key={store.storeId} className="p-4">{store.name}</div>
+                            ))
+                        }
                     </div>
                 </div>
                 <div className="flex justify-end">

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { setupAxiosInterceptors } from "@/api";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Toaster } from "sonner";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
                     {children}
                 </NuqsAdapter>
             </QueryClientProvider>
+            <Toaster />
         </Providers>
       </body>
     </html>

@@ -1,12 +1,25 @@
 import WrapperDialog from "@/components/core/wrapper-dialog/wrapper-dialog"
 import { Button } from "@/components/ui/button"
+import { deleteOrderAPI } from "@/api/order"
+import { toast } from "sonner"
+import { ResponseStatusCode } from "@/api/types"
 
 interface Props {
     open: boolean
     onOpenChange: (open: boolean) => void
+    orderId: string
 }
 
-export const CloseDialog = ({ open, onOpenChange }: Props) => {
+export const CloseDialog = ({ open, onOpenChange, orderId }: Props) => {
+    const handleClose = async () => {
+        const response = await deleteOrderAPI(orderId)
+        if (response.code === ResponseStatusCode.success) {
+            toast.success("订单终止成功")
+            onOpenChange(false)
+        } else {
+            toast.success("订单终止失败")
+        }
+    }
     return (
         <WrapperDialog
             open={open}
@@ -19,9 +32,7 @@ export const CloseDialog = ({ open, onOpenChange }: Props) => {
                 <div className="flex justify-end">
                     <Button
                         className="bg-[#0C7FDA] hover:bg-[#0C7FDA]/80 text-white"
-                        onClick={() => {
-                            onOpenChange(false)
-                        }}
+                        onClick={handleClose}
                     >
                         确定
                     </Button>

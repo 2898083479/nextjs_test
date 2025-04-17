@@ -25,8 +25,9 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage,
-  } from "@/components/ui/avatar"
+} from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 
 export const MerchantDataTable = () => {
     const { searchValue, setSearchValue, reset } = useTableFilter();
@@ -38,15 +39,17 @@ export const MerchantDataTable = () => {
             cell: ({ row }) => {
                 return (
                     <div className="flex items-center px-[20px] py-[16px] gap-[12px]">
-                        <div className="flex flex-col text-[14px] leading-[20px]">
+                        <div className="flex flex-row text-[14px] leading-[20px] gap-2">
                             <Avatar>
                                 <AvatarImage src={row.original.avatar} alt="@shadcn" />
                                 <AvatarFallback>
-                                    <Skeleton/>
+                                    <Skeleton />
                                 </AvatarFallback>
                             </Avatar>
-                            <span className="text-tp">{row.original.name}</span>
-                            <span className="text-ts">{row.original.email}</span>
+                            <div className="flex flex-col">
+                                <span className="text-tp">{row.original.name}</span>
+                                <span className="text-ts">{row.original.email}</span>
+                            </div>
                         </div>
                     </div>
                 )
@@ -189,7 +192,7 @@ export const MerchantDataTable = () => {
     const { isLoading, data, refetch } = useQuery({
         queryKey: ['merchant-list', searchValue],
         queryFn: () => getMerchantInfoList(),
-        select: (data) => 
+        select: (data) =>
             searchValue
                 ? data.filter((item) => item.name.includes(searchValue))
                 : data,
@@ -212,7 +215,28 @@ export const MerchantDataTable = () => {
     return (
         <div className="h-full flex flex-col gap-[12px] w-full mx-auto overscroll-none">
             <div className="flex items-center justify-between">
-                <Filter />
+                <div className="flex flex-row gap-2">
+                    <Input
+                        value={searchValue}
+                        onChange={(e) => {
+                            setSearchValue(e.target.value);
+                            refetch();
+                        }}
+                        placeholder="搜索"
+                        className="max-w-[200px]"
+                        endContent={
+                            <div className="flex items-center gap-2 cursor-pointer">
+                                <SearchIcon className="size-[15px]" />
+                            </div>
+                        }
+                    />
+                    <div
+                        className="flex items-center text-[#94A3B8] cursor-pointer mr-2"
+                        onClick={reset}
+                    >
+                        重置
+                    </div>
+                </div>
             </div>
             <DataTable
                 isLoading={isLoading}

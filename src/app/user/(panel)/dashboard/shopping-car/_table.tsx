@@ -7,11 +7,13 @@ import { ShoppingCar } from "./types";
 import { useDataTable } from "@/components/core/data-table/hook";
 import { DataTable } from "@/components/core/data-table";
 import DelSuccessDialog from "./del-dialog";
-import ShoppingCarFilter from "./_filter";
 import { Button } from "@/components/ui/button";
 import { clearShoppingCarAPI } from "@/api/shoppingCar";
 import CheckDialog from "./_check-dialog";
 import { toast } from "sonner";
+import { SearchIcon } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useShoppingCarFilter } from "./filter.hook";
 
 const ShoppingCarTable = () => {
     const columns = useMemo<ColumnDef<ShoppingCar>[]>(() => [
@@ -125,7 +127,8 @@ const ShoppingCarTable = () => {
     ], []);
 
     const merchantId = localStorage.getItem('merchantId') || "";
-
+    const accessToken = localStorage.getItem('accessToken') || "";
+    const { search, setSearch, reset } = useShoppingCarFilter();
     const queryShoppingCarList = async () => {
         const response = await getShoppingCarList(
             merchantId
@@ -134,8 +137,13 @@ const ShoppingCarTable = () => {
     }
 
     const { data, isLoading, refetch } = useQuery({
-        queryKey: ["shoppingCarList"],
+        queryKey: ["shoppingCarList", search],
         queryFn: queryShoppingCarList,
+        select: (data) =>
+            search
+                ? data.filter((item) => item.goodName.includes(search))
+                : data,
+        enabled: !!accessToken,
     })
 
     const [pagination, setPagination] = useState<PaginationState>({
@@ -171,7 +179,25 @@ const ShoppingCarTable = () => {
         <div className="flex flex-col gap-[12px]">
             <div className="flex flex-row justify-between">
                 <div>
-                    <ShoppingCarFilter />
+                    <div className="flex flex-row gap-[12px]">
+                        <Input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="搜索"
+                            endContent={
+                                <SearchIcon
+                                    className="cursor-pointer"
+                                    size={15}
+                                />
+                            }
+                        />
+                        <div
+                            className="flex items-center cursor-pointer text-[#afafaf]"
+                            onClick={reset}
+                        >
+                            重置
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <Button

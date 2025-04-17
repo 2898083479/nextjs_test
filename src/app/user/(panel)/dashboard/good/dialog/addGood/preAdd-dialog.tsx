@@ -79,6 +79,12 @@ const PreAddDialog = ({ open, onOpenChange, good }: Props) => {
                     確認要添加此商品到購物車嗎？
                 </div>
                 <div>
+                    <img
+                        src={good.image}
+                        alt={"图片损坏"}
+                    />
+                </div>
+                <div>
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}

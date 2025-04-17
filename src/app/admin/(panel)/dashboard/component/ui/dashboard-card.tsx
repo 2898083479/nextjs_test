@@ -19,11 +19,7 @@ import { queryGoodListAPI } from "@/api/good"
 
 export const DashboardCard = () => {
     const queryStoreList = async () => {
-        const response = await getStoreInfoList({
-            search: "",
-            merchantCount: 0,
-            goodCount: 0,
-        })
+        const response = await getStoreInfoList("", "")
         return response.data
     }
 

@@ -13,6 +13,8 @@ import FinishDialog from "./finish-dialog"
 import { resetPasswordAPI } from "@/api/auth/resetPassword"
 import { ResponseStatusCode } from "@/api/types"
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
+
 export default function ResetPage() {
     const router = useRouter()
     const [open, setOpen] = useState(false)
@@ -56,12 +58,12 @@ export default function ResetPage() {
             email: values.email,
             password: values.password,
         })
-        if (code === ResponseStatusCode.success) {
-            setOpen(true)
-        }
-        if (code === ResponseStatusCode.operating_failed) {
+        if (code !== ResponseStatusCode.success) {
             form.setError("email", { message: message })
+            return
         }
+        toast.success("重置成功")
+        router.push("/admin/signin")
     }
 
     return (
