@@ -89,7 +89,7 @@ const SigninPage = () => {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>邮箱</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -104,7 +104,7 @@ const SigninPage = () => {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>密码</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}

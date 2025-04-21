@@ -50,7 +50,7 @@ export const PolicyCard = ({ policy, refetch }: Props) => {
                                 variant="ghost"
                                 onClick={checkDetail}
                             >
-                                Detail
+                                详情
                             </Button>
                         </div>
                     </div>

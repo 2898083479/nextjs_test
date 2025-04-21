@@ -83,12 +83,12 @@ export const InfoPage = () => {
                             <FormItem
                                 className="w-[300px]"
                             >
-                                <FormLabel>Name</FormLabel>
+                                <FormLabel>条款名称</FormLabel>
                                 <FormControl>
                                     <Input
                                         {...field}
                                         value={policyInfo.name}
-                                        placeholder="Enter policy name"
+                                        placeholder="输入条款名称"
                                         onChange={(e) => {
                                             field.onChange(e)
                                             setPolicyInfo({ ...policyInfo, name: e.target.value })
@@ -106,10 +106,10 @@ export const InfoPage = () => {
                             <FormItem
                                 className="w-[600px]"
                             >
-                                <FormLabel>Description</FormLabel>
+                                <FormLabel>条款描述</FormLabel>
                                 <FormControl>
                                     <Textarea
-                                        placeholder="Tell us a little bit about yourself"
+                                        placeholder="输入条款描述"
                                         className="resize-none"
                                         {...field}
                                         value={policyInfo.description}
@@ -127,8 +127,8 @@ export const InfoPage = () => {
                         control={form.control}
                         name="date"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Date: </FormLabel>
+                            <FormItem className="flex flex-col gap-2">
+                                <FormLabel>起止时间</FormLabel>
                                 <FormControl>
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -143,7 +143,7 @@ export const InfoPage = () => {
                                                     {policyInfo.startAt && policyInfo.endAt ? (
                                                         format(policyInfo.startAt as string, "yyyy/MM/dd") + " - " + format(policyInfo.endAt as string, "yyyy/MM/dd")
                                                     ) : (
-                                                        <span>Pick a date</span>
+                                                        <span>选择日期</span>
                                                     )}
                                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                 </Button>
@@ -182,10 +182,10 @@ export const InfoPage = () => {
                             {form.formState.isSubmitting ? (
                                 <span className="flex items-center gap-2">
                                     <Loader className="animate-spin" />
-                                    Saving...
+                                    保存中...
                                 </span>
                             ) : (
-                                "Save"
+                                "保存"
                             )}
                         </Button>
                         {

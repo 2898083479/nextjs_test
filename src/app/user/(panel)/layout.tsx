@@ -15,27 +15,27 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     const menu = <Menu
         items={[
             {
-                name: 'GoodBuy',
+                name: '浏览商品',
                 href: ['/user/dashboard/good'],
                 icon: ''
             },
             {
-                name: 'StoreBuy',
+                name: '浏览店铺',
                 href: ['/user/dashboard/store'],
                 icon: ''
             },
             {
-                name: 'ShoppingCar',
+                name: '我的购物车',
                 href: ['/user/dashboard/shopping-car'],
                 icon: ''
             },
             {
-                name: 'Order',
+                name: '订单',
                 href: ['/user/dashboard/order'],
                 icon: ''
             },
             {
-                name: 'Setting',
+                name: '设置',
                 href: ['/user/dashboard/setting'],
                 icon: ''
             }
@@ -60,7 +60,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </div>
             <div className="fixed top-0 left-64 w-[calc(100%-16rem)] h-16 bg-[#f5f5f5] flex items-center z-10">
-                Agarwood management system
+                沉香交易系统
             </div>
             <div className="ml-64 flex-1 p-8 pt-20 min-h-screen bg-white">
                 {children}

@@ -34,7 +34,7 @@ export const DashboardOverview = () => {
             {isLoading ? (
                 <CardContent className="flex justify-center">
                     <span className="flex items-center gap-2">
-                        <Loader className="w-10 h-10 animate-spin" /> Loading...
+                        <Loader className="w-10 h-10 animate-spin" /> 加载中...
                     </span>
                 </CardContent>
             ) : (

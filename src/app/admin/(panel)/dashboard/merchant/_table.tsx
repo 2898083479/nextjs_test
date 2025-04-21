@@ -34,7 +34,7 @@ export const MerchantDataTable = () => {
     const columns = useMemo<ColumnDef<Merchant>[]>(() => [
         {
             id: "admin-info",
-            header: 'Merchant信息',
+            header: '用户信息',
             size: 300,
             cell: ({ row }) => {
                 return (

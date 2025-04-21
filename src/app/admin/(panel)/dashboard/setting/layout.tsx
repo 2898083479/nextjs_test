@@ -5,12 +5,12 @@ const SettingLayout = ({ children }: { children: React.ReactNode }) => {
     const menu = <NavMenu
         items={[
             {
-                name: "Setting",
+                name: "条款设置",
                 href: ["/admin/dashboard/setting"],
                 icon: ""
             },
             {
-                name: "Info",
+                name: "条款信息",
                 href: ["/admin/dashboard/setting/info"],
                 icon: ""
             }
@@ -19,7 +19,7 @@ const SettingLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div className="flex flex-col gap-[12px]">
-            <div>Policy設置界面</div>
+            <div>条款設置界面</div>
             <div>
                 {menu}
             </div>

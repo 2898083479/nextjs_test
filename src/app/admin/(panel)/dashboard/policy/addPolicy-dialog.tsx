@@ -102,11 +102,11 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    <FormLabel>条款名称</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder="Enter policy name"
+                                            placeholder="输入条款名称"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -118,13 +118,13 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                             name="status"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Status</FormLabel>
+                                    <FormLabel>条款状态</FormLabel>
                                     <FormControl>
                                         <Select
                                             {...field}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select status" />
+                                                <SelectValue placeholder="选择状态" />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {Object.values(PolicyStatus).map((status) => (
@@ -143,7 +143,7 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                             name="date"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>startTime-endTime</FormLabel>
+                                    <FormLabel>起止时间</FormLabel>
                                     <div>
                                         <Popover>
                                             <PopoverTrigger asChild>
@@ -157,7 +157,7 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                                                     {field.value?.startAt && field.value?.endAt ? (
                                                         format(field.value.startAt, "yyyy/MM/dd") + " - " + format(field.value.endAt, "yyyy/MM/dd")
                                                     ) : (
-                                                        <span>Pick a date</span>
+                                                        <span>选择日期</span>
                                                     )}
                                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                 </Button>
@@ -190,12 +190,12 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                             name="description"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Description</FormLabel>
+                                    <FormLabel>描述</FormLabel>
                                     <FormControl>
                                         <Textarea
                                             {...field}
                                             className="resize-none"
-                                            placeholder="Enter description"
+                                            placeholder="输入描述"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -216,7 +216,7 @@ const addPolicyDialog = ({ isOpen, onOpenChange }: Props) => {
                                 disabled={!form.formState.isDirty || form.formState.isSubmitting}
                             >
                                 {form.formState.isSubmitting ? <span className="flex items-center gap-2">
-                                    <Loader className="animate-spin" /> Saving...</span> : "Save"}
+                                    <Loader className="animate-spin" /> 保存中...</span> : "保存"}
                             </Button>
                         </div>
                     </form>

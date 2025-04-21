@@ -24,7 +24,7 @@ export const PolicyTable = () => {
     const columns = useMemo<ColumnDef<Policy>[]>(() => [
         {
             id: "policy-name",
-            header: "policyName",
+            header: "条款名称",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -36,7 +36,7 @@ export const PolicyTable = () => {
         },
         {
             id: "status",
-            header: "status",
+            header: "条款状态",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -48,7 +48,7 @@ export const PolicyTable = () => {
         },
         {
             id: "startAt",
-            header: "startAt",
+            header: "开始时间",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -60,7 +60,7 @@ export const PolicyTable = () => {
         },
         {
             id: "endAt",
-            header: "endAt",
+            header: "结束时间",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -72,7 +72,7 @@ export const PolicyTable = () => {
         },
         {
             id: "description",
-            header: "description",
+            header: "描述",
             size: 300,
             cell: ({ row }) => {
                 return (

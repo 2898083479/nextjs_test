@@ -33,7 +33,7 @@ export const GoodDataTable = () => {
     const columns = useMemo<ColumnDef<Good>[]>(() => [
         {
             id: "name",
-            header: "name",
+            header: "商品名称",
             size: 300,
             cell: ({ row }) => {
                 return (
@@ -47,7 +47,7 @@ export const GoodDataTable = () => {
         },
         {
             id: "category",
-            header: "category",
+            header: "商品类别",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -61,7 +61,7 @@ export const GoodDataTable = () => {
         },
         {
             id: "status",
-            header: "status",
+            header: "商品状态",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -75,7 +75,7 @@ export const GoodDataTable = () => {
         },
         {
             id: "source",
-            header: "source",
+            header: "商品来源",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -89,7 +89,7 @@ export const GoodDataTable = () => {
         },
         {
             id: "price",
-            header: "price",
+            header: "商品价格",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -103,7 +103,7 @@ export const GoodDataTable = () => {
         },
         {
             id: "count",
-            header: "count",
+            header: "商品数量",
             size: 200,
             cell: ({ row }) => {
                 return (
@@ -117,7 +117,7 @@ export const GoodDataTable = () => {
         },
         {
             id: "createdAt",
-            header: "createdAt",
+            header: "创建时间",
             size: 200,
             cell: ({ row }) => {
                 return (
