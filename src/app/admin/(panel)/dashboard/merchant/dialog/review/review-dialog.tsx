@@ -34,18 +34,18 @@ export default function ReviewDialog({ open, onOpenChange, data }: Props) {
                 <div className="text-[24px] font-bold">
                     账户审核
                 </div>
-                <Label>name</Label>
+                <Label>用户名称</Label>
                 <div className="bg-[#f5f5f5] rounded-md p-[12px]">
                     <div className="text-[16px] text-[#101828]">{data?.name}</div>
                     <div className="text-[14px] text-[#8E95A9]">{data?.email}</div>
                 </div>
-                <Label>status</Label>
+                <Label>用户状态</Label>
                 <div className="bg-[#f5f5f5] rounded-md p-[12px] text-[16px] text-[#101828]">
                     {data?.status === MerchantStatus.Pending ?
                         "Pending" : data?.status === MerchantStatus.Approved ?
                             "Approved" : "Rejected"}
                 </div>
-                <Label>created at</Label>
+                <Label>注册时间</Label>
                 <div className="bg-[#f5f5f5] rounded-md p-[12px]">{data?.createdAt}</div>
                 <div className="flex justify-end gap-[12px]">
                     <Button

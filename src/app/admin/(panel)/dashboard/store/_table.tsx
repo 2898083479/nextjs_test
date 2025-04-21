@@ -135,7 +135,7 @@ export const StoreDataTable = () => {
                                 onClick={onOpen}
                                 className="text-[#0C7FDA] text-[14px] cursor-pointer"
                             >
-                                review
+                                审核
                             </div>
                             {
                                 isOpen && (

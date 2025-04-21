@@ -157,10 +157,11 @@ const GoodTable = () => {
     const { data, isLoading, refetch } = useQuery({
         queryKey: ['goodList', search],
         queryFn: getGoodList,
+        
         select: (data) =>
             search
-                ? data.filter((item) => item.name.includes(search))
-                : data,
+                ? data.filter((item) => item.name.includes(search) && item.count > 0)
+                : data.filter((item) => item.count > 0),
         enabled: !!accessToken,
     })
 

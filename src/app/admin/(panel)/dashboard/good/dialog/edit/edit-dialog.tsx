@@ -88,7 +88,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>name</FormLabel>
+                                    <FormLabel>商品名称</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -104,7 +104,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                             name="source"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>source</FormLabel>
+                                    <FormLabel>商品来源</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -120,7 +120,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                             name="category"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>category</FormLabel>
+                                    <FormLabel>商品类别</FormLabel>
                                     <FormControl>
                                         <Select>
                                             <SelectTrigger>
@@ -144,7 +144,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                             name="price"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>price</FormLabel>
+                                    <FormLabel>商品价格</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -160,7 +160,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                             name="count"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>count</FormLabel>
+                                    <FormLabel>商品数量</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -177,7 +177,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                                 onClick={() => onOpenChange(false)}
                                 className="bg-destructive text-white hover:bg-destructive/80"
                             >
-                                Cancel
+                                取消
                             </Button>
                             <Button
                                 type="submit"
@@ -185,7 +185,7 @@ export const EditDialog = ({ open, onOpenChange, good }: Props) => {
                                 className="bg-[#0C7FDA] text-white hover:bg-[#0C7FDA]/80"
                             >
                                 {form.formState.isSubmitting ? <span className="flex items-center gap-2">
-                                    <Loader className="animate-spin" /> Saving...</span> : "Save"}
+                                    <Loader className="animate-spin" /> 保存中...</span> : "保存"}
                             </Button>
                         </div>
                     </form>
